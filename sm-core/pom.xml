@@ -204,6 +204,31 @@
 			<artifactId>guava</artifactId>
 		</dependency>
 
+		<!-- QUICKBOOKS DEPENDENCIES -->
+
+		<!-- data jar -->
+		<dependency>
+			<groupId> com.intuit.quickbooks-online </groupId>
+			<artifactId> ipp-v3-java-data </artifactId>
+			<version> 5.0.2 </version>
+		</dependency>
+
+		<!-- devkit jar with dependencies-->
+		<dependency>
+			<groupId>com.intuit.quickbooks-online</groupId>
+			<artifactId>ipp-v3-java-devkit</artifactId>
+			<classifier>jar-with-dependencies</classifier>
+			<version>5.0.2</version>
+		</dependency>
+
+		<!-- oauth jar with dependencies-->
+		<dependency>
+			<groupId>com.intuit.quickbooks-online</groupId>
+			<artifactId>oauth2-platform-api</artifactId>
+			<classifier>jar-with-dependencies</classifier>
+			<version>5.0.2</version>
+		</dependency>
+
 		<!-- tests dependencies -->
 		<!-- http://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
 		<dependency>

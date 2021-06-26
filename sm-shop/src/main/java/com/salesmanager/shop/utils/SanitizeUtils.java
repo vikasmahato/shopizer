@@ -23,7 +23,7 @@ public class SanitizeUtils {
     
     private final static String POLICY_FILE = "antisamy-slashdot.xml";
     
-    private static Policy policy = null;
+    private static Policy policy;
     
     static { 
 		try {
@@ -73,7 +73,7 @@ public class SanitizeUtils {
             }
         }
     }
-    return StringEscapeUtils.escapeXml11(safe.toString());
+    return StringEscapeUtils.escapeXml(safe.toString());
 }
     
 

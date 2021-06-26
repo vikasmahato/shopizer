@@ -295,8 +295,12 @@
   	</definition> 
   	
   	<definition name="admin-cache" template="/layout/admin/layout.jsp">
-  		<put-attribute name="body" value="/pages/admin/configuration/cacheManagement.jsp" /> 
-  	</definition>    	
-  	
-  	
+  		<put-attribute name="body" value="/pages/admin/configuration/cacheManagement.jsp" />
+  	</definition>
+
+	<definition name="admin-quickbooks" template="/layout/admin/layout.jsp">
+		<put-attribute name="body" value="/pages/admin/quickbooks/quickbooks.jsp" />
+	</definition>
+
+
 </tiles-definitions>
