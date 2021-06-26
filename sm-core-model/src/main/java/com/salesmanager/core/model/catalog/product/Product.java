@@ -27,6 +27,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
+import com.salesmanager.core.model.catalog.product.Vendor.Vendor;
 import org.hibernate.annotations.Cascade;
 
 import com.salesmanager.core.model.catalog.category.Category;
@@ -102,6 +103,22 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 		
 	})
 	private Set<Category> categories = new HashSet<Category>();
+
+	@ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.REFRESH})
+	@JoinTable(name = "PRODUCT_VENDOR", joinColumns = {
+			@JoinColumn(name = "PRODUCT_ID", nullable = false, updatable = false) }
+			,
+			inverseJoinColumns = { @JoinColumn(name = "VENDOR_ID",
+					nullable = false, updatable = false) }
+	)
+	@Cascade({
+			org.hibernate.annotations.CascadeType.DETACH,
+			org.hibernate.annotations.CascadeType.LOCK,
+			org.hibernate.annotations.CascadeType.REFRESH,
+			org.hibernate.annotations.CascadeType.REPLICATE
+
+	})
+	private Set<Vendor> vendors = new HashSet<>();
 	
 	@Column(name="DATE_AVAILABLE")
 	@Temporal(TemporalType.TIMESTAMP)

@@ -43,7 +43,7 @@ public class CategoryTest extends com.salesmanager.test.common.AbstractSalesMana
 	    bookFrenchDescription.setCategory(materingstuff);
 	    bookFrenchDescription.setLanguage(fr);
 
-	    Set<CategoryDescription> descriptions = new HashSet<CategoryDescription>();
+	    Set<CategoryDescription> descriptions = new HashSet<>();
 	    descriptions.add(bookEnglishDescription);
 	    descriptions.add(bookFrenchDescription);
 	    materingstuff.setDescriptions(descriptions);
