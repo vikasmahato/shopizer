@@ -118,6 +118,14 @@
   	 <definition name="admin-products-manufacturer-details" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/products/manufacturer.jsp" /> 
   	</definition>
+
+	<definition name="admin-products-vendor" template="/layout/admin/layout.jsp">
+		<put-attribute name="body" value="/pages/admin/products/vendors.jsp" />
+	</definition>
+
+	<definition name="admin-products-vendor-details" template="/layout/admin/layout.jsp">
+		<put-attribute name="body" value="/pages/admin/products/vendor.jsp" />
+	</definition>
   	
   	<definition name="catalogue-products-categories" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/products/productsCategories.jsp" /> 

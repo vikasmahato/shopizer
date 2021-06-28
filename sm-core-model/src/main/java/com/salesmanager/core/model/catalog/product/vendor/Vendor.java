@@ -1,4 +1,4 @@
-package com.salesmanager.core.model.catalog.product.Vendor;
+package com.salesmanager.core.model.catalog.product.vendor;
 
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.common.audit.AuditSection;
@@ -7,7 +7,10 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,6 +39,19 @@ public class Vendor extends SalesManagerEntity<Long, Category> implements Audita
 
     @Column(name = "VENDOR_STATUS")
     private boolean categoryStatus;
+
+    @Column(name = "VENDOR_NAME")
+    @NotNull
+    private String name;
+
+    @Column(name = "VENDOR_EMAIL")
+    @Email
+    private String email;
+
+    @Column(name = "VENDOR_PHONE")
+    @Size(min=10,max=10)
+    @NotNull
+    private String phone;
 
     @NotEmpty
     @Column(name="CODE", length=100, nullable=false)
@@ -102,5 +118,29 @@ public class Vendor extends SalesManagerEntity<Long, Category> implements Audita
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

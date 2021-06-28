@@ -27,7 +27,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
-import com.salesmanager.core.model.catalog.product.Vendor.Vendor;
+import com.salesmanager.core.model.catalog.product.vendor.Vendor;
 import org.hibernate.annotations.Cascade;
 
 import com.salesmanager.core.model.catalog.category.Category;

@@ -51,7 +51,7 @@ public class ManufacturerController {
 	@Inject
 	private CoreConfiguration configuration;
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ManufacturerController.class);
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
 	@RequestMapping(value="/admin/catalogue/manufacturer/list.html", method=RequestMethod.GET)

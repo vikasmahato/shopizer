@@ -1,4 +1,4 @@
-package com.salesmanager.core.model.catalog.product.Vendor;
+package com.salesmanager.core.model.catalog.product.vendor;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
@@ -49,11 +49,11 @@ public class VendorDescription extends Description {
         super.setId(0L);
     }
 
-    public String getSeUrl() {
+    public String getUrl() {
         return seUrl;
     }
 
-    public void setSeUrl(String seUrl) {
+    public void setUrl(String seUrl) {
         this.seUrl = seUrl;
     }
 

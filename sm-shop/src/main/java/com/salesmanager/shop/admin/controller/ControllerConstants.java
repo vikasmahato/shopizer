@@ -55,6 +55,8 @@ public interface ControllerConstants
             String customGroupsDetails="admin-products-groups-details";
             String manufacturerList="admin-products-manufacturer";
             String manufacturerDetails="admin-products-manufacturer-details";
+            String vendorList="admin-products-vendor";
+            String vendorDetails="admin-products-vendor-details";
         }
         
         interface User{

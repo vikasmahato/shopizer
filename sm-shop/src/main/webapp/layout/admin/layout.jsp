@@ -237,6 +237,12 @@ response.setDateHeader ("Expires", -1);
 			$("#manufacturer-create-link").click(function() {
   				window.location='<c:url value="/admin/catalogue/manufacturer/create.html" />';
 			});
+			$("#vendor-list-link").click(function() {
+				window.location='<c:url value="/admin/catalogue/vendor/list.html" />';
+			});
+			$("#vendor-create-link").click(function() {
+				window.location='<c:url value="/admin/catalogue/vendor/create.html" />';
+			});
 			$("#myprofile-link").click(function() {
   				window.location='<c:url value="/admin/users/displayUser.html" />';
 			});
