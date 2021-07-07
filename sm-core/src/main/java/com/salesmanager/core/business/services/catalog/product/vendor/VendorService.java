@@ -19,5 +19,7 @@ public interface VendorService extends SalesManagerEntityService<Long, Vendor> {
 
     List<Vendor> list(MerchantStore store, Language language);
 
-    Number getCountVendorAttachedProducts(Vendor delVendor);
+    Number getCountVendorAttachedProducts(Vendor delVendor) throws ServiceException;
+
+    void deleteVendor(Vendor delVendor) throws ServiceException;
 }

@@ -1,12 +1,15 @@
 package com.salesmanager.core.business.services.catalog.product.vendor;
 
+import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.catalog.product.manufacturer.ManufacturerRepository;
 import com.salesmanager.core.business.repositories.catalog.product.manufacturer.PageableManufacturerRepository;
 import com.salesmanager.core.business.repositories.catalog.product.vendor.PageableVendorRepository;
 import com.salesmanager.core.business.repositories.catalog.product.vendor.VendorRepository;
+import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerServiceImpl;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
+import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.catalog.product.vendor.Vendor;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -17,7 +20,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Service("vendorService")
 public class VendorServiceImpl extends SalesManagerEntityServiceImpl<Long, Vendor>  implements VendorService{
@@ -28,6 +34,9 @@ public class VendorServiceImpl extends SalesManagerEntityServiceImpl<Long, Vendo
     private PageableVendorRepository pageableVendorRepository;
 
     private VendorRepository vendorRepository;
+
+    @Inject
+    private ProductService productService;
 
 
     @Inject
@@ -78,8 +87,85 @@ public class VendorServiceImpl extends SalesManagerEntityServiceImpl<Long, Vendo
     }
 
     @Override
-    public Number getCountVendorAttachedProducts(Vendor vendor) {
-        // TODO: this won't let us delete vendors. fix query first.
-        return 1;//vendorRepository.countByProduct(vendor.getId());
+    public Number getCountVendorAttachedProducts(Vendor vendor) throws ServiceException {
+        Language language = new Language();
+        language.setId(1);
+        List<Vendor> vendors = this.list((new MerchantStore()), language);
+        Vendor dbVendor = getById(vendor.getId());
+        int count =0;
+
+        if (dbVendor != null && dbVendor.getId().longValue() == vendor.getId().longValue()) {
+            vendors.add(dbVendor);
+
+            Collections.reverse(vendors);
+
+            List<Long> vendorIds = new ArrayList<Long>();
+
+            for (Vendor c : vendors) {
+                vendorIds.add(c.getId());
+            }
+            List<Product> products = productService.getProductsByVendor(vendorIds);
+            for (Product product : products) {
+                Product dbProduct = productService.getById(product.getId());
+                Set<Vendor> productVendors = dbProduct.getVendors();
+                if (productVendors.size() > 1) {
+                    count = productVendors.size();
+                    break;
+                }
+            }
+        }
+        return count;
+    }
+
+    @Override
+    public void deleteVendor(Vendor vendor) throws ServiceException {
+        Language language = new Language();
+        language.setId(1);
+        List<Vendor> vendors = this.list((new MerchantStore()), language);
+
+        Vendor dbVendor = getById(vendor.getId());
+
+        if (dbVendor != null && dbVendor.getId().longValue() == vendor.getId().longValue()) {
+
+            vendors.add(dbVendor);
+
+            Collections.reverse(vendors);
+
+            List<Long> vendorIds = new ArrayList<Long>();
+
+            for (Vendor c : vendors) {
+                vendorIds.add(c.getId());
+            }
+
+            List<Product> products = productService.getProductsByVendor(vendorIds);
+            // org.hibernate.Session session =
+            // em.unwrap(org.hibernate.Session.class);// need to refresh the
+            // session to update
+            // all product
+            // categories
+
+            for (Product product : products) {
+                // session.evict(product);// refresh product so we get all
+                // product categories
+                Product dbProduct = productService.getById(product.getId());
+                Set<Vendor> productVendors = dbProduct.getVendors();
+                if (productVendors.size() > 1) {
+                    for (Vendor c : vendors) {
+                        productVendors.remove(c);
+                        productService.update(dbProduct);
+                    }
+
+                    if (product.getVendors() == null || product.getVendors().size() == 0) {
+                        productService.delete(dbProduct);
+                    }
+
+                } else {
+                    productService.delete(dbProduct);
+                }
+
+            }
+
+            delete(vendor);
+        }
     }
 }

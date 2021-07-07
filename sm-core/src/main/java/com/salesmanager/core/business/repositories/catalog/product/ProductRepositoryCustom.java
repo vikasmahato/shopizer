@@ -23,6 +23,8 @@ public interface ProductRepositoryCustom {
 
 		List<Product> getProductsListByCategories(@SuppressWarnings("rawtypes") Set categoryIds);
 
+		List<Product> getProductsListByVendors(@SuppressWarnings("rawtypes") Set vendorIds);
+
 		List<Product> getProductsListByCategories(Set<Long> categoryIds,
 				Language language);
 

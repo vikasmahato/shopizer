@@ -5,6 +5,7 @@ import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.image.ProductImageService;
 import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
 import com.salesmanager.core.business.services.catalog.product.type.ProductTypeService;
+import com.salesmanager.core.business.services.catalog.product.vendor.VendorService;
 import com.salesmanager.core.business.services.tax.TaxClassService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.business.utils.ProductPriceUtils;
@@ -23,6 +24,7 @@ import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
 import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
 import com.salesmanager.core.model.catalog.product.type.ProductType;
+import com.salesmanager.core.model.catalog.product.vendor.Vendor;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.tax.taxclass.TaxClass;
@@ -31,6 +33,7 @@ import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.utils.CategoryUtils;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.LabelUtils;
+import com.salesmanager.shop.utils.VendorUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,6 +92,9 @@ public class ProductController {
 	@Inject
 	CategoryService categoryService;
 
+	@Inject
+	VendorService vendorService;
+
 	@PreAuthorize("hasRole('PRODUCTS')")
 	@RequestMapping(value="/admin/products/editProduct.html", method=RequestMethod.GET)
 	public String displayProductEdit(@RequestParam("id") long productId, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -129,10 +135,10 @@ public class ProductController {
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		Language language = (Language)request.getAttribute("LANGUAGE");
-		
+
 
 		List<Manufacturer> manufacturers = manufacturerService.listByStore(store, language);
-		
+
 		List<ProductType> productTypes = productTypeService.list();
 		
 		List<TaxClass> taxClasses = taxClassService.listByStore(store);
@@ -843,7 +849,39 @@ public class ProductController {
 		return "catalogue-product-categories";
 		
 	}
+
+	@PreAuthorize("hasRole('PRODUCTS')")
+	@RequestMapping(value="/admin/products/displayProductToVendors.html", method=RequestMethod.GET)
+	public String displayAddProductToVendors(@RequestParam("id") long productId, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	
+		
+		setMenu(model,request);
+		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+		Language language = (Language)request.getAttribute("LANGUAGE");
+		
+		
+		//get the product and validate it belongs to the current merchant
+		Product product = productService.getById(productId);
+		
+		if(product==null) {
+			return "redirect:/admin/products/products.html";
+		}
+		
+		if(product.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
+			return "redirect:/admin/products/products.html";
+		}
+		
+
+		//get parent vendors
+		List<Vendor> vendors = vendorService.list(store, language);
+		List<com.salesmanager.shop.admin.model.catalog.Vendor> readableVendors = VendorUtils.readableVendorListConverter(vendors, language);
+		
+		model.addAttribute("product", product);
+		model.addAttribute("vendors", readableVendors);
+		return "catalogue-product-vendors";
+		
+	}
+
 	/**
 	 * List all categories associated to a Product
 	 * @param request
@@ -931,6 +969,88 @@ public class ProductController {
 
 
 	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@PreAuthorize("hasRole('PRODUCTS')")
+	@RequestMapping(value="/admin/product-vendors/paging.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> pageProductVendors(HttpServletRequest request, HttpServletResponse response) {
+
+		String sProductId = request.getParameter("productId");
+		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+		
+		
+		AjaxResponse resp = new AjaxResponse();
+		
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		
+		Long productId;
+		Product product = null;
+		
+		try {
+			productId = Long.parseLong(sProductId);
+		} catch (Exception e) {
+			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+			resp.setErrorString("Product id is not valid");
+			String returnString = resp.toJSONString();
+			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		}
+
+		
+		try {
+
+			product = productService.getById(productId);
+
+			
+			if(product==null) {
+				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+				resp.setErrorString("Product id is not valid");
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+			}
+			
+			if(product.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
+				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+				resp.setErrorString("Product id is not valid");
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+			}
+			
+			
+			Language language = (Language)request.getAttribute("LANGUAGE");
+
+			
+			Set<Vendor> vendors = product.getVendors();
+			
+
+			for(Vendor vendor : vendors) {
+				Map entry = new HashMap();
+				entry.put("vendorId", vendor.getId());
+				
+//				Set<VendorDescription> descriptions = vendor.getDescriptions();
+				String vendorName = vendor.getDescriptions().iterator().next().getName();
+//				for(VendorDescription description : descriptions){
+//					if(description.getLanguage().getCode().equals(language.getCode())) {
+//						categvendorNameoryName = description.getName();
+//					}
+//				}
+				entry.put("name", vendorName);
+				resp.addDataEntry(entry);
+			}
+
+			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_SUCCESS);
+		
+		} catch (Exception e) {
+			LOGGER.error("Error while paging products", e);
+			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+			resp.setErrorMessage(e);
+		}
+		
+		String returnString = resp.toJSONString();
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+
+
+	}
 	
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
@@ -972,6 +1092,62 @@ public class ProductController {
 			} 
 			
 			product.getCategories().remove(category);
+			productService.update(product);	
+			
+			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+
+		
+		
+		} catch (Exception e) {
+			LOGGER.error("Error while deleting category", e);
+			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+			resp.setErrorMessage(e);
+		}
+		
+		String returnString = resp.toJSONString();
+
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+	}
+
+	@PreAuthorize("hasRole('PRODUCTS')")
+	@RequestMapping(value="/admin/product-vendors/remove.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> deleteProductFromVendor(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+		String sVendorid = request.getParameter("vendorId");
+		String sProductId = request.getParameter("productId");
+		
+		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+		
+		AjaxResponse resp = new AjaxResponse();
+		
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+
+		
+		try {
+			
+			Long vendorid = Long.parseLong(sVendorid);
+			Long productId = Long.parseLong(sProductId);
+			
+			Vendor vendor = vendorService.getById(vendorid);
+			Product product = productService.getById(productId);
+			
+			if(vendor==null ) {
+
+				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
+				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+			} 
+			
+			if(product==null || product.getMerchantStore().getId()!=store.getId()) {
+
+				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
+				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+			} 
+			
+			product.getVendors().remove(vendor);
 			productService.update(product);	
 			
 			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
@@ -1036,6 +1212,53 @@ public class ProductController {
 		return "catalogue-product-categories";
 		
 	}
+
+	 @PreAuthorize("hasRole('PRODUCTS')")
+	 @RequestMapping(value="/admin/products/addProductToVendors.html", method=RequestMethod.POST)
+	 public String addProductToVendor(@RequestParam("productId") long productId, @RequestParam("id") long vendorId, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+	 	setMenu(model,request);
+	 	MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+	 	Language language = (Language)request.getAttribute("LANGUAGE");
+
+
+	 	//get the product and validate it belongs to the current merchant
+	 	Product product = productService.getById(productId);
+
+	 	if(product==null) {
+	 		return "redirect:/admin/products/products.html";
+	 	}
+
+	 	if(product.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
+	 		return "redirect:/admin/products/products.html";
+	 	}
+
+
+	 	//get parent categories
+	 	List<Vendor> vendors = vendorService.list(store,language);
+
+	 	Vendor vendor = vendorService.getById(vendorId);
+
+	 	if(vendor==null) {
+	 		return "redirect:/admin/products/products.html";
+	 	}
+
+//	 	if(vendor.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
+//	 		return "redirect:/admin/products/products.html";
+//	 	}
+
+	 	product.getVendors().add(vendor);
+
+	 	productService.update(product);
+
+	 	List<com.salesmanager.shop.admin.model.catalog.Vendor> readableVendors = VendorUtils.readableVendorListConverter(vendors, language);
+
+	 	model.addAttribute("product", product);
+	 	model.addAttribute("vendors", readableVendors);
+
+	 	return "catalogue-product-vendors";
+
+	 }
 
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {
 		

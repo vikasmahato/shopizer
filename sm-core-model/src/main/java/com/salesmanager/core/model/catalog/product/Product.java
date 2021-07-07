@@ -118,7 +118,7 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 			org.hibernate.annotations.CascadeType.REPLICATE
 
 	})
-	private Set<Vendor> vendors = new HashSet<>();
+	private Set<Vendor> vendors = new HashSet<Vendor>();
 	
 	@Column(name="DATE_AVAILABLE")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -419,8 +419,16 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 		return categories;
 	}
 
+	public Set<Vendor> getVendors() {
+		return vendors;
+	}
+
 	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
+	}
+
+	public void setVendors(Set<Vendor> vendors) {
+		this.vendors = vendors;
 	}
 
 	public MerchantStore getMerchantStore() {
