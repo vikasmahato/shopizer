@@ -87,7 +87,7 @@ public class CallbackController {
                     }
                 }
 */
-                return "connected";
+                return "admin-quickbooks-success";
             }
             logger.info("csrf token mismatch " );
         } catch (OAuthException | ServiceException e) {
