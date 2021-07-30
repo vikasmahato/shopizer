@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.salesmanager.shop.model.catalog.brand.Brand;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +33,6 @@ import com.salesmanager.shop.application.ShopApplication;
 import com.salesmanager.shop.model.catalog.category.Category;
 import com.salesmanager.shop.model.catalog.category.CategoryDescription;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
-import com.salesmanager.shop.model.catalog.manufacturer.Manufacturer;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProductPrice;
 import com.salesmanager.shop.model.catalog.product.PersistableProductReview;
@@ -94,8 +94,8 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
 		categories.add(cat);
 		product.setCategories(categories);
 		ProductSpecification specifications = new ProductSpecification();
-		specifications.setManufacturer(
-				com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer.DEFAULT_MANUFACTURER);
+		specifications.setbrand(
+				com.salesmanager.core.model.catalog.product.brand.Brand.DEFAULT_brand);
 		product.setProductSpecifications(specifications);
 		product.setPrice(BigDecimal.TEN);
 		product.setSku("123");
@@ -274,15 +274,15 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
 		final List<Category> categories = new ArrayList<>();
 		categories.add(category);
 
-		final String manufacturer = "temple";
-		final Manufacturer collection = new Manufacturer();
-		collection.setCode(manufacturer);
+		final String brand = "temple";
+		final Brand collection = new Brand();
+		collection.setCode(brand);
 
 		// core properties
 
 		product.setSku(code);
 
-		// product.setManufacturer(collection); //no manufacturer assigned for
+		// product.setbrand(collection); //no brand assigned for
 		// now
 		// product.setCategories(categories); //no category assigned for now
 

@@ -15,7 +15,7 @@
 		"categories": {
 			"type": "keyword"
 		},
-		"manufacturer": {
+		"brand": {
 			"type": "keyword"
 		},
 		"description": {

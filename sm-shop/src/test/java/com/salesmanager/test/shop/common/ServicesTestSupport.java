@@ -2,11 +2,11 @@ package com.salesmanager.test.shop.common;
 
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.shop.application.ShopApplication;
+import com.salesmanager.shop.model.catalog.brand.BrandDescription;
+import com.salesmanager.shop.model.catalog.brand.PersistableBrand;
 import com.salesmanager.shop.model.catalog.category.Category;
 import com.salesmanager.shop.model.catalog.category.CategoryDescription;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
-import com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription;
-import com.salesmanager.shop.model.catalog.manufacturer.PersistableManufacturer;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ProductDescription;
 import com.salesmanager.shop.model.catalog.product.ProductSpecification;
@@ -74,13 +74,13 @@ public class ServicesTestSupport {
 
     }
 
-    protected PersistableManufacturer manufacturer(String code) {
+    protected PersistableBrand brand(String code) {
 
-      PersistableManufacturer m = new PersistableManufacturer();
+      PersistableBrand m = new PersistableBrand();
       m.setCode(code);
       m.setOrder(0);
 
-      ManufacturerDescription desc = new ManufacturerDescription();
+      BrandDescription desc = new BrandDescription();
       desc.setLanguage("en");
       desc.setName(code);
 
@@ -169,7 +169,7 @@ public class ServicesTestSupport {
         categories.add(cat);
         product.setCategories(categories);
         ProductSpecification specifications = new ProductSpecification();
-        specifications.setManufacturer(com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer.DEFAULT_MANUFACTURER);
+        specifications.setbrand(com.salesmanager.core.model.catalog.product.brand.Brand.DEFAULT_brand);
         product.setProductSpecifications(specifications);
         product.setAvailable(true);
         product.setPrice(BigDecimal.TEN);

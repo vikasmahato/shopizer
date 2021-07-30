@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 
+import com.salesmanager.core.model.catalog.product.brand.BrandDescription;
+import com.salesmanager.shop.model.catalog.brand.ReadableBrand;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -23,7 +25,6 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueD
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
-import com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
@@ -31,7 +32,6 @@ import com.salesmanager.core.model.catalog.product.type.ProductType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
-import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
@@ -178,16 +178,16 @@ public class ReadableProductPopulator extends
 				
 			}
 			
-			if(source.getManufacturer()!=null) {
-				ManufacturerDescription manufacturer = source.getManufacturer().getDescriptions().iterator().next(); 
-				ReadableManufacturer manufacturerEntity = new ReadableManufacturer();
-				com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription d = new com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription(); 
-				d.setName(manufacturer.getName());
-				manufacturerEntity.setDescription(d);
-				manufacturerEntity.setId(source.getManufacturer().getId());
-				manufacturerEntity.setOrder(source.getManufacturer().getOrder());
-				manufacturerEntity.setCode(source.getManufacturer().getCode());
-				target.setManufacturer(manufacturerEntity);
+			if(source.getbrand()!=null) {
+				BrandDescription brand = source.getbrand().getDescriptions().iterator().next();
+				ReadableBrand brandEntity = new ReadableBrand();
+				com.salesmanager.shop.model.catalog.brand.BrandDescription d = new com.salesmanager.shop.model.catalog.brand.BrandDescription();
+				d.setName(brand.getName());
+				brandEntity.setDescription(d);
+				brandEntity.setId(source.getbrand().getId());
+				brandEntity.setOrder(source.getbrand().getOrder());
+				brandEntity.setCode(source.getbrand().getCode());
+				target.setbrand(brandEntity);
 			}
 			
 /*			if(source.getType() != null) {

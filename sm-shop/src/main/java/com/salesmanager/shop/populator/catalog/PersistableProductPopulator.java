@@ -11,6 +11,8 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import com.salesmanager.core.business.services.catalog.product.brand.BrandService;
+import com.salesmanager.core.model.catalog.product.brand.Brand;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -22,7 +24,6 @@ import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionValueService;
-import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
 import com.salesmanager.core.business.services.catalog.product.type.ProductTypeService;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
@@ -34,7 +35,6 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
-import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
 import com.salesmanager.core.model.catalog.product.type.ProductType;
@@ -54,7 +54,7 @@ public class PersistableProductPopulator extends
 	@Inject
 	private CategoryService categoryService;
 	@Inject
-	private ManufacturerService manufacturerService;
+	private BrandService brandService;
 	@Inject
 	private TaxClassService taxClassService;
 	@Inject
@@ -167,21 +167,21 @@ public class PersistableProductPopulator extends
     			target.setProductWidth(source.getProductSpecifications().getWidth());
     			
     			
-    	         if(source.getProductSpecifications().getManufacturer()!=null) {
+    	         if(source.getProductSpecifications().getbrand()!=null) {
                    
-                   Manufacturer manuf = null;
-                   if(!StringUtils.isBlank(source.getProductSpecifications().getManufacturer())) {
-                       manuf = manufacturerService.getByCode(store, source.getProductSpecifications().getManufacturer());
+                   Brand manuf = null;
+                   if(!StringUtils.isBlank(source.getProductSpecifications().getbrand())) {
+                       manuf = brandService.getByCode(store, source.getProductSpecifications().getbrand());
                    } 
                    
                    if(manuf==null) {
-                       throw new ConversionException("Invalid manufacturer id");
+                       throw new ConversionException("Invalid brand id");
                    }
                    if(manuf!=null) {
                        if(manuf.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
-                           throw new ConversionException("Invalid manufacturer id");
+                           throw new ConversionException("Invalid brand id");
                        }
-                       target.setManufacturer(manuf);
+                       target.setbrand(manuf);
                    }
                }
     			
@@ -359,12 +359,12 @@ public class PersistableProductPopulator extends
 		return categoryService;
 	}
 
-	public void setManufacturerService(ManufacturerService manufacturerService) {
-		this.manufacturerService = manufacturerService;
+	public void setbrandService(BrandService brandService) {
+		this.brandService = brandService;
 	}
 
-	public ManufacturerService getManufacturerService() {
-		return manufacturerService;
+	public BrandService getbrandService() {
+		return brandService;
 	}
 
 	public void setTaxClassService(TaxClassService taxClassService) {

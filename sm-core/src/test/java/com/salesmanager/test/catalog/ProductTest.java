@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import com.salesmanager.core.model.catalog.product.brand.Brand;
+import com.salesmanager.core.model.catalog.product.brand.BrandDescription;
 import org.junit.Assert;
 import org.junit.Test;
 import com.salesmanager.core.business.exception.ServiceException;
@@ -23,8 +26,6 @@ import com.salesmanager.core.model.catalog.product.availability.ProductAvailabil
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.file.ProductImageSize;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
-import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
-import com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
 import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
@@ -176,41 +177,41 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    categoryService.create(fiction);
 	    categoryService.addChild(book, fiction);
 
-	    Manufacturer oreilley = new Manufacturer();
+	    Brand oreilley = new Brand();
 	    oreilley.setMerchantStore(store);
 	    oreilley.setCode("oreilley");
 
-	    ManufacturerDescription oreilleyd = new ManufacturerDescription();
+	    BrandDescription oreilleyd = new BrandDescription();
 	    oreilleyd.setLanguage(en);
 	    oreilleyd.setName("O\'reilley");
-	    oreilleyd.setManufacturer(oreilley);
+	    oreilleyd.setbrand(oreilley);
 	    oreilley.getDescriptions().add(oreilleyd);
 
-	    manufacturerService.create(oreilley);
+	    brandService.create(oreilley);
 
-	    Manufacturer packed = new Manufacturer();
+	    Brand packed = new Brand();
 	    packed.setMerchantStore(store);
 	    packed.setCode("packed");
 
-	    ManufacturerDescription packedd = new ManufacturerDescription();
+	    BrandDescription packedd = new BrandDescription();
 	    packedd.setLanguage(en);
-	    packedd.setManufacturer(packed);
+	    packedd.setbrand(packed);
 	    packedd.setName("Packed publishing");
 	    packed.getDescriptions().add(packedd);
 
-	    manufacturerService.create(packed);
+	    brandService.create(packed);
 
-	    Manufacturer novells = new Manufacturer();
+	    Brand novells = new Brand();
 	    novells.setMerchantStore(store);
 	    novells.setCode("novells");
 
-	    ManufacturerDescription novellsd = new ManufacturerDescription();
+	    BrandDescription novellsd = new BrandDescription();
 	    novellsd.setLanguage(en);
-	    novellsd.setManufacturer(novells);
+	    novellsd.setbrand(novells);
 	    novellsd.setName("Novells publishing");
 	    novells.getDescriptions().add(novellsd);
 
-	    manufacturerService.create(novells);
+	    brandService.create(novells);
 
 	    // PRODUCT 1
 
@@ -219,7 +220,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    product.setProductLength(new BigDecimal(3));
 	    product.setProductWidth(new BigDecimal(1));
 	    product.setSku("CT12345");
-	    product.setManufacturer(oreilley);
+	    product.setbrand(oreilley);
 	    product.setType(generalType);
 	    product.setMerchantStore(store);
 
@@ -295,10 +296,10 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 			//System.out.println("Category " + c.getCode() + " has " + ob[1] + " items");
 		}
 
-		//get manufacturer for given categories
-		List<Manufacturer> manufacturers = manufacturerService.listByProductsByCategoriesId(store, ids, en);
+		//get brand for given categories
+		List<Brand> brands = brandService.listByProductsByCategoriesId(store, ids, en);
 	    
-		//System.out.println("Number of manufacturer for all category " + manufacturers.size());
+		//System.out.println("Number of brand for all category " + brands.size());
 		
 		//Update product -- get first from the list
 		Product updatableProduct = products.get(0);
@@ -593,7 +594,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 		
 		MerchantStore store = merchantService.getByCode(MerchantStore.DEFAULT_STORE);
 		Language en = languageService.getByCode("en");
-		Manufacturer oreilley = manufacturerService.getByCode(store, "oreilley");
+		Brand oreilley = brandService.getByCode(store, "oreilley");
 		ProductType generalType = productTypeService.getProductType(ProductType.GENERAL_TYPE);
 		
 		Category tech = categoryService.getByCode(store, "tech");
@@ -607,7 +608,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    related.setProductLength(new BigDecimal(3));
 	    related.setProductWidth(new BigDecimal(1));
 	    related.setSku("TB67891");
-	    related.setManufacturer(oreilley);
+	    related.setbrand(oreilley);
 	    related.setType(generalType);
 	    related.setMerchantStore(store);
 

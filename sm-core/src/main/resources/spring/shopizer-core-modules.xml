@@ -36,7 +36,7 @@
 
 	<!-- deprecated - now in ProcessorConfiguration -->
 	<!-- Discounts processors processors (defined in shopizer-core-ordertotal-processors.xml) 
-		<beans:bean id="manufacturerShippingCodeOrderTotalModule" class="com.salesmanager.core.business.modules.order.total.ManufacturerShippingCodeOrderTotalModuleImpl"> 
+		<beans:bean id="brandShippingCodeOrderTotalModule" class="com.salesmanager.core.business.modules.order.total.brandShippingCodeOrderTotalModuleImpl">
 		<beans:property name="pricingService" ref="pricingService" /> </beans:bean> 
 		End discount processors -->
 

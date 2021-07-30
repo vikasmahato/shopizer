@@ -11,12 +11,12 @@ import com.salesmanager.shop.model.catalog.product.group.ProductGroup;
 public interface ProductItemsFacade {
 	
 	/**
-	 * List items attached to a Manufacturer
+	 * List items attached to a brand
 	 * @param store
 	 * @param language
 	 * @return
 	 */
-	ReadableProductList listItemsByManufacturer(MerchantStore store, Language language, Long manufacturerId, int startCount, int maxCount) throws Exception;
+	ReadableProductList listItemsBybrand(MerchantStore store, Language language, Long brandId, int startCount, int maxCount) throws Exception;
 
 	ProductGroup createProductGroup(ProductGroup group, MerchantStore store);
 	

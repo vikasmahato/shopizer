@@ -2,7 +2,7 @@ package com.salesmanager.shop.store.model.filter;
 
 /**
  * Used in Category and Search to filter display based on other
- * entities such as Manufacturer
+ * entities such as brand
  * @author Carl Samson
  *
  */

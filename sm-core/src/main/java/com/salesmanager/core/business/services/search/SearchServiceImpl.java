@@ -118,8 +118,8 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			index.setAvailable(product.isAvailable());
 			index.setDescription(description.getDescription());
 			index.setName(description.getName());
-			if(product.getManufacturer()!=null) {
-				index.setManufacturer(String.valueOf(product.getManufacturer().getId()));
+			if(product.getbrand()!=null) {
+				index.setbrand(String.valueOf(product.getbrand().getId()));
 			}
 			if(price!=null) {
 				index.setPrice(price.getFinalPrice().doubleValue());
@@ -250,9 +250,9 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 							indexProduct.setName(((String)metaEntries.get("name")));
 						}
 						
-						Object mf = metaEntries.get("manufacturer");
+						Object mf = metaEntries.get("brand");
 						if(mf instanceof JsonNull == false) {
-							indexProduct.setManufacturer(((String)metaEntries.get("manufacturer")));
+							indexProduct.setbrand(((String)metaEntries.get("brand")));
 						}
 						indexProduct.setPrice(Double.valueOf(((String)metaEntries.get("price"))));
 						indexProduct.setStore(((String)metaEntries.get("store")));

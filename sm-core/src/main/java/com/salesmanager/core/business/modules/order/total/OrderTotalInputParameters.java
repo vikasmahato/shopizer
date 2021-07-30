@@ -14,7 +14,7 @@ public class OrderTotalInputParameters {
 	
 	//input parameters
 	private long productId;
-	private String itemManufacturerCode;
+	private String itembrandCode;
 	private String itemCategoryCode;
 	private String shippingMethod;
 	private String promoCode;
@@ -34,11 +34,11 @@ public class OrderTotalInputParameters {
 	public void setTotalCode(String totalCode) {
 		this.totalCode = totalCode;
 	}
-	public String getItemManufacturerCode() {
-		return itemManufacturerCode;
+	public String getItembrandCode() {
+		return itembrandCode;
 	}
-	public void setItemManufacturerCode(String itemManufacturerCode) {
-		this.itemManufacturerCode = itemManufacturerCode;
+	public void setItembrandCode(String itembrandCode) {
+		this.itembrandCode = itembrandCode;
 	}
 	public String getItemCategoryCode() {
 		return itemCategoryCode;

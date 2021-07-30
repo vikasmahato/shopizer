@@ -14,7 +14,7 @@
 		-->
 <!-- 		<util:list id="orderTotalsPostProcessors" value-type="com.salesmanager.core.modules.order.total.OrderTotalPostProcessorModule">
 			From rules
-			<ref bean="manufacturerShippingCodeOrderTotalModule"/>
+			<ref bean="brandShippingCodeOrderTotalModule"/>
 		</util:list> -->
 	
 

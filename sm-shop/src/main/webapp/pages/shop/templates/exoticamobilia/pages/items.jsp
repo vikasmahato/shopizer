@@ -198,8 +198,8 @@ response.setDateHeader ("Expires", -1);
  
  	function loadItemsProducts() {
  		
- 		///products/public/page/{start}/{max}/{store}/{language}/manufacturer/{id}
- 		var url = '<%=request.getContextPath()%>/services/public/products/page/' + START_COUNT_PRODUCTS + '/' + MAX_PRODUCTS + '/<c:out value="${requestScope.MERCHANT_STORE.code}"/>/<c:out value="${requestScope.LANGUAGE.code}"/>/manufacturer/<c:out value="${manufacturer.id}"/>';
+ 		///products/public/page/{start}/{max}/{store}/{language}/brand/{id}
+ 		var url = '<%=request.getContextPath()%>/services/public/products/page/' + START_COUNT_PRODUCTS + '/' + MAX_PRODUCTS + '/<c:out value="${requestScope.MERCHANT_STORE.code}"/>/<c:out value="${requestScope.LANGUAGE.code}"/>/brand/<c:out value="${brand.id}"/>';
 	 	
  		if(filter!=null) {
  			url = url + '/filter=' + filter + '/filter-value=' + filterValue +'';
@@ -256,10 +256,10 @@ response.setDateHeader ("Expires", -1);
 <div id="mainContent" class="container">
 			
 			  <header class="page-header row">
-			  <c:if test="${manufacturer.description.name!=null}">
+			  <c:if test="${brand.description.name!=null}">
 			  <div class="fixed-image section dark-translucent-bg parallax-bg-3">
 					<div class="container">
-					<h2 class="shop-banner-title lead"><c:out value="${manufacturer.description.name}"/></h2>
+					<h2 class="shop-banner-title lead"><c:out value="${brand.description.name}"/></h2>
 					</div>
 			  </div>
 			  </c:if>
@@ -267,9 +267,9 @@ response.setDateHeader ("Expires", -1);
 			  </header>
 
 			  
-			  <c:if test="${manufacturer.description.description!=null}">
+			  <c:if test="${brand.description.description!=null}">
 			  <div class="row">
-			  	<p class="lead"><c:out value="${manufacturer.description.description}" escapeXml="false"/></p>
+			  	<p class="lead"><c:out value="${brand.description.description}" escapeXml="false"/></p>
 			  </div>
 			  </c:if>
 			  

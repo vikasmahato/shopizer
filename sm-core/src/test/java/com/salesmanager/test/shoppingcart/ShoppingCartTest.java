@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import com.salesmanager.core.model.catalog.product.brand.Brand;
+import com.salesmanager.core.model.catalog.product.brand.BrandDescription;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -20,8 +22,6 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
-import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
-import com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
@@ -81,19 +81,19 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    
 	    
 	    /**
-	     * Create a manufacturer
+	     * Create a brand
 	     */
-	    Manufacturer addidas = new Manufacturer();
+	    Brand addidas = new Brand();
 	    addidas.setMerchantStore(store);
 	    addidas.setCode("addidas");
 
-	    ManufacturerDescription addidasDesc = new ManufacturerDescription();
+	    BrandDescription addidasDesc = new BrandDescription();
 	    addidasDesc.setLanguage(en);
-	    addidasDesc.setManufacturer(addidas);
+	    addidasDesc.setbrand(addidas);
 	    addidasDesc.setName("Addidas");
 	    addidas.getDescriptions().add(addidasDesc);
 
-	    manufacturerService.create(addidas);
+	    brandService.create(addidas);
 	    
 	    /**
 	     * Create an option
@@ -154,7 +154,7 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    product.setProductLength(new BigDecimal(3));
 	    product.setProductWidth(new BigDecimal(1));
 	    product.setSku("XABC12");
-	    product.setManufacturer(addidas);
+	    product.setbrand(addidas);
 	    product.setType(generalType);
 	    product.setMerchantStore(store);
 

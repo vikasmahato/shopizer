@@ -53,8 +53,8 @@ public interface ControllerConstants
             String productKeywords="admin-products-keywords";
             String customGroups="admin-products-groups";
             String customGroupsDetails="admin-products-groups-details";
-            String manufacturerList="admin-products-manufacturer";
-            String manufacturerDetails="admin-products-manufacturer-details";
+            String brandList="admin-products-brand";
+            String brandDetails="admin-products-brand-details";
             String vendorList="admin-products-vendor";
             String vendorDetails="admin-products-vendor-details";
         }

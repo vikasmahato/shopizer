@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.salesmanager.core.business.services.catalog.product.brand.BrandService;
+import com.salesmanager.shop.model.catalog.brand.PersistableBrand;
+import com.salesmanager.shop.populator.brand.PersistableBrandPopulator;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +32,6 @@ import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionValueService;
-import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
 import com.salesmanager.core.business.services.catalog.product.review.ProductReviewService;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
@@ -42,7 +44,6 @@ import com.salesmanager.core.model.catalog.product.review.ProductReview;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
-import com.salesmanager.shop.model.catalog.manufacturer.PersistableManufacturer;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.PersistableProductReview;
 import com.salesmanager.shop.model.catalog.product.ProductPriceEntity;
@@ -54,7 +55,6 @@ import com.salesmanager.shop.populator.catalog.PersistableProductOptionPopulator
 import com.salesmanager.shop.populator.catalog.PersistableProductOptionValuePopulator;
 import com.salesmanager.shop.populator.catalog.PersistableProductReviewPopulator;
 import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
-import com.salesmanager.shop.populator.manufacturer.PersistableManufacturerPopulator;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 import com.salesmanager.shop.store.model.filter.QueryFilter;
 import com.salesmanager.shop.store.model.filter.QueryFilterType;
@@ -62,7 +62,7 @@ import com.salesmanager.shop.utils.ImageFilePath;
 
 /**
  * API to create, read, update and delete a Product
- * API to create Manufacturer
+ * API to create brand
  * @author Carl Samson
  *
  */
@@ -102,7 +102,7 @@ public class ShopProductRESTController {
 	private TaxClassService taxClassService;
 	
 	@Inject
-	private ManufacturerService manufacturerService;
+	private BrandService brandService;
 	
 	@Inject
 	private LanguageService languageService;
@@ -173,18 +173,18 @@ public class ShopProductRESTController {
 	}
 	
 	/**
-	 * Method for creating a manufacturer
+	 * Method for creating a brand
 	 * @param store
-	 * @param manufacturer
+	 * @param brand
 	 * @param request
 	 * @param response
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping( value="/private/{store}/manufacturer", method=RequestMethod.POST)
+	@RequestMapping( value="/private/{store}/brand", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public PersistableManufacturer createManufacturer(@PathVariable final String store, @Valid @RequestBody PersistableManufacturer manufacturer, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public PersistableBrand createbrand(@PathVariable final String store, @Valid @RequestBody PersistableBrand brand, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		
 		try {
@@ -206,18 +206,18 @@ public class ShopProductRESTController {
 				return null;
 			}
 
-			PersistableManufacturerPopulator populator = new PersistableManufacturerPopulator();
+			PersistableBrandPopulator populator = new PersistableBrandPopulator();
 			populator.setLanguageService(languageService);
 			
-			com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer manuf = new com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer();
+			com.salesmanager.core.model.catalog.product.brand.Brand manuf = new com.salesmanager.core.model.catalog.product.brand.Brand();
 			
-			populator.populate(manufacturer, manuf, merchantStore, merchantStore.getDefaultLanguage());
+			populator.populate(brand, manuf, merchantStore, merchantStore.getDefaultLanguage());
 		
-			manufacturerService.save(manuf);
+			brandService.save(manuf);
 			
-			manufacturer.setId(manuf.getId());
+			brand.setId(manuf.getId());
 			
-			return manufacturer;
+			return brand;
 			
 		} catch (Exception e) {
 			LOGGER.error("Error while saving product",e);
@@ -527,7 +527,7 @@ public class ShopProductRESTController {
 	
 	
 	/**
-	 * An entry point for filtering by another entity such as Manufacturer
+	 * An entry point for filtering by another entity such as brand
 	 * filter=BRAND&filter-value=123
 	 * @param start
 	 * @param max
@@ -638,7 +638,7 @@ public class ShopProductRESTController {
 			if(filters!=null) {
 				for(QueryFilter filter : filters) {
 					if(filter.getFilterType().name().equals(QueryFilterType.BRAND.name())) {//the only filter implemented
-						productCriteria.setManufacturerId(filter.getFilterId());
+						productCriteria.setbrandId(filter.getFilterId());
 					}
 				}
 			}

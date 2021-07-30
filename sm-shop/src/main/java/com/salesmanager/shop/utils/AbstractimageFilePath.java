@@ -4,10 +4,10 @@ import java.util.Properties;
 
 import javax.annotation.Resource;
 
+import com.salesmanager.core.model.catalog.product.brand.Brand;
 import org.apache.commons.lang3.StringUtils;
 
 import com.salesmanager.core.model.catalog.product.Product;
-import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.shop.constants.Constants;
@@ -69,17 +69,17 @@ public abstract class AbstractimageFilePath implements ImageFilePath {
 	}
 	
 	/**
-	 * Builds a manufacturer image file path that can be used by image servlet
+	 * Builds a brand image file path that can be used by image servlet
 	 * utility for getting the physical image
 	 * @param store
-	 * @param manufacturer
+	 * @param brand
 	 * @param imageName
 	 * @return
 	 */
-	public String buildManufacturerImageUtils(MerchantStore store, Manufacturer manufacturer, String imageName) {
+	public String buildbrandImageUtils(MerchantStore store, Brand brand, String imageName) {
 		return new StringBuilder().append(getBasePath(store)).append(Constants.SLASH).append(store.getCode()).append(Constants.SLASH).
-				append(FileContentType.MANUFACTURER.name()).append(Constants.SLASH)
-				.append(manufacturer.getId()).append(Constants.SLASH)
+				append(FileContentType.BRAND.name()).append(Constants.SLASH)
+				.append(brand.getId()).append(Constants.SLASH)
 				.append(imageName).toString();
 	}
 	

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import com.salesmanager.core.model.catalog.product.brand.Brand;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.StringUtils;
@@ -30,7 +31,6 @@ import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductCriteria;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
-import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
@@ -100,12 +100,12 @@ public class ProductFacadeImpl implements ProductFacade {
 	@Override
 	public PersistableProduct saveProduct(MerchantStore store, PersistableProduct product, Language language) {
 
-		String manufacturer = Manufacturer.DEFAULT_MANUFACTURER;
+		String brand = Brand.DEFAULT_brand;
 		if (product.getProductSpecifications() != null) {
-			manufacturer = product.getProductSpecifications().getManufacturer();
+			brand = product.getProductSpecifications().getbrand();
 		} else {
 			ProductSpecification specifications = new ProductSpecification();
-			specifications.setManufacturer(manufacturer);
+			specifications.setbrand(brand);
 		}
 
 		Product target = null;
@@ -142,11 +142,11 @@ public class ProductFacadeImpl implements ProductFacade {
 		// merge original product with persistable product
 
 		/*
-		 * String manufacturer = Manufacturer.DEFAULT_MANUFACTURER; if
-		 * (product.getProductSpecifications() != null) { manufacturer =
-		 * product.getProductSpecifications().getManufacturer(); } else {
+		 * String brand = brand.DEFAULT_brand; if
+		 * (product.getProductSpecifications() != null) { brand =
+		 * product.getProductSpecifications().getbrand(); } else {
 		 * ProductSpecification specifications = new ProductSpecification();
-		 * specifications.setManufacturer(manufacturer); }
+		 * specifications.setbrand(brand); }
 		 *
 		 * Product target = null; if (product.getId() != null &&
 		 * product.getId().longValue() > 0) { target =

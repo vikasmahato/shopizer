@@ -14,6 +14,9 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.salesmanager.core.business.services.catalog.product.brand.BrandService;
+import com.salesmanager.shop.model.catalog.brand.ReadableBrand;
+import com.salesmanager.shop.populator.brand.ReadableBrandPopulator;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +30,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
-import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.utils.CacheUtils;
@@ -39,13 +41,11 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.catalog.ProductList;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
-import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.ReadableProduct;
 import com.salesmanager.shop.model.shop.Breadcrumb;
 import com.salesmanager.shop.model.shop.PageInformation;
 import com.salesmanager.shop.populator.catalog.ReadableCategoryPopulator;
 import com.salesmanager.shop.populator.catalog.ReadableProductPopulator;
-import com.salesmanager.shop.populator.manufacturer.ReadableManufacturerPopulator;
 import com.salesmanager.shop.store.controller.ControllerConstants;
 import com.salesmanager.shop.store.model.filter.QueryFilter;
 import com.salesmanager.shop.store.model.filter.QueryFilterType;
@@ -58,7 +58,7 @@ import com.salesmanager.shop.utils.SanitizeUtils;
 
 /**
  * Renders a given category page based on friendly url
- * Can also filter by facets such as manufacturer
+ * Can also filter by facets such as brand
  * @author Carl Samson
  *
  */
@@ -80,7 +80,7 @@ public class ShoppingCategoryController {
 	private ProductService productService;
 	
 	@Inject
-	private ManufacturerService manufacturerService;
+	private BrandService brandService;
 
 	@Inject
 	private BreadcrumbsUtils breadcrumbsUtils;
@@ -240,10 +240,10 @@ public class ShoppingCategoryController {
 		}
 		
 		
-		//** List of manufacturers **//
-		List<ReadableManufacturer> manufacturerList = getManufacturersByProductAndCategory(store,category,categs,language);
+		//** List of brands **//
+		List<ReadableBrand> brandList = getbrandsByProductAndCategory(store,category,categs,language);
 
-		model.addAttribute("manufacturers", manufacturerList);
+		model.addAttribute("brands", brandList);
 		model.addAttribute("parent", parentProxy);
 		model.addAttribute("category", categoryProxy);
 		model.addAttribute("subCategories", subCategories);
@@ -260,67 +260,67 @@ public class ShoppingCategoryController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private List<ReadableManufacturer> getManufacturersByProductAndCategory(MerchantStore store, Category category, List<Category> categories, Language language) throws Exception {
+	private List<ReadableBrand> getbrandsByProductAndCategory(MerchantStore store, Category category, List<Category> categories, Language language) throws Exception {
 
-		List<ReadableManufacturer> manufacturerList = null;
+		List<ReadableBrand> brandList = null;
 		
 		List<Long> subCategoryIds = 
 				categories.stream().map(Category::getId).collect(Collectors.toList());
 		
-		/** List of manufacturers **/
+		/** List of brands **/
 		if(subCategoryIds!=null && subCategoryIds.size()>0) {
 			
-			StringBuilder manufacturersKey = new StringBuilder();
-			manufacturersKey
+			StringBuilder brandsKey = new StringBuilder();
+			brandsKey
 			.append(store.getId())
 			.append("_")
-			.append(Constants.MANUFACTURERS_BY_PRODUCTS_CACHE_KEY)
+			.append(Constants.brandS_BY_PRODUCTS_CACHE_KEY)
 			.append("-")
 			.append(language.getCode());
 			
-			StringBuilder manufacturersKeyMissed = new StringBuilder();
-			manufacturersKeyMissed
-			.append(manufacturersKey.toString())
+			StringBuilder brandsKeyMissed = new StringBuilder();
+			brandsKeyMissed
+			.append(brandsKey.toString())
 			.append(Constants.MISSED_CACHE_KEY);
 
 			if(store.isUseCache()) {
 
 				//get from the cache
 				 
-				manufacturerList = (List<ReadableManufacturer>) cache.getFromCache(manufacturersKey.toString());
+				brandList = (List<ReadableBrand>) cache.getFromCache(brandsKey.toString());
 				
 
-				if(manufacturerList==null) {
+				if(brandList==null) {
 					//get from missed cache
-					//Boolean missedContent = (Boolean)cache.getFromCache(manufacturersKeyMissed.toString());
+					//Boolean missedContent = (Boolean)cache.getFromCache(brandsKeyMissed.toString());
 					//if(missedContent==null) {
-						manufacturerList = this.getManufacturers(store, subCategoryIds, language);
-						if(manufacturerList.isEmpty()) {
-							cache.putInCache(new Boolean(true), manufacturersKeyMissed.toString());
+						brandList = this.getbrands(store, subCategoryIds, language);
+						if(brandList.isEmpty()) {
+							cache.putInCache(new Boolean(true), brandsKeyMissed.toString());
 						} else {
-							//cache.putInCache(manufacturerList, manufacturersKey.toString());
+							//cache.putInCache(brandList, brandsKey.toString());
 						}
 					//}
 				}
 			} else {
-				manufacturerList  = this.getManufacturers(store, subCategoryIds, language);
+				brandList  = this.getbrands(store, subCategoryIds, language);
 			}
 		}
-		return manufacturerList;
+		return brandList;
 	}
 		
-	private List<ReadableManufacturer> getManufacturers(MerchantStore store, List<Long> ids, Language language) throws Exception {
-		List<ReadableManufacturer> manufacturerList = new ArrayList<ReadableManufacturer>();
-		List<com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer> manufacturers = manufacturerService.listByProductsByCategoriesId(store, ids, language);
-		if(!manufacturers.isEmpty()) {
+	private List<ReadableBrand> getbrands(MerchantStore store, List<Long> ids, Language language) throws Exception {
+		List<ReadableBrand> brandList = new ArrayList<ReadableBrand>();
+		List<com.salesmanager.core.model.catalog.product.brand.Brand> brands = brandService.listByProductsByCategoriesId(store, ids, language);
+		if(!brands.isEmpty()) {
 			
-			for(com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer manufacturer : manufacturers) {
-				ReadableManufacturer manuf = new ReadableManufacturerPopulator().populate(manufacturer, new ReadableManufacturer(), store, language);
-				manufacturerList.add(manuf);
+			for(com.salesmanager.core.model.catalog.product.brand.Brand brand : brands) {
+				ReadableBrand manuf = new ReadableBrandPopulator().populate(brand, new ReadableBrand(), store, language);
+				brandList.add(manuf);
 				
 			}
 		}
-		return manufacturerList;
+		return brandList;
 	}
 	
 	
@@ -543,7 +543,7 @@ public class ShoppingCategoryController {
 	
 	
 	/**
-	 * An entry point for filtering by another entity such as Manufacturer
+	 * An entry point for filtering by another entity such as brand
 	 * filter=BRAND&filter-value=123
 	 * @param start
 	 * @param max
@@ -653,7 +653,7 @@ public class ShoppingCategoryController {
 			if(filters!=null) {
 				for(QueryFilter filter : filters) {
 					if(filter.getFilterType().name().equals(QueryFilterType.BRAND.name())) {//the only filter implemented
-						productCriteria.setManufacturerId(filter.getFilterId());
+						productCriteria.setbrandId(filter.getFilterId());
 					}
 				}
 			}

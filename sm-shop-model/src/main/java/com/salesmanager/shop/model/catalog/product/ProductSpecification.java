@@ -6,7 +6,7 @@ import com.salesmanager.shop.model.references.DimensionUnitOfMeasure;
 import com.salesmanager.shop.model.references.WeightUnitOfMeasure;
 
 /**
- * Specs weight dimension model and manufacturer
+ * Specs weight dimension model and brand
  * @author carlsamson
  *
  */
@@ -23,13 +23,13 @@ public class ProductSpecification implements Serializable {
   private BigDecimal length;
   private BigDecimal width;
   private String model;
-  private String manufacturer; //manufacturer code
+  private String brand; //brand code
   
-  public String getManufacturer() {
-    return manufacturer;
+  public String getbrand() {
+    return brand;
   }
-  public void setManufacturer(String manufacturer) {
-    this.manufacturer = manufacturer;
+  public void setbrand(String brand) {
+    this.brand = brand;
   }
   public String getModel() {
     return model;
