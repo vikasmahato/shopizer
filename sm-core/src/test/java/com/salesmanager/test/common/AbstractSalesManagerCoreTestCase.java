@@ -7,6 +7,7 @@ package com.salesmanager.test.common;
 
 import javax.inject.Inject;
 
+import com.salesmanager.core.business.services.catalog.product.brand.BrandService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -24,7 +25,6 @@ import com.salesmanager.core.business.services.catalog.product.attribute.Product
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductOptionValueService;
 import com.salesmanager.core.business.services.catalog.product.availability.ProductAvailabilityService;
 import com.salesmanager.core.business.services.catalog.product.image.ProductImageService;
-import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
 import com.salesmanager.core.business.services.catalog.product.price.ProductPriceService;
 import com.salesmanager.core.business.services.catalog.product.relationship.ProductRelationshipService;
 import com.salesmanager.core.business.services.catalog.product.review.ProductReviewService;
@@ -119,7 +119,7 @@ public class AbstractSalesManagerCoreTestCase {
 	protected CurrencyService currencyService;
 	
 	@Inject
-	protected ManufacturerService manufacturerService;
+	protected BrandService brandService;
 	
 	@Inject
 	protected ZoneService zoneService;

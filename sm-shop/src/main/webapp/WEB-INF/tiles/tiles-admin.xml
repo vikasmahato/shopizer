@@ -111,12 +111,12 @@
   		<put-attribute name="body" value="/pages/admin/products/productImagesUrl.jsp" /> 
   	</definition>
   	
-  	<definition name="admin-products-manufacturer" template="/layout/admin/layout.jsp">
-  		<put-attribute name="body" value="/pages/admin/products/manufacturers.jsp" /> 
+  	<definition name="admin-products-brand" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/brands.jsp" />
   	</definition>
   	
-  	 <definition name="admin-products-manufacturer-details" template="/layout/admin/layout.jsp">
-  		<put-attribute name="body" value="/pages/admin/products/manufacturer.jsp" /> 
+  	 <definition name="admin-products-brand-details" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/brand.jsp" />
   	</definition>
 
 	<definition name="admin-products-vendor" template="/layout/admin/layout.jsp">

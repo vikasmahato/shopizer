@@ -21,7 +21,7 @@ public class ProductCriteria extends Criteria {
 	
 	private String status;
 	
-	private Long manufacturerId = null;
+	private Long brandId = null;
 	
 	private Long ownerId = null;
 
@@ -74,12 +74,12 @@ public class ProductCriteria extends Criteria {
 		return productIds;
 	}
 
-	public void setManufacturerId(Long manufacturerId) {
-		this.manufacturerId = manufacturerId;
+	public void setbrandId(Long brandId) {
+		this.brandId = brandId;
 	}
 
-	public Long getManufacturerId() {
-		return manufacturerId;
+	public Long getbrandId() {
+		return brandId;
 	}
 
 	public String getStatus() {

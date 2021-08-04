@@ -29,7 +29,7 @@ public interface ControllerConstants
         }
         
         interface Items{
-            final static String items_manufacturer="items.manufacturer";
+            final static String items_brand="items.brand";
         }
         
         interface Customer{

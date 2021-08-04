@@ -1,22 +1,16 @@
 package com.salesmanager.core.business.services.catalog.product.vendor;
 
-import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.repositories.catalog.product.manufacturer.ManufacturerRepository;
-import com.salesmanager.core.business.repositories.catalog.product.manufacturer.PageableManufacturerRepository;
 import com.salesmanager.core.business.repositories.catalog.product.vendor.PageableVendorRepository;
 import com.salesmanager.core.business.repositories.catalog.product.vendor.VendorRepository;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
-import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerServiceImpl;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.model.catalog.product.Product;
-import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.catalog.product.vendor.Vendor;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;

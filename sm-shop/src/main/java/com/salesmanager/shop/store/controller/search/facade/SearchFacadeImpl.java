@@ -68,7 +68,7 @@ public class SearchFacadeImpl implements SearchFacade {
 	private ImageFilePath imageUtils;
 
 	private final static String CATEGORY_FACET_NAME = "categories";
-	private final static String MANUFACTURER_FACET_NAME = "manufacturer";
+	private final static String BRAND_FACET_NAME = "brand";
 	private final static int AUTOCOMPLETE_ENTRIES_COUNT = 15;
 
 	/**
@@ -138,12 +138,12 @@ public class SearchFacadeImpl implements SearchFacade {
 		List<ReadableCategory> categoryProxies = getCategoryFacets(merchantStore, language, facets);
 		returnList.setCategoryFacets(categoryProxies);
 
-		List<SearchFacet> manufacturersFacets = facets.entrySet().stream()
-				.filter(e -> MANUFACTURER_FACET_NAME.equals(e.getKey())).findFirst().map(Entry::getValue)
+		List<SearchFacet> brandsFacets = facets.entrySet().stream()
+				.filter(e -> BRAND_FACET_NAME.equals(e.getKey())).findFirst().map(Entry::getValue)
 				.orElse(Collections.emptyList());
 
-		if (CollectionUtils.isNotEmpty(manufacturersFacets)) {
-			// TODO add manufacturer facets
+		if (CollectionUtils.isNotEmpty(brandsFacets)) {
+			// TODO add brand facets
 		}
 		return returnList;
 	}

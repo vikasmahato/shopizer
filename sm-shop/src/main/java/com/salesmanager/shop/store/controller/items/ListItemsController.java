@@ -1,13 +1,13 @@
 package com.salesmanager.shop.store.controller.items;
 
-import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
-import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
+import com.salesmanager.core.business.services.catalog.product.brand.BrandService;
+import com.salesmanager.core.model.catalog.product.brand.Brand;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
-import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
+import com.salesmanager.shop.model.catalog.brand.ReadableBrand;
 import com.salesmanager.shop.model.shop.PageInformation;
-import com.salesmanager.shop.populator.manufacturer.ReadableManufacturerPopulator;
+import com.salesmanager.shop.populator.brand.ReadableBrandPopulator;
 import com.salesmanager.shop.store.controller.ControllerConstants;
 import com.salesmanager.shop.utils.PageBuilderUtils;
 import org.slf4j.Logger;
@@ -31,7 +31,7 @@ import java.util.Locale;
 public class ListItemsController {
 	
 	@Inject
-	ManufacturerService manufacturerService;
+	BrandService brandService;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ListItemsController.class);
 	
@@ -42,33 +42,33 @@ public class ListItemsController {
 		
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		
-		//Manufacturer manufacturer = manufacturerService.getByUrl(store, language, url); // this needs to be checked
+		//brand brand = brandService.getByUrl(store, language, url); // this needs to be checked
 
-		Manufacturer manufacturer =null;
+		Brand brand =null;
 		
-		if(manufacturer==null) {
-			LOGGER.error("No manufacturer found for url " + url);
+		if(brand==null) {
+			LOGGER.error("No brand found for url " + url);
 			//redirect on page not found
 			return PageBuilderUtils.build404(store);
 			
 		}
 		
-		ReadableManufacturer readableManufacturer = new ReadableManufacturer();
+		ReadableBrand readablebrand = new ReadableBrand();
 		
-		ReadableManufacturerPopulator populator = new ReadableManufacturerPopulator();
-		readableManufacturer = populator.populate(manufacturer, readableManufacturer, store, language);
+		ReadableBrandPopulator populator = new ReadableBrandPopulator();
+		readablebrand = populator.populate(brand, readablebrand, store, language);
 		
 		//meta information
 		PageInformation pageInformation = new PageInformation();
-		pageInformation.setPageDescription(readableManufacturer.getDescription().getMetaDescription());
-		pageInformation.setPageKeywords(readableManufacturer.getDescription().getKeyWords());
-		pageInformation.setPageTitle(readableManufacturer.getDescription().getTitle());
-		pageInformation.setPageUrl(readableManufacturer.getDescription().getFriendlyUrl());
+		pageInformation.setPageDescription(readablebrand.getDescription().getMetaDescription());
+		pageInformation.setPageKeywords(readablebrand.getDescription().getKeyWords());
+		pageInformation.setPageTitle(readablebrand.getDescription().getTitle());
+		pageInformation.setPageUrl(readablebrand.getDescription().getFriendlyUrl());
 		
-		model.addAttribute("manufacturer", readableManufacturer);
+		model.addAttribute("brand", readablebrand);
 		
 		/** template **/
-		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Items.items_manufacturer).append(".").append(store.getStoreTemplate());
+		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Items.items_brand).append(".").append(store.getStoreTemplate());
 
 		return template.toString();
 	}

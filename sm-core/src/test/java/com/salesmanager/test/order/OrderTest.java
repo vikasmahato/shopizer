@@ -12,9 +12,9 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductOptionType;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
+import com.salesmanager.core.model.catalog.product.brand.Brand;
+import com.salesmanager.core.model.catalog.product.brand.BrandDescription;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
-import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
-import com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceType;
@@ -128,19 +128,19 @@ public class OrderTest extends com.salesmanager.test.common.AbstractSalesManager
 	    
 	    
 	    /**
-	     * Create a manufacturer
+	     * Create a brand
 	     */
-	    Manufacturer addidas = new Manufacturer();
+	    Brand addidas = new Brand();
 	    addidas.setMerchantStore(merchant);
 	    addidas.setCode("addidas");
 
-	    ManufacturerDescription addidasDesc = new ManufacturerDescription();
+	    BrandDescription addidasDesc = new BrandDescription();
 	    addidasDesc.setLanguage(en);
-	    addidasDesc.setManufacturer(addidas);
+	    addidasDesc.setbrand(addidas);
 	    addidasDesc.setName("Addidas");
 	    addidas.getDescriptions().add(addidasDesc);
 
-	    manufacturerService.create(addidas);
+	    brandService.create(addidas);
 	    
 	    /**
 	     * Create an option
@@ -201,7 +201,7 @@ public class OrderTest extends com.salesmanager.test.common.AbstractSalesManager
 	    product.setProductLength(new BigDecimal(3));
 	    product.setProductWidth(new BigDecimal(1));
 	    product.setSku("TB12345");
-	    product.setManufacturer(addidas);
+	    product.setbrand(addidas);
 	    product.setType(generalType);
 	    product.setMerchantStore(merchant);
 

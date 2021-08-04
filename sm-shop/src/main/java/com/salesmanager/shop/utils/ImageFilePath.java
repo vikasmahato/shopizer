@@ -1,7 +1,7 @@
 package com.salesmanager.shop.utils;
 
 import com.salesmanager.core.model.catalog.product.Product;
-import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
+import com.salesmanager.core.model.catalog.product.brand.Brand;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
 public interface ImageFilePath {
@@ -34,14 +34,14 @@ public interface ImageFilePath {
 	public String buildStaticImageUtils(MerchantStore store, String type, String imageName);
 	
 	/**
-	 * Builds a manufacturer image file path that can be used by image servlet
+	 * Builds a brand image file path that can be used by image servlet
 	 * utility for getting the physical image
 	 * @param store
-	 * @param manufacturer
+	 * @param brand
 	 * @param imageName
 	 * @return
 	 */
-	public String buildManufacturerImageUtils(MerchantStore store, Manufacturer manufacturer, String imageName);
+	public String buildbrandImageUtils(MerchantStore store, Brand brand, String imageName);
 	
 	/**
 	 * Builds a product image file path that can be used by image servlet

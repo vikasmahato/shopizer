@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.salesmanager.shop.model.catalog.brand.ReadableBrand;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
-import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttribute;
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOption;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
@@ -23,7 +23,7 @@ public class ReadableProduct extends ProductEntity implements Serializable {
 	private boolean discounted = false;
 	private ReadableImage image;
 	private List<ReadableImage> images = new ArrayList<ReadableImage>();
-	private ReadableManufacturer manufacturer;
+	private ReadableBrand brand;
 	private List<ReadableProductAttribute> attributes = new ArrayList<ReadableProductAttribute>();
 	private List<ReadableProductOption> options = new ArrayList<ReadableProductOption>();
 	private List<ReadableCategory> categories = new ArrayList<ReadableCategory>();
@@ -89,12 +89,12 @@ public class ReadableProduct extends ProductEntity implements Serializable {
 		return attributes;
 	}
 
-	public void setManufacturer(ReadableManufacturer manufacturer) {
-		this.manufacturer = manufacturer;
+	public void setbrand(ReadableBrand brand) {
+		this.brand = brand;
 	}
 
-	public ReadableManufacturer getManufacturer() {
-		return manufacturer;
+	public ReadableBrand getbrand() {
+		return brand;
 	}
 
 	public boolean isCanBePurchased() {

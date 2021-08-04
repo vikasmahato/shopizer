@@ -165,7 +165,7 @@ response.setDateHeader ("Expires", -1);
 																<dd><fmt:formatNumber value="${product.productSpecifications.length}" maxFractionDigits="2"/>&nbsp;<s:message code="label.generic.sizeunit.${requestScope.MERCHANT_STORE.seizeunitcode}" text="Inches" /></dd>
 															</dl>
 														</p>
-														<c:if test="${product.manufacturer.code=='green' || product.manufacturer.code=='local'}">
+														<c:if test="${product.brand.code=='green' || product.brand.code=='local'}">
 															  <c:if test="${requestScope.CONTENT['fsa']!=null}">
 			    												<sm:pageContent contentCode="fsa"/>
 		        											  </c:if>

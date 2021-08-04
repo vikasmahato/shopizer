@@ -130,13 +130,13 @@
 		]
 	}},
 	{"menu":{
-		"code":"manufacturer-list","url":"","role":"PRODUCTS","order":4,"menus":
+		"code":"brand-list","url":"","role":"PRODUCTS","order":4,"menus":
 		[
 			{"menu":{
-				"code":"manufacturer-list","url":"/admin/catalogue/manufacturer/list.html","role":"PRODUCTS","order":0
+				"code":"brand-list","url":"/admin/catalogue/brand/list.html","role":"PRODUCTS","order":0
 			}},
 			{"menu":{
-				"code":"manufacturer-create","url":"/admin/catalogue/manufacturer/create.html","role":"PRODUCTS","order":1
+				"code":"brand-create","url":"/admin/catalogue/brand/create.html","role":"PRODUCTS","order":1
 			}}
 		]
 	}},

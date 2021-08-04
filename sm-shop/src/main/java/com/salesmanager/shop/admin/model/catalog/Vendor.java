@@ -1,9 +1,6 @@
 package com.salesmanager.shop.admin.model.catalog;
 
-import com.salesmanager.core.model.catalog.product.image.ProductImage;
-import com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription;
 import com.salesmanager.core.model.catalog.product.vendor.VendorDescription;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;

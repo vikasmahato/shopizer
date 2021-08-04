@@ -74,7 +74,7 @@ public class ProcessorsConfiguration {
 	public List<OrderTotalPostProcessorModule> orderTotalsPostProcessors() {
 		
 		List<OrderTotalPostProcessorModule> processors = new ArrayList<OrderTotalPostProcessorModule>();
-		///processors.add(new com.salesmanager.core.business.modules.order.total.ManufacturerShippingCodeOrderTotalModuleImpl());
+		///processors.add(new com.salesmanager.core.business.modules.order.total.BrandShippingCodeOrderTotalModuleImpl());
 		processors.add(promoCodeCalculatorModule);
 		return processors;
 		

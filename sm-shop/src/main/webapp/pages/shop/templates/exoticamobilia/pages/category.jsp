@@ -339,14 +339,14 @@ response.setDateHeader ("Expires", -1);
               				</c:forEach>
 							</ul>
 							<br/>
-							<!-- manufacturers -->
-							<c:if test="${fn:length(manufacturers) > 0}">
-					          	<h3><s:message code="label.manufacturer.collection" text="Collection" /></h3>
+							<!-- brands -->
+							<c:if test="${fn:length(brands) > 0}">
+					          	<h3><s:message code="label.brand.collection" text="Collection" /></h3>
 					            <ul class="nav nav-list">
 					              <li class="nav-header"></li>
-					              <c:forEach items="${manufacturers}" var="manufacturer">
+					              <c:forEach items="${brands}" var="brand">
 					              	<li>
-					              		<a href="javascript:filterCategory('BRAND','${manufacturer.id}')"><i class="fa fa-angle-right"></i>&nbsp;<c:out value="${manufacturer.description.name}" /></a></li>
+					              		<a href="javascript:filterCategory('BRAND','${brand.id}')"><i class="fa fa-angle-right"></i>&nbsp;<c:out value="${brand.description.name}" /></a></li>
 					              </c:forEach>
 					            </ul>
 					          </div>          

@@ -143,6 +143,7 @@ public class LandingController {
 		
 		/** template **/
 		StringBuilder template = new StringBuilder().append("landing.").append(tmpl);
+		LOGGER.error(template.toString());
 		return template.toString();
 	}
 	

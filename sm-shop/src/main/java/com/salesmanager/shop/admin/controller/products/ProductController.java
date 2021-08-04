@@ -2,8 +2,8 @@ package com.salesmanager.shop.admin.controller.products;
 
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.catalog.product.brand.BrandService;
 import com.salesmanager.core.business.services.catalog.product.image.ProductImageService;
-import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
 import com.salesmanager.core.business.services.catalog.product.type.ProductTypeService;
 import com.salesmanager.core.business.services.catalog.product.vendor.VendorService;
 import com.salesmanager.core.business.services.tax.TaxClassService;
@@ -16,10 +16,11 @@ import com.salesmanager.core.model.catalog.category.CategoryDescription;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
+import com.salesmanager.core.model.catalog.product.brand.Brand;
+import com.salesmanager.core.model.catalog.product.brand.BrandDescription;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
 import com.salesmanager.core.model.catalog.product.image.ProductImageDescription;
-import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
 import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
@@ -69,7 +70,7 @@ public class ProductController {
 	private ProductService productService;
 	
 	@Inject
-	private ManufacturerService manufacturerService;
+	private BrandService brandService;
 	
 	@Inject
 	private ProductTypeService productTypeService;
@@ -137,7 +138,7 @@ public class ProductController {
 		Language language = (Language)request.getAttribute("LANGUAGE");
 
 
-		List<Manufacturer> manufacturers = manufacturerService.listByStore(store, language);
+		List<Brand> brands = brandService.listByStore(store, language);
 
 		List<ProductType> productTypes = productTypeService.list();
 		
@@ -259,7 +260,7 @@ public class ProductController {
 		
 		
 		model.addAttribute("product",product);
-		model.addAttribute("manufacturers", manufacturers);
+		model.addAttribute("brands", brands);
 		model.addAttribute("productTypes", productTypes);
 		model.addAttribute("taxClasses", taxClasses);
 		return "admin-products-edit";
@@ -278,7 +279,7 @@ public class ProductController {
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
-		List<Manufacturer> manufacturers = manufacturerService.listByStore(store, language);
+		List<Brand> brands = brandService.listByStore(store, language);
 		
 		List<ProductType> productTypes = productTypeService.list();
 		
@@ -286,7 +287,7 @@ public class ProductController {
 		
 		List<Language> languages = store.getLanguages();
 		
-		model.addAttribute("manufacturers", manufacturers);
+		model.addAttribute("brands", brands);
 		model.addAttribute("productTypes", productTypes);
 		model.addAttribute("taxClasses", taxClasses);
 		
@@ -408,7 +409,7 @@ public class ProductController {
 			newProduct.setRefSku(product.getProduct().getRefSku());
 			newProduct.setAvailable(product.getProduct().isAvailable());
 			newProduct.setDateAvailable(date);
-			newProduct.setManufacturer(product.getProduct().getManufacturer());
+			newProduct.setbrand(product.getProduct().getbrand());
 			newProduct.setType(product.getProduct().getType());
 			newProduct.setProductHeight(product.getProduct().getProductHeight());
 			newProduct.setProductLength(product.getProduct().getProductLength());
@@ -494,12 +495,23 @@ public class ProductController {
 		newProduct.setAvailabilities(availabilities);
 
 		Set<ProductDescription> descriptions = new HashSet<ProductDescription>();
+		Brand brand = brandService.getById(newProduct.getbrand().getId());
+		Set<BrandDescription> brandDescriptions = brand.getDescriptions();
 		if(product.getDescriptions()!=null && product.getDescriptions().size()>0) {
-			
 			for(ProductDescription description : product.getDescriptions()) {
+				for (Language l: languages) {
+					if(brandDescriptions.size()>0) {
+						for(BrandDescription desc : brandDescriptions) {
+							String code = desc.getLanguage().getCode();
+							if(code.equals(l.getCode())) {
+								description.setName(desc.getName()+" "+description.getName());
+								break;
+							}
+						}
+					}
+				}
 				description.setProduct(newProduct);
 				descriptions.add(description);
-				
 			}
 		}
 		
@@ -581,11 +593,11 @@ public class ProductController {
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
-		List<Manufacturer> manufacturers = manufacturerService.listByStore(store, language);
+		List<Brand> brands = brandService.listByStore(store, language);
 		List<ProductType> productTypes = productTypeService.list();
 		List<TaxClass> taxClasses = taxClassService.listByStore(store);
 
-		model.addAttribute("manufacturers", manufacturers);
+		model.addAttribute("brands", brands);
 		model.addAttribute("productTypes", productTypes);
 		model.addAttribute("taxClasses", taxClasses);
 		
@@ -730,7 +742,7 @@ public class ProductController {
 		//copy
 		// newProduct.setCategories(dbProduct.getCategories());
 		newProduct.setDateAvailable(dbProduct.getDateAvailable());
-		newProduct.setManufacturer(dbProduct.getManufacturer());
+		newProduct.setbrand(dbProduct.getbrand());
 		newProduct.setMerchantStore(store);
 		newProduct.setProductHeight(dbProduct.getProductHeight());
 		newProduct.setProductIsFree(dbProduct.getProductIsFree());

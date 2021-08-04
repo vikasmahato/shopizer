@@ -25,7 +25,7 @@ public class ProductQueryBuilder {
 		qs.append("left join fetch pov.descriptions povd ");
 		qs.append("left join fetch p.relationships pr ");//no relationships
 		//other lefts
-		qs.append("left join fetch p.manufacturer manuf ");
+		qs.append("left join fetch p.brand manuf ");
 		qs.append("left join fetch manuf.descriptions manufd ");
 		qs.append("left join fetch p.type type ");
 		qs.append("left join fetch p.taxClass tx ");
@@ -56,7 +56,7 @@ public class ProductQueryBuilder {
 		qs.append("left join fetch pov.descriptions povd ");
 		
 		//other lefts
-		qs.append("left join fetch p.manufacturer manuf ");
+		qs.append("left join fetch p.brand manuf ");
 		qs.append("left join fetch manuf.descriptions manufd ");
 		qs.append("left join fetch p.type type ");
 		qs.append("left join fetch p.taxClass tx ");

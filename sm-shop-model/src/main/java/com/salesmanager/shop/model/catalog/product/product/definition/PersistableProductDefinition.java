@@ -10,7 +10,7 @@ import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductA
 public class PersistableProductDefinition extends ProductDefinition {
 
 	/**
-	 * type and manufacturer are String type corresponding to the unique code
+	 * type and brand are String type corresponding to the unique code
 	 */
 	private static final long serialVersionUID = 1L;
 	
@@ -18,7 +18,7 @@ public class PersistableProductDefinition extends ProductDefinition {
 	private List<PersistableProductAttribute> properties = new ArrayList<PersistableProductAttribute>();
 	private List<Category> categories = new ArrayList<Category>();
 	private String type;
-	private String manufacturer;
+	private String brand;
 	public List<ProductDescription> getDescriptions() {
 		return descriptions;
 	}
@@ -43,11 +43,11 @@ public class PersistableProductDefinition extends ProductDefinition {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public String getManufacturer() {
-		return manufacturer;
+	public String getbrand() {
+		return brand;
 	}
-	public void setManufacturer(String manufacturer) {
-		this.manufacturer = manufacturer;
+	public void setbrand(String brand) {
+		this.brand = brand;
 	}
 
 }
