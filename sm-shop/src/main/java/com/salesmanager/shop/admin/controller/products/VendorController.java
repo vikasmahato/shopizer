@@ -270,6 +270,7 @@ public class VendorController {
             }
 
             int count = vendorService.getCountVendorAttachedProducts( delVendor ).intValue();
+            LOGGER.error("Vendor Product Count.", count);
             //IF already attached to products it can't be deleted
             if ( count > 0 ){
                 resp.setStatusMessage(messages.getMessage("message.product.association", locale));
@@ -279,6 +280,7 @@ public class VendorController {
             }
 
             vendorService.delete( delVendor );
+//            vendorService.deleteVendor(delVendor);
 
             resp.setStatusMessage(messages.getMessage("message.success", locale));
             resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);

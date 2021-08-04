@@ -134,6 +134,10 @@
   	<definition name="catalogue-product-categories" template="/layout/admin/layout.jsp"> 
   		<put-attribute name="body" value="/pages/admin/products/productsCategories.jsp" /> 
   	</definition>
+
+	<definition name="catalogue-product-vendors" template="/layout/admin/layout.jsp"> 
+  		<put-attribute name="body" value="/pages/admin/products/productsVendors.jsp" /> 
+  	</definition>
   	
   	<definition name="catalogue-product-reviews" template="/layout/admin/layout.jsp"> 
   		<put-attribute name="body" value="/pages/admin/products/reviews.jsp" /> 
@@ -308,6 +312,10 @@
 
 	<definition name="admin-quickbooks" template="/layout/admin/layout.jsp">
 		<put-attribute name="body" value="/pages/admin/quickbooks/quickbooks.jsp" />
+	</definition>
+
+	<definition name="admin-quickbooks-success" template="/layout/admin/layout.jsp">
+		<put-attribute name="body" value="/pages/admin/quickbooks/quickbooks_success.jsp" />
 	</definition>
 
 

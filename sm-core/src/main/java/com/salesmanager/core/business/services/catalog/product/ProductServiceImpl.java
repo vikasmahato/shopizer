@@ -123,6 +123,15 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	}
 
 	@Override
+	public List<Product> getProductsByVendor(List<Long> vendorIds) throws ServiceException {
+
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		Set ids = new HashSet(vendorIds);
+		return productRepository.getProductsListByVendors(ids);
+
+	}
+
+	@Override
 	public List<Product> getProductsByIds(List<Long> productIds) throws ServiceException {
 		Set<Long> idSet = productIds.stream().collect(Collectors.toSet());
 		return productRepository.getProductsListByIds(idSet);
