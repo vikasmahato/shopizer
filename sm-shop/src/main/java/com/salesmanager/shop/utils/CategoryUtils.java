@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.category.CategoryDescription;
+import com.salesmanager.core.model.catalog.category.CategorySpecification;
 import com.salesmanager.core.model.reference.language.Language;
 
 public class CategoryUtils {
@@ -13,15 +14,17 @@ public class CategoryUtils {
   public static com.salesmanager.shop.admin.model.catalog.Category readableCategoryConverter(Category category, Language language) {
     com.salesmanager.shop.admin.model.catalog.Category readableCategory = new com.salesmanager.shop.admin.model.catalog.Category();
     readableCategory.setCategory(category);
-    
+
     List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>(category.getDescriptions());
-    
+    List<CategorySpecification> specifications = new ArrayList<CategorySpecification>(category.getSpecifications());
+
     //descriptions
     //.stream();
     //.filter(desc -> desc.getLanguage().getCode().equals(language.getCode()));
     
     
     readableCategory.setDescriptions(descriptions);
+    readableCategory.setSpecifications(specifications);
     return readableCategory;
   }
   
