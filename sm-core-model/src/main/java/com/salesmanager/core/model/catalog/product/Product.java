@@ -28,6 +28,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 import com.salesmanager.core.model.catalog.product.brand.Brand;
+import com.salesmanager.core.model.catalog.product.specification.ProductSpecificationVariant;
 import com.salesmanager.core.model.catalog.product.vendor.Vendor;
 import org.hibernate.annotations.Cascade;
 
@@ -206,7 +207,26 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	@Column(name="RENTAL_PERIOD", nullable = true)
 	private Integer rentalPeriod;
 
-	
+	@ManyToMany
+	@JoinColumn(name = "PRODUCT_ID")
+	private Set<ProductSpecificationVariant> productSpecificationVariant;
+
+	public Brand getBrand() {
+		return brand;
+	}
+
+	public void setBrand(Brand brand) {
+		this.brand = brand;
+	}
+
+	public Set<ProductSpecificationVariant> getProductSpecificationVariant() {
+		return productSpecificationVariant;
+	}
+
+	public void setProductSpecificationVariant(Set<ProductSpecificationVariant> productSpecificationVariant) {
+		this.productSpecificationVariant = productSpecificationVariant;
+	}
+
 	public Integer getRentalPeriod() {
 		return rentalPeriod;
 	}
