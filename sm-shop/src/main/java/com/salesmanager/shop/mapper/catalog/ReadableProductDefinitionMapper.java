@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.salesmanager.shop.model.catalog.brand.ReadableBrand;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -20,7 +21,6 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.mapper.Mapper;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
-import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinition;
 import com.salesmanager.shop.model.catalog.product.product.definition.ReadableProductDefinitionFull;
@@ -38,7 +38,7 @@ public class ReadableProductDefinitionMapper implements Mapper<Product, Readable
 	private ReadableProductTypeMapper readableProductTypeMapper;
 
 	@Autowired
-	private ReadableManufacturerMapper readableManufacturerMapper;
+	private ReadableBrandMapper readablebrandMapper;
 	
 	@Autowired
 	@Qualifier("img")
@@ -97,10 +97,10 @@ public class ReadableProductDefinitionMapper implements Mapper<Product, Readable
 
 		}
 
-		if (source.getManufacturer() != null) {
-			ReadableManufacturer manufacturer = readableManufacturerMapper.convert(source.getManufacturer(), store,
+		if (source.getbrand() != null) {
+			ReadableBrand brand = readablebrandMapper.convert(source.getbrand(), store,
 					language);
-			returnDestination.setManufacturer(manufacturer);
+			returnDestination.setbrand(brand);
 		}
 
 		if (!CollectionUtils.isEmpty(source.getCategories())) {

@@ -7,12 +7,15 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import javax.inject.Inject;
+
+import com.salesmanager.core.business.services.catalog.product.brand.BrandService;
+import com.salesmanager.core.model.catalog.product.brand.Brand;
+import com.salesmanager.core.model.catalog.product.brand.BrandDescription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
 import com.salesmanager.core.business.services.catalog.product.type.ProductTypeService;
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.business.services.reference.country.CountryService;
@@ -28,8 +31,6 @@ import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.services.user.PermissionService;
 import com.salesmanager.core.business.utils.SecurityGroupsBuilder;
 import com.salesmanager.core.constants.SchemaConstant;
-import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
-import com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription;
 import com.salesmanager.core.model.catalog.product.type.ProductType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.country.Country;
@@ -80,7 +81,7 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 	private IntegrationModulesLoader modulesLoader;
 	
 	@Inject
-	private ManufacturerService manufacturerService;
+	private BrandService brandService;
 	
 	@Inject
 	private ModuleConfigurationService moduleConfigurationService;
@@ -380,9 +381,9 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 		Date date = new Date(System.currentTimeMillis());
 		
 		Language en = languageService.getByCode("en");
-		Country ca = countryService.getByCode("CA");
-		Currency currency = currencyService.getByCode("CAD");
-		Zone qc = zoneService.getByCode("QC");
+		Country ca = countryService.getByCode("IN");
+		Currency currency = currencyService.getByCode("INR");
+		//Zone qc = zoneService.getByCode("QC");
 		
 		List<Language> supportedLanguages = new ArrayList<Language>();
 		supportedLanguages.add(en);
@@ -393,7 +394,7 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 		store.setCurrency(currency);
 		store.setDefaultLanguage(en);
 		store.setInBusinessSince(date);
-		store.setZone(qc);
+		//store.setZone(qc);
 		store.setStorename("Default store");
 		store.setStorephone("888-888-8888");
 		store.setCode(MerchantStore.DEFAULT_STORE);
@@ -414,19 +415,19 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 		
 		taxClassService.create(taxclass);
 		
-		//create default manufacturer
-		Manufacturer defaultManufacturer = new Manufacturer();
-		defaultManufacturer.setCode("DEFAULT");
-		defaultManufacturer.setMerchantStore(store);
+		//create default brand
+		Brand defaultbrand = new Brand();
+		defaultbrand.setCode("DEFAULT");
+		defaultbrand.setMerchantStore(store);
 		
-		ManufacturerDescription manufacturerDescription = new ManufacturerDescription();
-		manufacturerDescription.setLanguage(en);
-		manufacturerDescription.setName("DEFAULT");
-		manufacturerDescription.setManufacturer(defaultManufacturer);
-		manufacturerDescription.setDescription("DEFAULT");
-		defaultManufacturer.getDescriptions().add(manufacturerDescription);
+		BrandDescription brandDescription = new BrandDescription();
+		brandDescription.setLanguage(en);
+		brandDescription.setName("DEFAULT");
+		brandDescription.setbrand(defaultbrand);
+		brandDescription.setDescription("DEFAULT");
+		defaultbrand.getDescriptions().add(brandDescription);
 		
-		manufacturerService.create(defaultManufacturer);
+		brandService.create(defaultbrand);
 		
 	   Optin newsletter = new Optin();
 	   newsletter.setCode(OptinType.NEWSLETTER.name());

@@ -94,7 +94,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			qs.append("left join fetch pov.descriptions povd ");
 			qs.append("left join fetch p.relationships pr ");
 			// other lefts
-			qs.append("left join fetch p.manufacturer manuf ");
+			qs.append("left join fetch p.brand manuf ");
 			qs.append("left join fetch manuf.descriptions manufd ");
 			qs.append("left join fetch p.type type ");
 			qs.append("left join fetch p.taxClass tx ");
@@ -166,7 +166,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			qs.append("left join fetch pov.descriptions povd ");
 			qs.append("left join fetch p.relationships pr ");
 			// other lefts
-			qs.append("left join fetch p.manufacturer manuf ");
+			qs.append("left join fetch p.brand manuf ");
 			qs.append("left join fetch manuf.descriptions manufd ");
 			qs.append("left join fetch p.type type ");
 			qs.append("left join fetch p.taxClass tx ");
@@ -214,7 +214,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			qs.append("left join fetch pov.descriptions povd ");
 			qs.append("left join fetch p.relationships pr ");
 			// other lefts
-			qs.append("left join fetch p.manufacturer manuf ");
+			qs.append("left join fetch p.brand manuf ");
 			qs.append("left join fetch manuf.descriptions manufd ");
 			qs.append("left join fetch p.type type ");
 
@@ -262,7 +262,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch pov.descriptions povd ");
 		qs.append("left join fetch p.relationships pr ");
 		// other lefts
-		qs.append("left join fetch p.manufacturer manuf ");
+		qs.append("left join fetch p.brand manuf ");
 		qs.append("left join fetch manuf.descriptions manufd ");
 		qs.append("left join fetch p.type type ");
 		qs.append("left join fetch p.taxClass tx ");
@@ -333,7 +333,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch pov.descriptions povd ");
 		qs.append("left join fetch p.relationships pr ");
 		// other lefts
-		qs.append("left join fetch p.manufacturer manuf ");
+		qs.append("left join fetch p.brand manuf ");
 		qs.append("left join fetch manuf.descriptions manufd ");
 		qs.append("left join fetch p.type type ");
 		qs.append("left join fetch p.taxClass tx ");
@@ -401,7 +401,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch pov.descriptions povd ");
 
 		// other lefts
-		qs.append("left join fetch p.manufacturer manuf ");
+		qs.append("left join fetch p.brand manuf ");
 		qs.append("left join fetch p.type type ");
 		qs.append("left join fetch p.taxClass tx ");
 
@@ -457,7 +457,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch pov.descriptions povd ");
 
 		// other lefts
-		qs.append("left join fetch p.manufacturer manuf ");
+		qs.append("left join fetch p.brand manuf ");
 		qs.append("left join fetch manuf.descriptions manufd ");
 		qs.append("left join fetch p.type type ");
 		qs.append("left join fetch p.taxClass tx ");
@@ -557,7 +557,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		// qs.append("left join fetch pov.descriptions povd ");
 
 		// other lefts
-		qs.append("left join fetch p.manufacturer manuf ");
+		qs.append("left join fetch p.brand manuf ");
 		qs.append("left join fetch manuf.descriptions manufd ");
 		qs.append("left join fetch p.type type ");
 		qs.append("left join fetch p.taxClass tx ");
@@ -632,8 +632,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			countBuilderWhere.append(" and categs.id in (:cid)");
 		}
 
-		if (criteria.getManufacturerId() != null) {
-			countBuilderSelect.append(" INNER JOIN p.manufacturer manuf");
+		if (criteria.getbrandId() != null) {
+			countBuilderSelect.append(" INNER JOIN p.brand manuf");
 			countBuilderWhere.append(" and manuf.id = :manufid");
 		}
 
@@ -709,8 +709,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 					new StringBuilder().append("%").append(criteria.getCode().toLowerCase()).append("%").toString());
 		}
 
-		if (criteria.getManufacturerId() != null) {
-			countQ.setParameter("manufid", criteria.getManufacturerId());
+		if (criteria.getbrandId() != null) {
+			countQ.setParameter("manufid", criteria.getbrandId());
 		}
 
 		if (!CollectionUtils.isEmpty(criteria.getAttributeCriteria())) {
@@ -766,7 +766,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch p.images images ");
 
 		// other lefts
-		qs.append("left join fetch p.manufacturer manuf ");
+		qs.append("left join fetch p.brand manuf ");
 		qs.append("left join fetch manuf.descriptions manufd ");
 		qs.append("left join fetch p.type type ");
 		qs.append("left join fetch p.taxClass tx ");
@@ -805,7 +805,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		}
 
 
-		if (criteria.getManufacturerId() != null) {
+		if (criteria.getbrandId() != null) {
 			qs.append(" and manuf.id = :manufid");
 		}
 
@@ -879,8 +879,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			q.setParameter("dt", new Date());
 		}
 
-		if (criteria.getManufacturerId() != null) {
-			q.setParameter("manufid", criteria.getManufacturerId());
+		if (criteria.getbrandId() != null) {
+			q.setParameter("manufid", criteria.getbrandId());
 		}
 
 		if (!StringUtils.isBlank(criteria.getCode())) {
@@ -957,7 +957,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch pov.descriptions povd ");
 
 		// other lefts
-		qs.append("left join fetch p.manufacturer manuf ");
+		qs.append("left join fetch p.brand manuf ");
 		qs.append("left join fetch manuf.descriptions manufd ");
 		qs.append("left join fetch p.type type ");
 		qs.append("left join fetch p.taxClass tx ");
@@ -1010,7 +1010,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		qs.append("left join fetch pov.descriptions povd ");
 
 		// other lefts
-		qs.append("left join fetch p.manufacturer manuf ");
+		qs.append("left join fetch p.brand manuf ");
 		qs.append("left join fetch manuf.descriptions manufd ");
 		qs.append("left join fetch p.type type ");
 		qs.append("left join fetch p.taxClass tx ");
@@ -1063,7 +1063,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		//qs.append("left join fetch pav.attribute pavattr ");
 
 		// other lefts
-		qs.append("left join fetch p.manufacturer manuf ");
+		qs.append("left join fetch p.brand manuf ");
 		qs.append("left join fetch manuf.descriptions manufd ");
 		qs.append("left join fetch p.type type ");
 		qs.append("left join fetch p.taxClass tx ");
@@ -1071,6 +1071,63 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		// RENTAL
 		qs.append("left join fetch p.owner owner ");
 		return qs.toString();
+	}
+
+	@Override
+	public List<Product> getProductsListByVendors(Set vendorIds) {
+
+		// List regionList = new ArrayList();
+		// regionList.add("*");
+		// regionList.add(locale.getCountry());
+
+		// TODO Test performance
+		/**
+		 * Testing in debug mode takes a long time with this query running in
+		 * normal mode is fine
+		 */
+
+		StringBuilder qs = new StringBuilder();
+		qs.append("select distinct p from Product as p ");
+		qs.append("join fetch p.merchantStore merch ");
+		qs.append("join fetch p.availabilities pa ");
+		qs.append("left join fetch pa.prices pap ");
+
+		qs.append("join fetch p.descriptions pd ");
+		qs.append("join fetch p.vendors vendor ");
+
+		qs.append("left join fetch pap.descriptions papd ");
+
+		// images
+		qs.append("left join fetch p.images images ");
+
+		// options (do not need attributes for listings)
+		qs.append("left join fetch p.attributes pattr ");
+		qs.append("left join fetch pattr.productOption po ");
+		qs.append("left join fetch po.descriptions pod ");
+		qs.append("left join fetch pattr.productOptionValue pov ");
+		qs.append("left join fetch pov.descriptions povd ");
+
+		// other lefts
+		qs.append("left join fetch p.brand manuf ");
+		qs.append("left join fetch p.type type ");
+		qs.append("left join fetch p.taxClass tx ");
+
+		// RENTAL
+		qs.append("left join fetch p.owner owner ");
+
+		// qs.append("where pa.region in (:lid) ");
+		qs.append("where vendor.id in (:vid)");
+
+		String hql = qs.toString();
+		Query q = this.em.createQuery(hql);
+
+		q.setParameter("vid", vendorIds);
+
+		@SuppressWarnings("unchecked")
+		List<Product> products = q.getResultList();
+
+		return products;
+
 	}
 
 }

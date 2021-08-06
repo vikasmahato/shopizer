@@ -1,5 +1,6 @@
 package com.salesmanager.shop.utils;
 
+import com.salesmanager.core.model.catalog.product.brand.Brand;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -7,7 +8,6 @@ import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.shop.constants.Constants;
-import com.salesmanager.shop.model.catalog.manufacturer.Manufacturer;
 
 
 
@@ -61,17 +61,17 @@ public class LocalImageFilePathUtils extends AbstractimageFilePath{
 	}
 	
 	/**
-	 * Builds a manufacturer image file path that can be used by image servlet
+	 * Builds a brand image file path that can be used by image servlet
 	 * utility for getting the physical image
 	 * @param store
-	 * @param manufacturer
+	 * @param brand
 	 * @param imageName
 	 * @return
 	 */
-	public String buildManufacturerimageUtils(MerchantStore store, Manufacturer manufacturer, String imageName) {
+	public String buildbrandimageUtils(MerchantStore store, Brand brand, String imageName) {
 		return new StringBuilder().append(getBasePath(store)).append("/").append(store.getCode()).append("/").
-				append(FileContentType.MANUFACTURER.name()).append("/")
-				.append(manufacturer.getId()).append("/")
+				append(FileContentType.BRAND.name()).append("/")
+				.append(brand.getId()).append("/")
 				.append(imageName).toString();
 	}
 	

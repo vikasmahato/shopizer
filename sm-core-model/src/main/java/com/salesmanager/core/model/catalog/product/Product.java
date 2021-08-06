@@ -27,6 +27,8 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
+import com.salesmanager.core.model.catalog.product.brand.Brand;
+import com.salesmanager.core.model.catalog.product.vendor.Vendor;
 import org.hibernate.annotations.Cascade;
 
 import com.salesmanager.core.model.catalog.category.Category;
@@ -34,7 +36,6 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
-import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
 import com.salesmanager.core.model.catalog.product.type.ProductType;
 import com.salesmanager.core.model.common.audit.AuditListener;
@@ -102,6 +103,22 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 		
 	})
 	private Set<Category> categories = new HashSet<Category>();
+
+	@ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.REFRESH})
+	@JoinTable(name = "PRODUCT_VENDOR", joinColumns = {
+			@JoinColumn(name = "PRODUCT_ID", nullable = false, updatable = false) }
+			,
+			inverseJoinColumns = { @JoinColumn(name = "VENDOR_ID",
+					nullable = false, updatable = false) }
+	)
+	@Cascade({
+			org.hibernate.annotations.CascadeType.DETACH,
+			org.hibernate.annotations.CascadeType.LOCK,
+			org.hibernate.annotations.CascadeType.REFRESH,
+			org.hibernate.annotations.CascadeType.REPLICATE
+
+	})
+	private Set<Vendor> vendors = new HashSet<Vendor>();
 	
 	@Column(name="DATE_AVAILABLE")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -117,8 +134,8 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
-	@JoinColumn(name="MANUFACTURER_ID", nullable=true)
-	private Manufacturer manufacturer;
+	@JoinColumn(name="BRAND_ID", nullable=true)
+	private Brand brand;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
 	@JoinColumn(name="PRODUCT_TYPE_ID", nullable=true)
@@ -347,12 +364,12 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 
 
 
-	public Manufacturer getManufacturer() {
-		return manufacturer;
+	public Brand getbrand() {
+		return brand;
 	}
 
-	public void setManufacturer(Manufacturer manufacturer) {
-		this.manufacturer = manufacturer;
+	public void setbrand(Brand brand) {
+		this.brand = brand;
 	}
 
 	public ProductType getType() {
@@ -402,8 +419,16 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 		return categories;
 	}
 
+	public Set<Vendor> getVendors() {
+		return vendors;
+	}
+
 	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
+	}
+
+	public void setVendors(Set<Vendor> vendors) {
+		this.vendors = vendors;
 	}
 
 	public MerchantStore getMerchantStore() {

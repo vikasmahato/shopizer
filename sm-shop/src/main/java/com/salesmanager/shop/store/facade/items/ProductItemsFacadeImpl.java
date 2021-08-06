@@ -49,8 +49,8 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 	private ProductRelationshipService productRelationshipService;
 
 	@Override
-	public ReadableProductList listItemsByManufacturer(MerchantStore store,
-			Language language, Long manufacturerId, int startCount, int maxCount) throws Exception {
+	public ReadableProductList listItemsBybrand(MerchantStore store,
+			Language language, Long brandId, int startCount, int maxCount) throws Exception {
 		
 		
 		ProductCriteria productCriteria = new ProductCriteria();
@@ -58,7 +58,7 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 		productCriteria.setStartIndex(startCount);
 		
 
-		productCriteria.setManufacturerId(manufacturerId);
+		productCriteria.setbrandId(brandId);
 		com.salesmanager.core.model.catalog.product.ProductList products = productService.listByStore(store, language, productCriteria);
 
 		

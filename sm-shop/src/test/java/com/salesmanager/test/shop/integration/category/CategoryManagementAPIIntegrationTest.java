@@ -7,6 +7,9 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.salesmanager.shop.model.catalog.brand.PersistableBrand;
+import com.salesmanager.shop.model.catalog.brand.ReadableBrand;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +30,6 @@ import com.salesmanager.shop.model.catalog.category.CategoryDescription;
 import com.salesmanager.shop.model.catalog.category.PersistableCategory;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
 import com.salesmanager.shop.model.catalog.category.ReadableCategoryList;
-import com.salesmanager.shop.model.catalog.manufacturer.PersistableManufacturer;
-import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.PersistableProduct;
 import com.salesmanager.shop.model.catalog.product.ProductSpecification;
 import com.salesmanager.test.shop.common.ServicesTestSupport;
@@ -336,26 +337,26 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
     }
 
     @Test
-    public void manufacturerForItemsInCategory() throws Exception {
+    public void brandForItemsInCategory() throws Exception {
       
       ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
       
-      //create first manufacturer
-      PersistableManufacturer m1 = super.manufacturer("BRAND1");   
+      //create first brand
+      PersistableBrand m1 = super.brand("BRAND1");
       
       String json = writer.writeValueAsString(m1);
       HttpEntity<String> entity = new HttpEntity<>(json, getHeader());
 
       @SuppressWarnings("rawtypes")
-      ResponseEntity response = testRestTemplate.postForEntity("/api/v1/private/manufacturer", entity, PersistableManufacturer.class);
+      ResponseEntity response = testRestTemplate.postForEntity("/api/v1/private/brand", entity, PersistableBrand.class);
       assertThat(response.getStatusCode(), is(CREATED));
 
-      //create second manufacturer
-      PersistableManufacturer m2 = super.manufacturer("BRAND2");
+      //create second brand
+      PersistableBrand m2 = super.brand("BRAND2");
       json = writer.writeValueAsString(m2);
       entity = new HttpEntity<>(json, getHeader());
 
-      response = testRestTemplate.postForEntity("/api/v1/private/manufacturer", entity, PersistableManufacturer.class);
+      response = testRestTemplate.postForEntity("/api/v1/private/brand", entity, PersistableBrand.class);
       assertThat(response.getStatusCode(), is(CREATED));
       
       //create category
@@ -380,7 +381,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
       
       
       ProductSpecification specifications = new ProductSpecification();
-      specifications.setManufacturer("BRAND1");
+      specifications.setbrand("BRAND1");
       product1.setProductSpecifications(specifications);
       
       json = writer.writeValueAsString(product1);
@@ -396,7 +397,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
       
       
       specifications = new ProductSpecification();
-      specifications.setManufacturer("BRAND2");
+      specifications.setbrand("BRAND2");
       product2.setProductSpecifications(specifications);
       
       json = writer.writeValueAsString(product2);
@@ -407,16 +408,16 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
       
       entity = new HttpEntity<>(getHeader());
             
-      //get manufacturers in category
+      //get brands in category
       @SuppressWarnings("rawtypes")
-      ResponseEntity<List> manufacturers = testRestTemplate.exchange(String.format("/api/v1/category/" + id + "/manufacturers"), HttpMethod.GET, entity, List.class);  
-      assertThat(manufacturers.getStatusCode(), is(OK));
+      ResponseEntity<List> brands = testRestTemplate.exchange(String.format("/api/v1/category/" + id + "/brands"), HttpMethod.GET, entity, List.class);  
+      assertThat(brands.getStatusCode(), is(OK));
       
       @SuppressWarnings("unchecked")
-      List<ReadableManufacturer> manufacturerList = manufacturers.getBody();
+      List<ReadableBrand> brandList = brands.getBody();
 
       
-      //assertFalse(manufacturerList.isEmpty());
+      //assertFalse(brandList.isEmpty());
       
 
       

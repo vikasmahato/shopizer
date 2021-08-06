@@ -170,7 +170,7 @@ public class ProductApi {
 
 	/**
 	 * Filtering product lists based on product attributes ?category=1
-	 * &manufacturer=2 &type=... &lang=en|fr NOT REQUIRED, will use request
+	 * &brand=2 &type=... &lang=en|fr NOT REQUIRED, will use request
 	 * language &start=0 NOT REQUIRED, can be used for pagination &count=10 NOT
 	 * REQUIRED, can be used to limit item count
 	 *
@@ -187,7 +187,7 @@ public class ProductApi {
 			@RequestParam(value = "category", required = false) Long category,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "sku", required = false) String sku,
-			@RequestParam(value = "manufacturer", required = false) Long manufacturer,
+			@RequestParam(value = "brand", required = false) Long brand,
 			@RequestParam(value = "optionValues", required = false) List<Long> optionValueIds,
 			@RequestParam(value = "status", required = false) String status,
 			@RequestParam(value = "owner", required = false) Long owner,
@@ -220,8 +220,8 @@ public class ProductApi {
 			categoryIds.add(category);
 			criteria.setCategoryIds(categoryIds);
 		}
-		if (manufacturer != null) {
-			criteria.setManufacturerId(manufacturer);
+		if (brand != null) {
+			criteria.setbrandId(brand);
 		}
 
 		if (CollectionUtils.isNotEmpty(optionValueIds)) {

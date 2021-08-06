@@ -13,6 +13,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.salesmanager.core.model.catalog.product.brand.Brand;
+import com.salesmanager.core.model.catalog.product.brand.BrandDescription;
 import org.junit.Test;
 import org.springframework.data.domain.Page;
 
@@ -28,11 +30,8 @@ import com.salesmanager.core.model.catalog.product.attribute.ProductOptionSet;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionType;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValue;
 import com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription;
-import com.salesmanager.core.model.catalog.product.attribute.ProductVariant;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
-import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
-import com.salesmanager.core.model.catalog.product.manufacturer.ManufacturerDescription;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
 import com.salesmanager.core.model.catalog.product.type.ProductType;
@@ -86,20 +85,20 @@ public class ProductNextGenTest extends com.salesmanager.test.common.AbstractSal
 	    //
 	    
 	    /**
-	     * Manufacturer / Brand
+	     * brand / Brand
 	     */
 
-	    Manufacturer brown = new Manufacturer();
+	    Brand brown = new Brand();
 	    brown.setMerchantStore(store);
 	    brown.setCode("brown");
 
-	    ManufacturerDescription brownd = new ManufacturerDescription();
+	    BrandDescription brownd = new BrandDescription();
 	    brownd.setLanguage(en);
 	    brownd.setName("Brown's");
-	    brownd.setManufacturer(brown);
+	    brownd.setbrand(brown);
 	    brown.getDescriptions().add(brownd);
 
-	    manufacturerService.create(brown);
+	    brandService.create(brown);
 	    //
 
 	    
@@ -112,7 +111,7 @@ public class ProductNextGenTest extends com.salesmanager.test.common.AbstractSal
 	    summerShoes.setProductLength(new BigDecimal(9));//average
 	    summerShoes.setProductWidth(new BigDecimal(4));
 	    summerShoes.setSku("BR12345");
-	    summerShoes.setManufacturer(brown);
+	    summerShoes.setbrand(brown);
 	    summerShoes.setType(generalType);
 	    summerShoes.setMerchantStore(store);
 	    

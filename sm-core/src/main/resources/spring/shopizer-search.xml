@@ -44,7 +44,7 @@
 		<property name="aggregationList">
 			<list>
 				<value>categories</value>
-				<value>manufacturer</value>
+				<value>brand</value>
 			</list>
 		</property>
 	</bean>

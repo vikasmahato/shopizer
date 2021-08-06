@@ -29,7 +29,7 @@
 					}
 				}
 			},
-			"manufacturer": {
+			"brand": {
 				"type": "keyword",
 				"fields": {
 					"analyzed": {

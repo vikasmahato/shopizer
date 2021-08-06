@@ -433,6 +433,7 @@ public class ShoppingOrderController extends AbstractController {
 		
 		/** template **/
 		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Checkout.checkout).append(".").append(store.getStoreTemplate());
+		LOGGER.error(template.toString());
 		return template.toString();
 
 		

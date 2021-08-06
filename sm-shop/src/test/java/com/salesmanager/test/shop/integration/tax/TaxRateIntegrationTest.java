@@ -70,12 +70,12 @@ public class TaxRateIntegrationTest extends ServicesTestSupport {
     	//create tax class
     	PersistableTaxRate taxRate = new PersistableTaxRate();
     	taxRate.setCode("taxcode1");
-    	taxRate.setCountry("US");
+    	taxRate.setCountry("IN");
     	taxRate.setPriority(0);
     	taxRate.setRate(new BigDecimal(5));
     	taxRate.setStore("DEFAULT");
     	taxRate.setTaxClass("DEFAULT");
-    	taxRate.setZone("NY");
+    	taxRate.setZone("DL");
     	
     	//descriptions
     	TaxRateDescription en = new TaxRateDescription();

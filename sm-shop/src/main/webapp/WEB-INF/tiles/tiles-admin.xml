@@ -111,13 +111,21 @@
   		<put-attribute name="body" value="/pages/admin/products/productImagesUrl.jsp" /> 
   	</definition>
   	
-  	<definition name="admin-products-manufacturer" template="/layout/admin/layout.jsp">
-  		<put-attribute name="body" value="/pages/admin/products/manufacturers.jsp" /> 
+  	<definition name="admin-products-brand" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/brands.jsp" />
   	</definition>
   	
-  	 <definition name="admin-products-manufacturer-details" template="/layout/admin/layout.jsp">
-  		<put-attribute name="body" value="/pages/admin/products/manufacturer.jsp" /> 
+  	 <definition name="admin-products-brand-details" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/products/brand.jsp" />
   	</definition>
+
+	<definition name="admin-products-vendor" template="/layout/admin/layout.jsp">
+		<put-attribute name="body" value="/pages/admin/products/vendors.jsp" />
+	</definition>
+
+	<definition name="admin-products-vendor-details" template="/layout/admin/layout.jsp">
+		<put-attribute name="body" value="/pages/admin/products/vendor.jsp" />
+	</definition>
   	
   	<definition name="catalogue-products-categories" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/products/productsCategories.jsp" /> 
@@ -125,6 +133,10 @@
   	
   	<definition name="catalogue-product-categories" template="/layout/admin/layout.jsp"> 
   		<put-attribute name="body" value="/pages/admin/products/productsCategories.jsp" /> 
+  	</definition>
+
+	<definition name="catalogue-product-vendors" template="/layout/admin/layout.jsp"> 
+  		<put-attribute name="body" value="/pages/admin/products/productsVendors.jsp" /> 
   	</definition>
   	
   	<definition name="catalogue-product-reviews" template="/layout/admin/layout.jsp"> 
@@ -295,8 +307,16 @@
   	</definition> 
   	
   	<definition name="admin-cache" template="/layout/admin/layout.jsp">
-  		<put-attribute name="body" value="/pages/admin/configuration/cacheManagement.jsp" /> 
-  	</definition>    	
-  	
-  	
+  		<put-attribute name="body" value="/pages/admin/configuration/cacheManagement.jsp" />
+  	</definition>
+
+	<definition name="admin-quickbooks" template="/layout/admin/layout.jsp">
+		<put-attribute name="body" value="/pages/admin/quickbooks/quickbooks.jsp" />
+	</definition>
+
+	<definition name="admin-quickbooks-success" template="/layout/admin/layout.jsp">
+		<put-attribute name="body" value="/pages/admin/quickbooks/quickbooks_success.jsp" />
+	</definition>
+
+
 </tiles-definitions>

@@ -231,11 +231,17 @@ response.setDateHeader ("Expires", -1);
 			$("#catalogue-products-custom-group-link").click(function() {
   				window.location='<c:url value="/admin/products/groups/list.html" />';
 			});
-			$("#manufacturer-list-link").click(function() {
-  				window.location='<c:url value="/admin/catalogue/manufacturer/list.html" />';
+			$("#brand-list-link").click(function() {
+  				window.location='<c:url value="/admin/catalogue/brand/list.html" />';
 			});
-			$("#manufacturer-create-link").click(function() {
-  				window.location='<c:url value="/admin/catalogue/manufacturer/create.html" />';
+			$("#brand-create-link").click(function() {
+  				window.location='<c:url value="/admin/catalogue/brand/create.html" />';
+			});
+			$("#vendor-list-link").click(function() {
+				window.location='<c:url value="/admin/catalogue/vendor/list.html" />';
+			});
+			$("#vendor-create-link").click(function() {
+				window.location='<c:url value="/admin/catalogue/vendor/create.html" />';
 			});
 			$("#myprofile-link").click(function() {
   				window.location='<c:url value="/admin/users/displayUser.html" />';

@@ -72,9 +72,9 @@
 
 
 <tag>
- 		 <!-- Builds the manufacturer image URL -->
-         <name>manufacturerImage</name>
-         <tag-class>com.salesmanager.shop.tags.ManufacturerImageUrlTag</tag-class>
+ 		 <!-- Builds the brand image URL -->
+         <name>brandImage</name>
+         <tag-class>com.salesmanager.shop.tags.brandImageUrlTag</tag-class>
          <body-content>scriptless</body-content>
 
  
@@ -86,10 +86,10 @@
          </attribute>
          
          <attribute>
-                 <name>manufacturer</name>
+                 <name>brand</name>
                  <required>true</required>
                  <rtexprvalue>true</rtexprvalue>
-                 <type>com.salesmanager.core.business.catalog.product.model.manufacturer.Manufacturer</type>
+                 <type>com.salesmanager.core.business.catalog.product.model.brand.brand</type>
          </attribute>         
 
 </tag>

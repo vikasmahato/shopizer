@@ -12,94 +12,100 @@ public interface ControllerConstants
 
     interface Tiles{
     	
-    	final String adminDashboard="admin-dashboard";
+    	String adminDashboard="admin-dashboard";
         interface ContentImages{
-            final String addContentImages="admin-contentImages-add";
-            final String contentImages="admin-content-images";
-            final String fileBrowser="admin-content-filebrowser";
+            String addContentImages="admin-contentImages-add";
+            String contentImages="admin-content-images";
+            String fileBrowser="admin-content-filebrowser";
  
         }
         
         interface ContentFiles{
-            final String addContentFiles="admin-content-files-add";
-            final String contentFiles="admin-content-files";
+            String addContentFiles="admin-content-files-add";
+            String contentFiles="admin-content-files";
 
  
         }
         
         interface Content{
-            final String contentPages="admin-content-pages";
-            final String contentPagesDetails="admin-content-pages-details";
+            String contentPages="admin-content-pages";
+            String contentPagesDetails="admin-content-pages-details";
 
         }
         
         interface Customer{
-            final String optionsList="admin-customer-options-list";
-            final String optionDetails="admin-customer-options-details";
-            final String optionsValuesList="admin-customer-options-values-list";
-            final String optionsValueDetails="admin-customer-options-values-details";
-            final String optionsSet="admin-customer-options-set";
+            String optionsList="admin-customer-options-list";
+            String optionDetails="admin-customer-options-details";
+            String optionsValuesList="admin-customer-options-values-list";
+            String optionsValueDetails="admin-customer-options-values-details";
+            String optionsSet="admin-customer-options-set";
 
         }
         
         interface Product{
-            final String productReviews="catalogue-product-reviews";
-            final String productPrices="admin-products-prices";
-            final String productPrice="admin-products-price";
-            final String relatedItems="admin-products-related";
-            final String digitalProduct="admin-products-digital";
-            final String productImages="admin-products-images";
-            final String productImagesUrl="admin-products-images-url";
-            final String productKeywords="admin-products-keywords";
-            final String customGroups="admin-products-groups";
-            final String customGroupsDetails="admin-products-groups-details";
-            final String manufacturerList="admin-products-manufacturer";
-            final String manufacturerDetails="admin-products-manufacturer-details";
+            String productReviews="catalogue-product-reviews";
+            String productPrices="admin-products-prices";
+            String productPrice="admin-products-price";
+            String relatedItems="admin-products-related";
+            String digitalProduct="admin-products-digital";
+            String productImages="admin-products-images";
+            String productImagesUrl="admin-products-images-url";
+            String productKeywords="admin-products-keywords";
+            String customGroups="admin-products-groups";
+            String customGroupsDetails="admin-products-groups-details";
+            String brandList="admin-products-brand";
+            String brandDetails="admin-products-brand-details";
+            String vendorList="admin-products-vendor";
+            String vendorDetails="admin-products-vendor-details";
         }
         
         interface User{
-            final String profile="admin-user-profile";
-            final String users="admin-users";
-            final String password="admin-user-password";
+            String profile="admin-user-profile";
+            String users="admin-users";
+            String password="admin-user-password";
         }
         
         interface Store{
-            final String stores="admin-stores";
+            String stores="admin-stores";
         }
 
 
         interface Shipping{
-            final String shippingMethod="shipping-method";
-            final String shippingMethods="shipping-methods";
-            final String shippingOptions="shipping-options";
-            final String shippingPackaging="shipping-packaging";
-            final String customShippingWeightBased="admin-shipping-custom";
+            String shippingMethod="shipping-method";
+            String shippingMethods="shipping-methods";
+            String shippingOptions="shipping-options";
+            String shippingPackaging="shipping-packaging";
+            String customShippingWeightBased="admin-shipping-custom";
         }
         
         interface Payment{
-        	final String paymentMethods="payment-methods";
-        	final String paymentMethod="payment-method";
+        	String paymentMethods="payment-methods";
+        	String paymentMethod="payment-method";
         }
         
         interface Order{
-            final String orders="admin-orders";
-            final String ordersEdit="admin-orders-edit";
-            final String ordersTransactions="admin-orders-transactions";
+            String orders="admin-orders";
+            String ordersEdit="admin-orders-edit";
+            String ordersTransactions="admin-orders-transactions";
         }
         
         interface Configuration{
-            final String accounts="config-accounts";
-            final String email="config-email";
-            final String cache="admin-cache";
-            final String system="config-system";
+            String accounts="config-accounts";
+            String email="config-email";
+            String cache="admin-cache";
+            String system="config-system";
+        }
+
+        interface Quickbooks{
+            String quickbooks="admin-quickbooks";
         }
         
         interface Tax{
-            final String taxClasses="tax-classes";
-            final String taxClass="tax-class";
-            final String taxConfiguration="tax-configuration";
-            final String taxRates="tax-rates";
-            final String taxRate="tax-rate";
+            String taxClasses="tax-classes";
+            String taxClass="tax-class";
+            String taxConfiguration="tax-configuration";
+            String taxRates="tax-rates";
+            String taxRate="tax-rate";
         }
         
     }

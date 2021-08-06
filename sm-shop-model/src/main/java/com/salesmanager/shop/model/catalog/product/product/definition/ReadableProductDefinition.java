@@ -3,8 +3,8 @@ package com.salesmanager.shop.model.catalog.product.product.definition;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.salesmanager.shop.model.catalog.brand.ReadableBrand;
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
-import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.product.ProductDescription;
 import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductAttribute;
@@ -18,7 +18,7 @@ public class ReadableProductDefinition extends ProductDefinition {
 	private static final long serialVersionUID = 1L;
 	private ReadableProductType type;
 	private List<ReadableCategory> categories = new ArrayList<ReadableCategory>();
-	private ReadableManufacturer manufacturer;
+	private ReadableBrand brand;
 	private ProductDescription description = null;
 	private List<PersistableProductAttribute> properties = new ArrayList<PersistableProductAttribute>();
 	private List<ReadableImage> images = new ArrayList<ReadableImage>();
@@ -36,11 +36,11 @@ public class ReadableProductDefinition extends ProductDefinition {
 	public void setCategories(List<ReadableCategory> categories) {
 		this.categories = categories;
 	}
-	public ReadableManufacturer getManufacturer() {
-		return manufacturer;
+	public ReadableBrand getbrand() {
+		return brand;
 	}
-	public void setManufacturer(ReadableManufacturer manufacturer) {
-		this.manufacturer = manufacturer;
+	public void setbrand(ReadableBrand brand) {
+		this.brand = brand;
 	}
 	public List<PersistableProductAttribute> getProperties() {
 		return properties;

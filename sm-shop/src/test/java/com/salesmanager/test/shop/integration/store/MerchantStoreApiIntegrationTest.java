@@ -30,7 +30,7 @@ import com.salesmanager.test.shop.common.ServicesTestSupport;
 public class MerchantStoreApiIntegrationTest extends ServicesTestSupport {
   
   private static final String TEST_STORE_CODE = "test";
-  private static final String CURRENCY = "CAD";
+  private static final String CURRENCY = "INR";
   private static final String DEFAULT_LANGUAGE = "en";
 
   @Inject
@@ -65,9 +65,9 @@ public class MerchantStoreApiIntegrationTest extends ServicesTestSupport {
       PersistableAddress address = new PersistableAddress();
       address.setAddress("121212 simple address");
       address.setPostalCode("12345");
-      address.setCountry("US");
-      address.setCity("FT LD");
-      address.setStateProvince("FL");
+      address.setCountry("IN");
+      address.setCity("DL");
+      address.setStateProvince("DL");
 
       PersistableMerchantStore createdStore = new PersistableMerchantStore();
       createdStore.setCode(TEST_STORE_CODE);
@@ -79,7 +79,7 @@ public class MerchantStoreApiIntegrationTest extends ServicesTestSupport {
       createdStore.setSupportedLanguages(Arrays.asList(DEFAULT_LANGUAGE));
       createdStore.setAddress(address);
       
-      final HttpEntity<PersistableMerchantStore> httpEntity = new HttpEntity<PersistableMerchantStore>(createdStore, getHeader());
+      final HttpEntity<PersistableMerchantStore> httpEntity = new HttpEntity<>(createdStore, getHeader());
 
       ResponseEntity<Void> response = testRestTemplate.exchange(String.format("/api/v1/private/store/"), HttpMethod.POST, httpEntity, Void.class);
 

@@ -34,7 +34,7 @@ import com.salesmanager.shop.utils.LanguageUtils;
 
 /**
  * API to create, read, updat and delete a Product
- * API to create Manufacturer
+ * API to create brand
  * @author Carl Samson
  *
  */
@@ -71,7 +71,7 @@ public class ProductItemsRESTController {
 	
 
 	/**
-	 * Items for manufacturer
+	 * Items for brand
 	 * filter=BRAND&filter-value=123
 	 * @param start
 	 * @param max
@@ -87,9 +87,9 @@ public class ProductItemsRESTController {
 	 * @throws Exception
 	 */
 	/** fixed filter **/
-	@RequestMapping("/public/products/page/{start}/{max}/{store}/{language}/manufacturer/{id}")
+	@RequestMapping("/public/products/page/{start}/{max}/{store}/{language}/brand/{id}")
 	@ResponseBody
-	public ReadableProductList getProductItemsByManufacturer(@PathVariable int start, @PathVariable int max, @PathVariable String store, @PathVariable final String language, @PathVariable final Long id, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ReadableProductList getProductItemsBybrand(@PathVariable int start, @PathVariable int max, @PathVariable String store, @PathVariable final String language, @PathVariable final Long id, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		try {
 		
@@ -128,7 +128,7 @@ public class ProductItemsRESTController {
 			
 
 			
-			ReadableProductList list = productItemsFacade.listItemsByManufacturer(merchantStore, lang, id, start, max);
+			ReadableProductList list = productItemsFacade.listItemsBybrand(merchantStore, lang, id, start, max);
 			
 			
 			return list;
