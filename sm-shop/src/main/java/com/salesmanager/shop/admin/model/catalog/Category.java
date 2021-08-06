@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 import com.salesmanager.core.model.catalog.category.CategoryDescription;
+import com.salesmanager.core.model.catalog.category.CategorySpecification;
 
 /**
  * Wrapper to ease admin jstl
@@ -23,6 +24,9 @@ public class Category implements Serializable {
   @Valid
   private List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
 
+  @Valid
+  private List<CategorySpecification> specifications = new ArrayList<CategorySpecification>();
+
   public com.salesmanager.core.model.catalog.category.Category getCategory() {
     return category;
   }
@@ -39,4 +43,11 @@ public class Category implements Serializable {
     this.descriptions = descriptions;
   }
 
+  public List<CategorySpecification> getSpecifications() {
+    return specifications;
+  }
+
+  public void setSpecifications(List<CategorySpecification> specifications) {
+    this.specifications = specifications;
+  }
 }

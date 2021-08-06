@@ -6,6 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.salesmanager.core.business.services.catalog.category.CategorySpecificationService;
+import com.salesmanager.core.model.catalog.category.CategorySpecification;
+import com.salesmanager.core.model.catalog.product.Product;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +55,9 @@ public class CategoryController {
     CountryService countryService;
 
     @Inject
+    CategorySpecificationService categorySpecificationService;
+
+    @Inject
     LabelUtils messages;
 
     @PreAuthorize("hasRole('PRODUCTS')")
@@ -87,6 +93,7 @@ public class CategoryController {
         }
         com.salesmanager.shop.admin.model.catalog.Category adminCategory = new com.salesmanager.shop.admin.model.catalog.Category();
         List<CategoryDescription> descriptions = new LinkedList<>();
+        List<CategorySpecification> specifications = new LinkedList<>();
         List<com.salesmanager.shop.admin.model.catalog.Category> readableCategories = CategoryUtils.readableCategoryListConverter(categories, language);
 
         for(Language l : languages) {
@@ -103,7 +110,22 @@ public class CategoryController {
             descriptions.add(description);
         }
 
+        for(Language l : languages) {
+            CategorySpecification specification = null;
+            for(CategorySpecification specf : category.get().getSpecifications()) {
+                if(specf.getLanguage().getCode().equals(l.getCode())) {
+                    specification = specf;
+                }
+            }
+            if(specification==null) {
+                specification = new CategorySpecification();
+                specification.setLanguage(l);
+            }
+            specifications.add(specification);
+        }
+
         adminCategory.setDescriptions(descriptions);
+        adminCategory.setSpecifications(specifications);
         adminCategory.setCategory(category.get());
 
         model.addAttribute("category", adminCategory);
@@ -145,6 +167,25 @@ public class CategoryController {
             }
             category.getCategory().setDescriptions(categoryDescriptions);
         }
+
+        /* 
+        List<CategorySpecification> specifications = category.getSpecifications();
+        if(specifications!=null) {
+            Set<CategorySpecification> categorySpecifications = new HashSet<>();
+            for(CategorySpecification specification : specifications) {
+                if(specification.getSpecification() == "")
+                    continue;
+                String code = specification.getLanguage().getCode();
+                Language l = langs.get(code);
+                specification.setLanguage(l);
+                specification.setCategory(category.getCategory());
+                specification.setFilter(specification.getFilter());
+                specification.setVariant(specification.getVariant());
+                categorySpecificationService.saveOrUpdate(specification);
+
+            }
+            category.getCategory().setSpecifications(categorySpecifications);
+        } */
         //save to DB
         category.getCategory().setMerchantStore(store);
         //}

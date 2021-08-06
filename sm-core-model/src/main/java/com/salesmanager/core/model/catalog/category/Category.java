@@ -50,6 +50,10 @@ public class Category extends SalesManagerEntity<Long, Category> implements Audi
     @OneToMany(mappedBy="category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<CategoryDescription> descriptions = new HashSet<CategoryDescription>();
 
+    @Valid
+    @OneToMany(mappedBy="category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<CategorySpecification> specifications = new HashSet<CategorySpecification>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="MERCHANT_ID", nullable=false)
     private MerchantStore merchantStore;
@@ -222,4 +226,11 @@ public class Category extends SalesManagerEntity<Long, Category> implements Audi
       this.descriptions = descriptions;
     }
 
+    public Set<CategorySpecification> getSpecifications() {
+        return specifications;
+    }
+
+    public void setSpecifications(Set<CategorySpecification> specifications) {
+        this.specifications = specifications;
+    }
 }
