@@ -5,7 +5,11 @@ import com.salesmanager.core.business.services.common.generic.SalesManagerEntity
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.category.CategorySpecification;
 
+import java.util.List;
+
 public interface CategorySpecificationService extends SalesManagerEntityService<Long, CategorySpecification> {
 
     void saveOrUpdate(CategorySpecification specification) throws ServiceException;
+
+    List<CategorySpecification> specificationsForProduct(Long productId, Integer languageId);
 }

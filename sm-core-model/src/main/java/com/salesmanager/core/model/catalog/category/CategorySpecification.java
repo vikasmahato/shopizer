@@ -4,10 +4,13 @@ package com.salesmanager.core.model.catalog.category;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.salesmanager.core.model.catalog.product.specification.ProductSpecificationVariant;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.reference.language.Language;
+
+import java.util.Set;
 
 
 @Entity
@@ -49,6 +52,10 @@ public class CategorySpecification extends SalesManagerEntity<Long, CategorySpec
     @JoinColumn(name="LANGUAGE_ID", nullable=false)
     private Language language;
 
+    @ManyToMany
+    @JoinColumn(name = "SPECIFICATION_ID")
+    private Set<ProductSpecificationVariant> productSpecificationVariant;
+
     public String getSpecification() {
         return specification;
     }
@@ -82,6 +89,14 @@ public class CategorySpecification extends SalesManagerEntity<Long, CategorySpec
         this.filter = filter;
     }
 
+
+    public Set<ProductSpecificationVariant> getProductSpecificationVariant() {
+        return productSpecificationVariant;
+    }
+
+    public void setProductSpecificationVariant(Set<ProductSpecificationVariant> productSpecificationVariant) {
+        this.productSpecificationVariant = productSpecificationVariant;
+    }
 
     public Category getCategory() {
         return category;

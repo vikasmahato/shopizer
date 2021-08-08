@@ -7,9 +7,11 @@ import com.salesmanager.core.business.services.reference.language.LanguageServic
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.catalog.category.Category;
+import com.salesmanager.core.model.catalog.category.CategoryDescription;
 import com.salesmanager.core.model.catalog.category.CategorySpecification;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.*;
+import com.salesmanager.core.model.catalog.product.specification.ProductSpecificationVariant;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.admin.model.web.Menu;
@@ -215,6 +217,80 @@ public class CategorySpecificationController {
         String returnString = resp.toJSONString();
         return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 
+
+    }
+
+    @PreAuthorize("hasRole('PRODUCTS')")
+    @RequestMapping(value="/admin/product/displayProductToSpecifications.html", method=RequestMethod.GET)
+    public String displayAddProductToCategorySpecification(@RequestParam("id") long productId, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+
+        setMenu(model,request);
+        MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+        Language language = (Language)request.getAttribute("LANGUAGE");
+
+
+        //get the product and validate it belongs to the current merchant
+        Product product = productService.getById(productId);
+
+        Set<ProductSpecificationVariant> productSpecification = product.getProductSpecificationVariant();
+//        List<CategorySpecification> categorySpecifications = categorySpecificationService.specificationsForProduct(productId, language.getId());
+
+        if(product==null) {
+            return "redirect:/admin/products/products.html";
+        }
+
+        if(product.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
+            return "redirect:/admin/products/products.html";
+        }
+
+        Set<Category> categorySet = product.getCategories();
+        List<Category> categories = new ArrayList<Category>();
+        categories.addAll(categorySet);
+        List<com.salesmanager.shop.admin.model.catalog.Category> adminCategories = new ArrayList<com.salesmanager.shop.admin.model.catalog.Category>();
+//        List<com.salesmanager.shop.admin.model.catalog.Category> readableCategories = CategoryUtils.readableCategoryListConverter(categories, language);
+
+        com.salesmanager.shop.admin.model.catalog.Category adminCategory = new com.salesmanager.shop.admin.model.catalog.Category();
+        List<CategoryDescription> descriptions = new LinkedList<>();
+
+        List<com.salesmanager.shop.admin.model.catalog.Category> readableCategories = CategoryUtils.readableCategoryListConverter(categories, language);
+
+        for(com.salesmanager.shop.admin.model.catalog.Category l : readableCategories) {
+            List<CategorySpecification> specifications = new LinkedList<>();
+            CategorySpecification specification = null;
+            for(CategorySpecification specf : l.getSpecifications()) {
+                    specification = specf;
+                if(specification==null) {
+                    specification = new CategorySpecification();
+                    specification.setLanguage(language);
+                }
+                specifications.add(specification);
+            }
+            adminCategory.setSpecifications(specifications);
+        }
+
+//        for(Category category : categories) {
+//            Map entry = new HashMap();
+//            entry.put("categoryId", category.getId());
+//
+//            Set<CategoryDescription> descriptions = category.getDescriptions();
+//            String categoryName = category.getDescriptions().iterator().next().getName();
+//            for(CategoryDescription description : descriptions){
+//                if(description.getLanguage().getCode().equals(language.getCode())) {
+//                    categoryName = description.getName();
+//                }
+//            }
+//
+//            Set<CategorySpecification> specifications = category.getSpecifications();
+//            entry.put("name", categoryName);
+//        }
+
+        //get parent categories
+
+        model.addAttribute("product", product);
+        model.addAttribute("categories", adminCategories);
+        model.addAttribute("product_specifications",productSpecification);
+        return "catalogue-product-specifications";
 
     }
 
