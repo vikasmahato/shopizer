@@ -297,20 +297,6 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
 
                   </c:forEach>
 
-                 
-
-                 <div class="control-group">
-
-                        <label class="required"><s:message code="label.product.price" text="Price"/></label>
-
-                        <div class="controls">
-                                    <form:input id="productPriceAmount" cssClass="highlight" path="productPrice"/>
-                                    <span id="help-price" class="help-inline"><form:errors path="productPrice" cssClass="error" /></span>
-                        </div>
-                  </div>
-
-                 
-
                  <div class="control-group">
 
                         <label><s:message code="label.productedit.qtyavailable" text="Quantity available"/></label>
@@ -351,7 +337,6 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
 
                  <form:hidden path="availability.region" />
                  <form:hidden path="availability.id" />
-                 <form:hidden path="price.id" />
                  <form:hidden path="product.productVirtual" />
                  
                  <div class="control-group">
