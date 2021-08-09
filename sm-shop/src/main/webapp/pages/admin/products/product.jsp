@@ -323,40 +323,12 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
                  <form:hidden path="availability.region" />
                  <form:hidden path="availability.id" />
                  <form:hidden path="product.productVirtual" />
-                 
-                 <div class="control-group">
-                        <label><s:message code="label.product.weight" text="Weight"/></label>
-                        <div class="controls">
-                                    <form:input id="weight" cssClass="" path="product.productWeight"/>
-                                    <span class="help-inline"><form:errors path="product.productWeight" cssClass="error" /></span>
-                        </div>
-                  </div>
 
-                 <div class="control-group">
-                        <label><s:message code="label.product.height" text="Height"/></label>
-                        <div class="controls">
-                                    <form:input id="height" cssClass="" path="product.productHeight"/>
-                                    <span class="help-inline"><form:errors path="product.productHeight" cssClass="error" /></span>
-                        </div>
-                  </div>
-     
-     
-                 <div class="control-group">
-                        <label><s:message code="label.product.width" text="Width"/></label>
-                        <div class="controls">
-                                    <form:input id="width" cssClass="" path="product.productWidth"/>
-                                    <span class="help-inline"><form:errors path="product.productWidth" cssClass="error" /></span>
-                        </div>
-                  </div>
-                  
-                  <div class="control-group">
-                        <label><s:message code="label.product.length" text="Length"/></label>
-                        <div class="controls">
-                                    <form:input id="length" cssClass="" path="product.productLength"/>
-                                    <span class="help-inline"><form:errors path="product.productLength" cssClass="error" /></span>
-                        </div>
-                  </div>          
-    
+                 <form:input type="hidden" id="weight" cssClass="" value="1" path="product.productWeight"/>
+                 <form:input type="hidden" id="height" cssClass="" value="1" path="product.productHeight"/>
+                 <form:input type="hidden" id="width" cssClass="" value="1" path="product.productWidth"/>
+                 <form:input type="hidden" id="length" cssClass="" value="1" path="product.productLength"/>
+
                   <div class="control-group">
                         <label><s:message code="label.entity.order" text="Sort order"/></label>
                         <div class="controls">
