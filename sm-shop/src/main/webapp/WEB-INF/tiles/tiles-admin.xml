@@ -138,6 +138,10 @@
 	<definition name="catalogue-product-vendors" template="/layout/admin/layout.jsp"> 
   		<put-attribute name="body" value="/pages/admin/products/productsVendors.jsp" /> 
   	</definition>
+	  
+	<!-- <definition name="catalogue-product-specifications" template="/layout/admin/layout.jsp">
+		<put-attribute name="body" value="/pages/admin/products/productsSpecifications.jsp" />
+	</definition> -->
   	
   	<definition name="catalogue-product-reviews" template="/layout/admin/layout.jsp"> 
   		<put-attribute name="body" value="/pages/admin/products/reviews.jsp" /> 
@@ -155,6 +159,14 @@
   	 <definition name="catalogue-categories-category" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/categories/category.jsp" /> 
   	</definition>
+
+	<definition name="catalogue-categories-specifications" template="/layout/admin/layout.jsp">
+		<put-attribute name="body" value="/pages/admin/categories/specifications.jsp" />
+	</definition>
+
+	<definition name="admin-category-specification-details" template="/layout/admin/layout.jsp">
+		<put-attribute name="body" value="/pages/admin/categories/specification.jsp" />
+	</definition>
   	
   	<definition name="catalogue-categories-hierarchy" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/categories/hierarchy.jsp" /> 

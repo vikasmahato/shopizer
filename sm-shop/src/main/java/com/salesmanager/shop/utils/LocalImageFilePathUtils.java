@@ -121,7 +121,7 @@ public class LocalImageFilePathUtils extends AbstractimageFilePath{
 	 * @return
 	 */
 	public String buildStoreLogoFilePath(MerchantStore store) {
-		return new StringBuilder().append(getBasePath(store)).append(Constants.FILES_URI).append(Constants.SLASH).append(store.getCode()).append("/").append(FileContentType.LOGO).append("/")
+		return new StringBuilder().append(getBasePath(store)).append(Constants.FILES_URI).append(Constants.SLASH).append(store.getCode()).append(Constants.SLASH).append(FileContentType.LOGO).append(Constants.SLASH)
 				.append(store.getStoreLogo()).toString();
 	}
 	

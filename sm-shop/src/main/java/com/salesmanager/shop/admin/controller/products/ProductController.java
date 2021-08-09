@@ -198,7 +198,7 @@ public class ProductController {
 			
 			Set<ProductAvailability> availabilities = dbProduct.getAvailabilities();
 			if(availabilities!=null && availabilities.size()>0) {
-				
+				//TODO: Ajay check if this block is needed
 				for(ProductAvailability availability : availabilities) {
 					if(availability.getRegion().equals(com.salesmanager.core.business.constants.Constants.ALL_REGIONS)) {
 						productAvailability = availability;
@@ -206,7 +206,6 @@ public class ProductController {
 						for(ProductPrice price : prices) {
 							if(price.isDefaultPrice()) {
 								productPrice = price;
-								product.setProductPrice(priceUtil.getAdminFormatedAmount(store, productPrice.getProductPriceAmount()));
 							}
 						}
 					}
@@ -222,7 +221,6 @@ public class ProductController {
 			}
 			
 			product.setAvailability(productAvailability);
-			product.setPrice(productPrice);
 			product.setDescriptions(descriptions);
 			
 			
@@ -246,7 +244,6 @@ public class ProductController {
 			
 			ProductAvailability productAvailability = new ProductAvailability();
 			ProductPrice price = new ProductPrice();
-			product.setPrice(price);
 			product.setAvailability(productAvailability);
 			product.setProduct(prod);
 			product.setDescriptions(descriptions);
@@ -304,14 +301,6 @@ public class ProductController {
 			}
 		}
 		
-		//validate price
-		BigDecimal submitedPrice = null;
-		try {
-			submitedPrice = priceUtil.getAmount(product.getProductPrice());
-		} catch (Exception e) {
-			ObjectError error = new ObjectError("productPrice",messages.getMessage("NotEmpty.product.productPrice", locale));
-			result.addError(error);
-		}
 		Date date = new Date();
 		if(!StringUtils.isBlank(product.getDateAvailable())) {
 			try {
@@ -433,7 +422,6 @@ public class ProductController {
 						for(ProductPrice price : productPrices) {
 							if(price.isDefaultPrice()) {
 								newProductPrice = price;
-								newProductPrice.setProductPriceAmount(submitedPrice);
 								productPriceDescriptions = price.getDescriptions();
 							} else {
 								prices.add(price);
@@ -456,7 +444,6 @@ public class ProductController {
 		if(newProductPrice==null) {
 			newProductPrice = new ProductPrice();
 			newProductPrice.setDefaultPrice(true);
-			newProductPrice.setProductPriceAmount(submitedPrice);
 		}
 		
 		if(product.getProductImage()!=null && product.getProductImage().getId() == null) {
@@ -654,11 +641,6 @@ public class ProductController {
 					
 				}
 				price.setDescriptions(priceDescriptions);
-				if(price.isDefaultPrice()) {
-					product.setPrice(price);
-					product.setProductPrice(priceUtil.getAdminFormatedAmount(store, price.getProductPriceAmount()));
-				}
-				
 				availability.getPrices().add(price);
 			}
 			

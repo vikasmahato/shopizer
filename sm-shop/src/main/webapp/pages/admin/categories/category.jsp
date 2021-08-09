@@ -49,6 +49,15 @@
   					 <div class="tab-content">
     					<div class="tab-pane active" id="catalogue-section">
 								<div class="sm-ui-component">
+								<c:if test="${category.category.id!=null && category.category.id>0}">
+                                    <c:set value="${category.category.id}" var="categoryId" scope="request"/>
+                                    <div class="btn-group" style="z-index:400000;">
+                                        <button class="btn btn-info dropdown-toggle" data-toggle="dropdown"><s:message code="label.category.configure" text="Category definition"/> ... <span class="caret"></span></button>
+                                         <ul class="dropdown-menu">
+                                            <li><a href="<c:url value="/admin/category/specifications/list.html" />?id=<c:out value="${categoryId}"/>"><s:message code="label.category.specifications" text="Specifications" /></a></li>
+                                         </ul>
+                                    </div>
+                                </c:if>
 				<h3>
 					<c:choose>
 						<c:when test="${category.category.id!=null && category.category.id>0}">
@@ -185,6 +194,25 @@
                                     <span class="help-inline"><form:errors path="category.sortOrder" cssClass="error" /></span>
                         </div>
                   </div>
+
+                  <%-- Specification Table --%>
+                  <!-- <div class="control-group">
+                          <table id="specifications">
+                            <th>Specification</th>
+                            <th>Filter</th>
+                            <th>Variant</th>
+                            <c:forEach items="${category.specifications}" var="specification" varStatus="counter">
+                            <tr>
+                                <td><form:input cssClass="input-large highlight" id="name${counter.index}" path="specifications[${counter.index}].specification"/></td>
+                                <td><form:checkbox path="specifications[${counter.index}].filter" name="filter" /></td>
+                                <td><form:checkbox path="specifications[${counter.index}].variant" name="variant" />&nbsp(<c:out value="${specification.language.code}"/>)</td>
+                                <form:hidden path="specifications[${counter.index}].language.code" />
+                                <form:hidden path="specifications[${counter.index}].id" />
+                            </tr>
+                            </c:forEach>
+                          </table>
+                  </div> -->
+
                   <form:hidden path="category.id" />
 			      <div class="form-actions">
                   		<div class="pull-right">
