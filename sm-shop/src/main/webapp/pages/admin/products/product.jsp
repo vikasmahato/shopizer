@@ -136,20 +136,8 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
                   		</div>
 
 						<form:hidden path="product.id" />
-                 	
-
-                  		<div class="control-group">
-                        	<label><s:message code="label.product.available" text="Product available"/></label>
-                        	<div class="controls">
-                                    <form:checkbox path="product.available" />
-                        	</div>
-                  		</div>
+                  		<form:hidden value="true" path="product.available" />
                   		
-
-                  		
-                  		
-
-	                  	
 	                  	<div class="control-group">
                         	<label><s:message code="label.product.brand" text="brand"/></label>
                           	<div class="controls">
@@ -295,12 +283,7 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
                  <form:input id="ordermax" type="hidden" value="5000" cssClass="highlight" path="availability.productQuantityOrderMax"/>
 
                   
-                 <div class="control-group">
-                        	<label><s:message code="label.product.shipeable" text="Product will be shipped"/></label>
-                        	<div class="controls">
-                                    <form:checkbox path="product.productShipeable" />
-                        	</div>
-                 </div>
+                 <form:hidden value="true" path="product.productShipeable" />
 
 
                  <form:hidden path="availability.region" />
