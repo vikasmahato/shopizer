@@ -145,25 +145,10 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
                         	</div>
                   		</div>
                   		
-                  		
-                  	    <div class="control-group">
-                        	<label><s:message code="label.product.preorder" text="Pre-order"/></label>
-                        	<div class="controls">
-                                    <form:checkbox path="product.preOrder" />
-                        	</div>
-                  		</div>
+
                   		
                   		
-                  		<div class="control-group">
-	                        <label><s:message code="label.product.availabledate" text="Date available"/></label>
-	                        <div class="controls">
-	                        		 <input id="dateAvailable" name="dateAvailable" value="${product.dateAvailable}" class="small" type="text" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" data-datepicker="datepicker"> 
-	                                 <script type="text/javascript">
-	                                 $('#dateAvailable').datepicker();
-	                                 </script>
-	                                 <span class="help-inline"><form:errors path="dateAvailable" cssClass="error" /></span>
-	                        </div>
-	                  	</div>
+
 	                  	
 	                  	<div class="control-group">
                         	<label><s:message code="label.product.brand" text="brand"/></label>
