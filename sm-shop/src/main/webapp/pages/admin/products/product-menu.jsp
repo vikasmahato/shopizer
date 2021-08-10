@@ -11,14 +11,14 @@
                      <ul class="dropdown-menu">
 				    	<li><a href="<c:url value="/admin/products/editProduct.html" />?id=<c:out value="${productId}"/>"><s:message code="label.product.details" text="Product details" /></a></li>
 				    	<li><a href="<c:url value="/admin/products/prices.html" />?id=<c:out value="${productId}"/>"><s:message code="label.product.prices" text="Product prices" /></a></li>
-				    	<li><a href="<c:url value="/admin/products/attributes/list.html" />?id=<c:out value="${productId}"/>"><s:message code="label.product.attributes" text="Attributes" /></a></li>
 				    	<li><a href="<c:url value="/admin/product/displayProductToSpecifications.html" />?id=<c:out value="${productId}"/>"><s:message code="label.product.attributes" text="Specifications" /></a></li>
+				    	<!-- li><a href="<c:url value="/admin/products/attributes/list.html" />?id=<c:out value="${productId}"/>"><s:message code="label.product.attributes" text="Attributes" /></a></li -->
 				    	<li><a href="<c:url value="/admin/products/images/list.html" />?id=<c:out value="${productId}"/>"><s:message code="menu.catalogue-products-images" text="Product images" /></a></li>
 				    	<li><a href="<c:url value="/admin/products/images/url/list.html" />?id=<c:out value="${productId}"/>"><s:message code="menu.catalogue-products-images-url" text="Product images url" /></a></li>
 				    	<li><a href="<c:url value="/admin/products/reviews.html" />?id=<c:out value="${productId}"/>"><s:message code="label.product.customer.reviews" text="Reviews" /></a></li>
 				    	<li><a href="<c:url value="/admin/catalogue/related/list.html" />?id=<c:out value="${productId}"/>"><s:message code="label.product.related.title" text="Related items" /></a></li>
 				    	<li><a href="<c:url value="/admin/products/product/keywords.html" />?id=<c:out value="${productId}"/>"><s:message code="label.product.searchkeywords" text="Search keywords" /></a></li>
-				    	<li><a href="<c:url value="/admin/products/digitalProduct.html" />?id=<c:out value="${productId}"/>"><s:message code="label.product.digitalproduct" text="Digital product" /></a></li>
+				    	<!-- li><a href="<c:url value="/admin/products/digitalProduct.html" />?id=<c:out value="${productId}"/>"><s:message code="label.product.digitalproduct" text="Digital product" /></a></li -->
 				    	<li><a href="<c:url value="/admin/products/displayProductToCategories.html" />?id=<c:out value="${productId}"/>"><s:message code="menu.product.category" text="Associate to categories" /></a></li>
 				    	<li><a href="<c:url value="/admin/products/displayProductToVendors.html" />?id=<c:out value="${productId}"/>"><s:message code="menu.product.vendor" text="Associate to vendors" /></a></li>
                      </ul>

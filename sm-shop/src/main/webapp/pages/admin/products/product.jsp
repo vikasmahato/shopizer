@@ -136,35 +136,8 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
                   		</div>
 
 						<form:hidden path="product.id" />
-                 	
-
-                  		<div class="control-group">
-                        	<label><s:message code="label.product.available" text="Product available"/></label>
-                        	<div class="controls">
-                                    <form:checkbox path="product.available" />
-                        	</div>
-                  		</div>
+                  		<form:hidden value="true" path="product.available" />
                   		
-                  		
-                  	    <div class="control-group">
-                        	<label><s:message code="label.product.preorder" text="Pre-order"/></label>
-                        	<div class="controls">
-                                    <form:checkbox path="product.preOrder" />
-                        	</div>
-                  		</div>
-                  		
-                  		
-                  		<div class="control-group">
-	                        <label><s:message code="label.product.availabledate" text="Date available"/></label>
-	                        <div class="controls">
-	                        		 <input id="dateAvailable" name="dateAvailable" value="${product.dateAvailable}" class="small" type="text" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" data-datepicker="datepicker"> 
-	                                 <script type="text/javascript">
-	                                 $('#dateAvailable').datepicker();
-	                                 </script>
-	                                 <span class="help-inline"><form:errors path="dateAvailable" cssClass="error" /></span>
-	                        </div>
-	                  	</div>
-	                  	
 	                  	<div class="control-group">
                         	<label><s:message code="label.product.brand" text="brand"/></label>
                           	<div class="controls">
@@ -297,20 +270,6 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
 
                   </c:forEach>
 
-                 
-
-                 <div class="control-group">
-
-                        <label class="required"><s:message code="label.product.price" text="Price"/></label>
-
-                        <div class="controls">
-                                    <form:input id="productPriceAmount" cssClass="highlight" path="productPrice"/>
-                                    <span id="help-price" class="help-inline"><form:errors path="productPrice" cssClass="error" /></span>
-                        </div>
-                  </div>
-
-                 
-
                  <div class="control-group">
 
                         <label><s:message code="label.productedit.qtyavailable" text="Quantity available"/></label>
@@ -320,73 +279,22 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
                         </div>
                   </div>
 
-                 
+                 <form:input id="ordermin" type="hidden" value="1" cssClass="highlight" path="availability.productQuantityOrderMin"/>
+                 <form:input id="ordermax" type="hidden" value="5000" cssClass="highlight" path="availability.productQuantityOrderMax"/>
 
-                  <div class="control-group">
-                        <label><s:message code="label.product.ordermin" text="Quantity order minimum"/></label>
-                        <div class="controls">
-                                    <form:input id="ordermin" cssClass="highlight" path="availability.productQuantityOrderMin"/>
-                                    <span class="help-inline"><form:errors path="availability.productQuantityOrderMin" cssClass="error" /></span>
-
-                        </div>
-                  </div>
-
-                 
-
-                  <div class="control-group">
-                        <label><s:message code="label.product.ordermax" text="Quantity order maximum"/></label>
-                        <div class="controls">
-                                    <form:input id="ordermax" cssClass="highlight" path="availability.productQuantityOrderMax"/>
-                                    <span class="help-inline"><form:errors path="availability.productQuantityOrderMax" cssClass="error" /></span>
-                        </div>
-                  </div>
                   
-                 <div class="control-group">
-                        	<label><s:message code="label.product.shipeable" text="Product will be shipped"/></label>
-                        	<div class="controls">
-                                    <form:checkbox path="product.productShipeable" />
-                        	</div>
-                 </div>
+                 <form:hidden value="true" path="product.productShipeable" />
 
 
                  <form:hidden path="availability.region" />
                  <form:hidden path="availability.id" />
-                 <form:hidden path="price.id" />
                  <form:hidden path="product.productVirtual" />
-                 
-                 <div class="control-group">
-                        <label><s:message code="label.product.weight" text="Weight"/></label>
-                        <div class="controls">
-                                    <form:input id="weight" cssClass="" path="product.productWeight"/>
-                                    <span class="help-inline"><form:errors path="product.productWeight" cssClass="error" /></span>
-                        </div>
-                  </div>
 
-                 <div class="control-group">
-                        <label><s:message code="label.product.height" text="Height"/></label>
-                        <div class="controls">
-                                    <form:input id="height" cssClass="" path="product.productHeight"/>
-                                    <span class="help-inline"><form:errors path="product.productHeight" cssClass="error" /></span>
-                        </div>
-                  </div>
-     
-     
-                 <div class="control-group">
-                        <label><s:message code="label.product.width" text="Width"/></label>
-                        <div class="controls">
-                                    <form:input id="width" cssClass="" path="product.productWidth"/>
-                                    <span class="help-inline"><form:errors path="product.productWidth" cssClass="error" /></span>
-                        </div>
-                  </div>
-                  
-                  <div class="control-group">
-                        <label><s:message code="label.product.length" text="Length"/></label>
-                        <div class="controls">
-                                    <form:input id="length" cssClass="" path="product.productLength"/>
-                                    <span class="help-inline"><form:errors path="product.productLength" cssClass="error" /></span>
-                        </div>
-                  </div>          
-    
+                 <form:input type="hidden" id="weight" cssClass="" value="1" path="product.productWeight"/>
+                 <form:input type="hidden" id="height" cssClass="" value="1" path="product.productHeight"/>
+                 <form:input type="hidden" id="width" cssClass="" value="1" path="product.productWidth"/>
+                 <form:input type="hidden" id="length" cssClass="" value="1" path="product.productLength"/>
+
                   <div class="control-group">
                         <label><s:message code="label.entity.order" text="Sort order"/></label>
                         <div class="controls">

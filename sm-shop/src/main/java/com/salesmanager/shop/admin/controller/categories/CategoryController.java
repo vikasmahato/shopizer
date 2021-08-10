@@ -294,7 +294,7 @@ public class CategoryController {
         try {
             Long id = Long.parseLong(sid);
             Optional<Category> category = Optional.ofNullable(categoryService.getById(id, store.getId()));
-            if(category.isPresent() || category.get().getMerchantStore().getId().intValue() !=store.getId().intValue() ) {
+            if(!category.isPresent() || category.get().getMerchantStore().getId().intValue() !=store.getId().intValue() ) {
                 resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
                 resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
             } else {
