@@ -130,7 +130,7 @@
 		            <div class="control-group">
                             <label><s:message code="label.entity.code" text="Code"/></label>
 	                        <div class="controls">
-	                        		<form:input cssClass="input-large highlight" path="code" onblur="validateCode()"/>
+	                        		<form:input cssClass="input-large highlight" path="code" onblur="validateCode()" placeholder="Required" required="true"/>
 	                                <span class="help-inline"><div id="checkCodeStatus" style="display:none;"></div><form:errors path="code" cssClass="error" /></span>
 	                        </div>
                  	</div>
@@ -138,23 +138,23 @@
 					<c:forEach items="${brand.descriptions}" var="description" varStatus="counter">
 					           
 						<div class="control-group">
-	                        <label class="required"><s:message code="label.brandedit.brandname" text="brand Name"/> (<c:out value="${description.language.code}"/>)</label>
+	                        <label class="required"><s:message code="label.brandedit.brandname" text="Brand Name"/> (<c:out value="${description.language.code}"/>)</label>
 	                        <div class="controls">
-	                                  <form:input cssClass="input-large highlight" id="name${counter.index}" path="descriptions[${counter.index}].name"/>
+	                                  <form:input cssClass="input-large highlight" id="name${counter.index}" path="descriptions[${counter.index}].name" placeholder="Required" required="true"/>
 	                                  <span  class="help-inline"><form:errors path="descriptions[${counter.index}].name" cssClass="error" /></span>
 	                        </div>
 	                  	</div> 
 
 						<div class="control-group">
-	                        <label><s:message code="label.brandedit.brandtitle" text="brand Title"/> (<c:out value="${description.language.code}"/>)</label>
+	                        <label><s:message code="label.brandedit.brandtitle" text="Brand Title"/> (<c:out value="${description.language.code}"/>)</label>
 	                        <div class="controls">
-	                                  <form:input cssClass="input-large" id="title${counter.index}" path="descriptions[${counter.index}].title"/>
+	                                  <form:input cssClass="input-large" id="title${counter.index}" path="descriptions[${counter.index}].title" placeholder="Required" required="true"/>
 	                                  <span  class="help-inline"><form:errors path="descriptions[${counter.index}].title" cssClass="error" /></span>
 	                        </div>
 	                  	</div> 
 
  	                  	<div class="control-group">
-	                        <label><s:message code="label.brandedit.brandurl" text="URL"/> (<c:out value="${description.language.code}"/>)</label>
+	                        <label><s:message code="label.brandedit.brandurl" text="Search Engine Friendly URL"/> (<c:out value="${description.language.code}"/>)</label>
 	                        <div class="controls">
 	                                  <form:input cssClass="input-large" id="url${counter.index}" path="descriptions[${counter.index}].url"/>
 	                                  <span  class="help-inline"><form:errors path="descriptions[${counter.index}].url" cssClass="error" /></span>
@@ -162,7 +162,7 @@
 	                  	</div>	
 
 	                    <div class="control-group">
-	                            <label class="required"><s:message code="label.brandedit.branddescription" text="brand Description"/> (<c:out value="${description.language.code}"/>)</label>
+	                            <label class="required"><s:message code="label.brandedit.branddescription" text="Brand Description"/> (<c:out value="${description.language.code}"/>)</label>
 	                            <div class="controls">
 	                     	 
 	                        			 <textarea cols="30" id="descriptions${counter.index}.description" name="descriptions[${counter.index}].description">
