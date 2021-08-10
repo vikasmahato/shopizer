@@ -24,15 +24,13 @@ public class CategoryRepositoryImpl implements CategoryRepositoryCustom {
 		qs.append("select category.id, count(product.id) from Product product ");
 		qs.append("inner join product.categories category ");
 		qs.append("where category.id in (:cid) ");
-		qs.append("and product.available=true and product.dateAvailable<=:dt ");
+		qs.append("and product.available=true ");
 		qs.append("group by category.id");
 		
     	String hql = qs.toString();
 		Query q = this.em.createQuery(hql);
 
     	q.setParameter("cid", categoryIds);
-    	q.setParameter("dt", new Date());
-
 
     	
     	@SuppressWarnings("unchecked")
