@@ -104,7 +104,7 @@
                   <div class="control-group">
                         <label><s:message code="label.category.code" text="Category code"/></label>
 	                        <div class="controls">
-	                        		<form:input cssClass="input-large highlight" id="code" path="category.code" onblur="validateCode(this)"/>
+	                        		<form:input cssClass="input-large highlight" id="code" path="category.code" placeholder="Required" required="true" onblur="validateCode(this)"/>
 	                                <span class="help-inline"><div id="checkCodeStatus" style="display:none;"></div><form:errors path="category.code" cssClass="error" /></span>
 	                        </div>
                   </div>
@@ -112,7 +112,7 @@
                  <div class="control-group">
                         <label><s:message code="label.productedit.categoryname" text="Category name"/> (<c:out value="${description.language.code}"/>)</label>
                         <div class="controls">
-                        			<form:input cssClass="input-large highlight" id="name${counter.index}" path="descriptions[${counter.index}].name"/>
+                        			<form:input cssClass="input-large highlight" id="name${counter.index}" path="descriptions[${counter.index}].name" placeholder="Required" required="true"/>
                         			<span class="help-inline"><form:errors path="descriptions[${counter.index}].name" cssClass="error" /></span>
                         </div>
                   </div>
@@ -166,7 +166,7 @@
                   <div class="control-group">
                         <label><s:message code="label.category.title" text="Metatag title"/> (<c:out value="${description.language.code}"/>)</label>
                         <div class="controls">
-                        			<form:input path="descriptions[${counter.index}].metatagTitle"/>
+                        			<form:input path="descriptions[${counter.index}].metatagTitle" placeholder="Required" required="true"/>
                         			<span class="help-inline"><form:errors path="descriptions[${counter.index}].metatagTitle" cssClass="error" /></span>
                         </div>
                   </div>
