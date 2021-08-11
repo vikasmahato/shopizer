@@ -35,12 +35,12 @@ public class ProductSpecificationServiceImpl  extends SalesManagerEntityServiceI
     }
 
     @Override
-    public List<ProductSpecificationVariant> getBySpecificationId(Long id){
-        return specificationRepository.getBySpecificationId(id);
+    public List<ProductSpecificationVariant> getBySpecificationId(Long productId, Long specificationId){
+        return specificationRepository.getBySpecificationId(productId, specificationId);
     }
 
     @Override
-    public ProductSpecificationVariant getBySpecificationIdAndValue(Long specificationId, String value){
-        return specificationRepository.getBySpecificationIdAndValue(specificationId, value);
+    public ProductSpecificationVariant getBySpecificationIdAndValue(Long productId, Long specificationId, String value){
+        return specificationRepository.getBySpecificationIdAndValue(productId, specificationId, value);
     }
 }

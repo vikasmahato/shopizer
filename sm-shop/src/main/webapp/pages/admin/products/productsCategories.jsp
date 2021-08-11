@@ -37,7 +37,11 @@
 				<label><s:message code="label.productedit.categoryname" text="Category"/></label>
 			  	<div class="controls">
 	                        		<form:select path="id">
-					  					<form:options items="${categories}" itemValue="category.id" itemLabel="descriptions[0].name"/>
+	                        		    <c:forEach items="${categories}" var="category">
+	                        		    <c:if test = "${category.category.depth == 2}">
+	                        		        <option value="${category.category.id}">${category.descriptions[0].name}</option>
+					  					</c:if>
+					  					</c:forEach>
 				       				</form:select>
 	                                <span class="help-inline"><form:errors path="id" cssClass="error" /></span>
 				</div>

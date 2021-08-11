@@ -13,14 +13,10 @@
     <div class="tab-content">
         <div class="tab-pane active" id="catalogue-section">
             <div class="sm-ui-component">
+
                 <c:if test="${category.id!=null && category.id>0}">
-                    <c:set value="${category.id}" var="categoryId" scope="request"/>
-                    <div class="btn-group" style="z-index:400000;">
-                        <button class="btn btn-info dropdown-toggle" data-toggle="dropdown"><s:message code="label.category.configure" text="Category definition"/> ... <span class="caret"></span></button>
-                         <ul class="dropdown-menu">
-                            <li><a href="<c:url value="/admin/category/editCategory" />?id=<c:out value="${categoryId}"/>"><s:message code="label.category.specifications" text="Specifications" /></a></li>
-                         </ul>
-                    </div>
+                    <c:set value="${category}" var="adminCategory" scope="request"/>
+                        <jsp:include page="/pages/admin/categories/category-menu.jsp" />
                 </c:if>
 
                 <h3><s:message code="label.category.specifications" text="category specifications" /></h3>

@@ -255,6 +255,14 @@ public class CategoryController {
                 entry.put("name", description.getName());
                 entry.put("code", category.getCode());
                 entry.put("visible", category.isVisible());
+                switch (category.getDepth())
+                {
+                    case 0: entry.put("level", "L-1");
+                            break;
+                    case 1: entry.put("level", "L-2");
+                            break;
+                    default: entry.put("level", "L-3");
+                }
                 resp.addDataEntry(entry);
             }
             resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);

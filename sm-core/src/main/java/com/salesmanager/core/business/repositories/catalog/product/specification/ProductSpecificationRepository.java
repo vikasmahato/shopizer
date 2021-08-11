@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface ProductSpecificationRepository extends JpaRepository<ProductSpecificationVariant, Long> {
 
-    @Query("SELECT s from ProductSpecificationVariant s where s.specification.id = ?1 order by s.value asc")
-    List<ProductSpecificationVariant> getBySpecificationId(Long specificationId);
+    @Query("SELECT s from ProductSpecificationVariant s where s.product.id = ?1 and s.specification.id = ?2 order by s.value asc")
+    List<ProductSpecificationVariant> getBySpecificationId(Long productId, Long specificationId);
 
-    @Query("SELECT s from ProductSpecificationVariant s where s.specification.id = ?1 and s.value =?2")
-    ProductSpecificationVariant getBySpecificationIdAndValue(Long specificationId, String value);
+    @Query("SELECT s from ProductSpecificationVariant s where s.product.id = ?1 and s.specification.id = ?2 and s.value =?3")
+    ProductSpecificationVariant getBySpecificationIdAndValue(Long productId, Long specificationId, String value);
 
 }

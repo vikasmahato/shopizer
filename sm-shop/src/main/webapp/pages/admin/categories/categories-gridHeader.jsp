@@ -10,4 +10,5 @@
         			{title:"<s:message code="label.entity.name" text="Name"/>", name:"name"},
         			{title:"<s:message code="label.entity.code" text="Code"/>", name:"code", canFiler:false},
         			{title:"<s:message code="label.entity.visible" text="Visible"/>", name:"visible", canFilter:false},
+        			{title:"<s:message code="label.entity.level" text="Level"/>", name:"level", canFilter:false},
         			{title:"<s:message code="label.entity.details" text="Details"/>", name: "buttonField", align: "center",canFilter:false,canSort:false, canReorder:false}
