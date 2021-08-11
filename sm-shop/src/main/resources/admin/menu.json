@@ -102,23 +102,6 @@
 		]
 	}},
 	{"menu":{
-		"code":"catalogue-options","url":"","role":"PRODUCTS","order":2,"menus":
-		[
-			{"menu":{
-				"code":"catalogue-options-list","url":"/admin/catalogue/options/options.html","role":"PRODUCTS","order":1
-			}},
-			{"menu":{
-				"code":"catalogue-options-create","url":"/admin/catalogue/options/option.html","role":"PRODUCTS","order":1
-			}},
-			{"menu":{
-				"code":"catalogue-optionsvalues-list","url":"/admin/catalogue/options/optionsvalues.html","role":"PRODUCTS","order":1
-			}},
-			{"menu":{
-				"code":"catalogue-optionsvalues-create","url":"/admin/options/createOptionValue.html","role":"PRODUCTS","order":1
-			}}
-		]
-	}},
-	{"menu":{
 		"code":"catalogue-products-group","url":"/admin/catalogue/groups/list.html","role":"PRODUCTS","order":3,"menus":
 		[
 			{"menu":{

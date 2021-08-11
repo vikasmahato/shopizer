@@ -68,7 +68,7 @@ public class ProductSpecificationController {
             List<CategorySpecification> specifications = new ArrayList<CategorySpecification>();
             for(CategorySpecification specf : category.getSpecifications()) {
                 ArrayList<String> value = new ArrayList<>();
-                List<ProductSpecificationVariant> variant = specificationService.getBySpecificationId(specf.getId());
+                List<ProductSpecificationVariant> variant = specificationService.getBySpecificationId(product.getId(), specf.getId());
                 if (variant.size() == 0)
                     value.add("");
                 else if (variant.size() == 1)
@@ -107,7 +107,7 @@ public class ProductSpecificationController {
         {
             for (String value : valueMap.get(specification_id))
             {
-                ProductSpecificationVariant variant = specificationService.getBySpecificationIdAndValue(specification_id, value);
+                ProductSpecificationVariant variant = specificationService.getBySpecificationIdAndValue(product.getId(), specification_id, value);
                 if (variant == null)
                 {
                     specification.setProduct(product);

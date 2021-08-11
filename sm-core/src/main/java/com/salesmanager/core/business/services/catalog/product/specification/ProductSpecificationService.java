@@ -10,7 +10,7 @@ public interface ProductSpecificationService extends SalesManagerEntityService<L
 
     void saveOrUpdate(ProductSpecificationVariant specificationVariant) throws ServiceException;
 
-    List<ProductSpecificationVariant> getBySpecificationId(Long id);
+    List<ProductSpecificationVariant> getBySpecificationId(Long productId, Long specificationId);
 
-    ProductSpecificationVariant getBySpecificationIdAndValue(Long specificationId, String value);
+    ProductSpecificationVariant getBySpecificationIdAndValue(Long productId, Long specificationId, String value);
 }

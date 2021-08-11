@@ -490,7 +490,7 @@ public class ProductController {
 					if(brandDescriptions.size()>0) {
 						for(BrandDescription desc : brandDescriptions) {
 							String code = desc.getLanguage().getCode();
-							if(code.equals(l.getCode())) {
+							if(code.equals(l.getCode()) && newProduct.getId() == null) {
 								description.setName(desc.getName()+" "+description.getName());
 								break;
 							}
