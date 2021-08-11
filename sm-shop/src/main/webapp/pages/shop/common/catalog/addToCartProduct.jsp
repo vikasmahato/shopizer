@@ -84,6 +84,9 @@ $(function(){
 							      
 								</c:if>
 									<button class="btn addToCart addToCartButton btn-buy" type="button" productId="<c:out value="${product.id}" />"><s:message code="button.label.addToCart" text="Add to cart"/></button>
+								     <div id="addToCartSuccess" class="alert alert-success" style="display:none;"><s:message code="message.cartsuccess" text="Request successfull"/></div>
+                                     <div id="addToCartError" class="alert alert-danger" style="display:none;"><s:message code="message.carterror" text="An error occured"/></div>
+
 								</div>
 								</c:if>
 								</c:if>
