@@ -10,6 +10,9 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.reference.language.Language;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Table(name="PRODUCT_SPECIFICATION",uniqueConstraints={
@@ -36,26 +39,37 @@ public class ProductSpecificationVariant extends SalesManagerEntity<Long, Produc
     private Long id;
 
     @JsonIgnore
-    @ManyToMany(targetEntity = Category.class)
+    @ManyToOne(targetEntity = Category.class)
     @JoinColumn(name = "CATEGORY_ID", nullable = false)
     private Category category;
 
     @JsonIgnore
-    @ManyToMany(targetEntity = CategorySpecification.class)
+    @ManyToOne(targetEntity = CategorySpecification.class)
     @JoinColumn(name = "SPECIFICATION_ID", nullable = false)
     private CategorySpecification specification;
 
     @JsonIgnore
-    @ManyToMany(targetEntity = CategorySpecification.class)
+    @ManyToOne(targetEntity = Product.class)
     @JoinColumn(name = "PRODUCT_ID", nullable = false)
     private Product product;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="LANGUAGE_ID", nullable=false)
     private Language language;
 
     @Column(name = "SPECIFICATION_VALUE")
     private String value;
+
+    public Map<Long, ArrayList<String>> getValueMap() {
+        return valueMap;
+    }
+
+    public void setValueMap(Map<Long, ArrayList<String>> valueMap) {
+        this.valueMap = valueMap;
+    }
+
+    @Transient
+    private Map<Long, ArrayList<String>> valueMap = new HashMap<Long, ArrayList<String>>();
 
     public Category getCategory() {
         return category;

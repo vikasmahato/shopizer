@@ -4,18 +4,84 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <%@ page session="false" %>
+
+<script type="text/javascript">
+
+    initFeatures();
+
+    function addFeature() {
+      var $features = $('.features')
+      var pillInput = $('<span class="tag pill-input"><input type="text" size="1"/><i class="delete">&times;</i></span>');
+      $features.append(pillInput);
+      initFeatures();
+      $('.pill-input').last().find('input').focus()
+    }
+
+    function removeFeatures() {
+      $('.pill-input').remove();
+    }
+
+    function initFeatures() {
+      var $parent = $('.pill-input');
+      var $input = $('.pill-input > input');
+      var $closeButton = $('.delete');
+
+      $closeButton.click(function() {
+        $(this).parent().remove();
+      });
+
+      $parent.click(function() {
+        $(this).find('input').focus();
+      });
+
+      $input.focus(function() {
+        $(this).parent().addClass('focus');
+      });
+
+      $input.blur(function() {
+        var input = $(this);
+
+        if (input.length) {
+          input.parent().addClass('tag-gray')
+        }
+
+        input.parent().removeClass('focus');
+      });
+
+      var e = 'keyup,keypress,focus,blur,change'.split(',');
+
+      for (var i in e) {
+        $input.on(e[i], function() {
+          var $this = $(this);
+
+          if ($this.val().length == 0) {
+            $this.attr('size', 1);
+          } else {
+            $this.attr('size', $this.val().length);
+          }
+        });
+      }
+    }
+
+    $("input").on('change, keyup, keydown, keypress, focus, blur',function (e){
+        alert();
+        if(e.keyCode == 188){
+            e.preventDefault();
+        }
+    });
+
+</script>
+
 <div class="tabbable">
    <jsp:include page="/common/adminTabs.jsp" />
 	<div class="tab-content">
 		<div class="tab-pane active" id="catalogue-section">
            <div class="sm-ui-component">
 
-
            			<c:if test="${product.id!=null && product.id>0}">
 						<c:set value="${product.id}" var="productId" scope="request"/>
 						<jsp:include page="/pages/admin/products/product-menu.jsp" />
 					</c:if>
-
 
 				<h3>
 					<s:message code="label.product.category.association" text="Associate to specifications" />
@@ -23,8 +89,8 @@
 
 
 
-			<c:url var="addCategory" value="/admin/products/addProductToCategories.html" />
-			<form:form method="POST" enctype="multipart/form-data" modelAttribute="product" action="${addCategory}">
+			<c:url var="addSpecificationValue" value="/admin/products/addProductSpecifications.html" />
+			<form:form method="POST" enctype="multipart/form-data" modelAttribute="product_specification" action="${addSpecificationValue}">
 			<form:errors path="*" cssClass="alert alert-error" element="div" />
 			<div id="store.success" class="alert alert-success"	style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>">
 					<s:message code="message.success" text="Request successfull" />
@@ -39,21 +105,38 @@
                    <th>Specification</th>
                    <th>Value</th>
 
-                   <c:forEach items="${categories}"  varStatus="count">
-                   <c:forEach items="${categories[count.index].specifications}" varStatus="counter">
+                   <c:forEach items="${product_specification.valueMap}" var="values" varStatus="spec_count">
 
                    <tr>
-                    <td>${categories[count.index].specifications[counter.index].specification}</td>
-                    <td><form:input cssClass="input-large highlight" id="name${counter.index}" path="${product_specifications.value}" required="${(categories[count.index].specifications[counter.index].filter == 1) ? true : false }" /></td>
+                    <td>${category.specifications[spec_count.index].specification}</td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${category.specifications[spec_count.index].variant == true}">
+                                <div class="pad container">
+                                <c:forEach items="${values.value}" var="key_values">
+                                    <form:input cssClass="input-large highlight pill-input" path="valueMap[${values.key}]" required="true" />
+                                </c:forEach>
+                                  <div class="actions push-bottom">
+                                    <button type="button" class="button button-default" onClick="addFeature()">Add Values</button>
+                                    <button type="button" class="button button-red" onClick="removeFeatures()">Remove All</button>
+                                  </div>
+                                  <div class="features"></div>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <form:input cssClass="input-large highlight" id="name${spec_count.index}" path="valueMap[${values.key}]" required="${(category.specifications[spec_count.index].filter == true) ? true : false }" />
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
                    </tr>
 
-                   </c:forEach>
                    </c:forEach>
                  </table>
            </div>
 
 
 			<input type="hidden" name="productId" value="${product.id}">
+			<input type="hidden" name="categoryId" value="${category.category.id}">
 			<div class="form-actions">
                   		<div class="pull-right">
                   			<button type="submit" class="btn btn-success"><s:message code="label.generic.add" text="Add"/></button>

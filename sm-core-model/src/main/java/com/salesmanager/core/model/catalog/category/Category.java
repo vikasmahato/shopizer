@@ -77,7 +77,7 @@ public class Category extends SalesManagerEntity<Long, Category> implements Audi
     @Column(name="CODE", length=100, nullable=false)
     private String code;
 
-    @ManyToMany
+    @OneToMany
     @JoinColumn(name = "CATEGORY_ID")
     private Set<ProductSpecificationVariant> productSpecificationVariant;
 

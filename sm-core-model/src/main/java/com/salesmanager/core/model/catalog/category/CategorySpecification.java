@@ -52,7 +52,7 @@ public class CategorySpecification extends SalesManagerEntity<Long, CategorySpec
     @JoinColumn(name="LANGUAGE_ID", nullable=false)
     private Language language;
 
-    @ManyToMany
+    @OneToMany
     @JoinColumn(name = "SPECIFICATION_ID")
     private Set<ProductSpecificationVariant> productSpecificationVariant;
 
