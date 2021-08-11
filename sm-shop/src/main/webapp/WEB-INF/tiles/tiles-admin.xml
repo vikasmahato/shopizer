@@ -139,9 +139,9 @@
   		<put-attribute name="body" value="/pages/admin/products/productsVendors.jsp" /> 
   	</definition>
 	  
-	<!-- <definition name="catalogue-product-specifications" template="/layout/admin/layout.jsp">
+	 <definition name="catalogue-product-specifications" template="/layout/admin/layout.jsp">
 		<put-attribute name="body" value="/pages/admin/products/productsSpecifications.jsp" />
-	</definition> -->
+	</definition>
   	
   	<definition name="catalogue-product-reviews" template="/layout/admin/layout.jsp"> 
   		<put-attribute name="body" value="/pages/admin/products/reviews.jsp" /> 

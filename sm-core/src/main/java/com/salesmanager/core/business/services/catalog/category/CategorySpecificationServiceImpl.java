@@ -7,6 +7,7 @@ import com.salesmanager.core.model.catalog.category.CategorySpecification;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.List;
 
 @Service("categorySpecificationService")
 public class CategorySpecificationServiceImpl extends SalesManagerEntityServiceImpl<Long, CategorySpecification> implements  CategorySpecificationService{
@@ -32,4 +33,11 @@ public class CategorySpecificationServiceImpl extends SalesManagerEntityServiceI
 
         }
     }
+
+    @Override
+    public List<CategorySpecification> specificationsForProduct(Long productId, Integer languageId) {
+        return categorySpecificationRepository.specificationsForProduct(productId, languageId);
+    }
+
+
 }
