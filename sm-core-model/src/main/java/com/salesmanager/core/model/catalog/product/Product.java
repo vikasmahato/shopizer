@@ -207,8 +207,7 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	@Column(name="RENTAL_PERIOD", nullable = true)
 	private Integer rentalPeriod;
 
-	@OneToMany
-	@JoinColumn(name = "PRODUCT_ID")
+	@OneToMany(mappedBy="product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<ProductSpecificationVariant> productSpecificationVariant;
 
 	public Brand getBrand() {
