@@ -144,7 +144,7 @@
 			 error: function(e) { 
 				log('Error while adding to cart');
 				$('#pageContainer').hideLoading();
-				 
+				 $("#addToCartError").show().fadeOut(2000);
 			 },
 			 success: function(cart) {
 
@@ -153,8 +153,11 @@
 			     if(cart.message!=null) { 
 			    	 //TODO error message
 			    	 log('Error while adding to cart ' + cart.message);
+			    	 $("#addToCartError").show().fadeOut(2000);
+			     } else {
+			          $("#addToCartSuccess").show().fadeOut(2000);
 			     }
-				 
+
 				 displayShoppigCartItems(cart,'#shoppingcartProducts');
 				 displayTotals(cart);
 				 $('#pageContainer').hideLoading();

@@ -341,7 +341,7 @@ response.setDateHeader ("Expires", -1);
 							<br/>
 							<!-- brands -->
 							<c:if test="${fn:length(brands) > 0}">
-					          	<h3><s:message code="label.brand.collection" text="Collection" /></h3>
+					          	<h3><s:message code="label.brand.collection" text="Brands" /></h3>
 					            <ul class="nav nav-list">
 					              <li class="nav-header"></li>
 					              <c:forEach items="${brands}" var="brand">

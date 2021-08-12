@@ -100,7 +100,7 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
 								<s:message code="label.product.edit" text="Edit product" /> <c:out value="${product.product.sku}"/>
 						</c:when>
 						<c:otherwise>
-								<s:message code="label.product.create" text="Create product" />
+								<s:message code="label.product.create" text="Create a Product" />
 						</c:otherwise>
 					</c:choose>
 					
@@ -123,7 +123,7 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
                         <div class="control-group">
 	                        <label><s:message code="label.product.sku" text="Sku"/></label>
 	                        <div class="controls">
-	                        		  <form:input cssClass="input-large highlight" id="sku" path="product.sku"/>
+	                        		  <form:input cssClass="input-large highlight" id="sku" path="product.sku" placeholder="Required" required="true"/>
 	                                  <span class="help-inline"><s:message code="label.generic.alphanumeric" text="Alphanumeric" /><form:errors path="product.sku" cssClass="error" /></span>
 	                        </div>
                   		</div>
@@ -139,7 +139,7 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
                   		<form:hidden value="true" path="product.available" />
                   		
 	                  	<div class="control-group">
-                        	<label><s:message code="label.product.brand" text="brand"/></label>
+                        	<label><s:message code="label.product.brand" text="Brand"/></label>
                           	<div class="controls">
                           		      <form:select items="${brands}" itemValue="id" itemLabel="descriptions[0].name"  path="product.brand.id"/>
 	                                  <span class="help-inline"></span>
@@ -150,7 +150,7 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
 
 
                   		<div class="control-group">
-                        	<label><s:message code="label.productedit.producttype" text="Product type"/></label>
+                        	<label><s:message code="label.productedit.producttype" text="Product Type"/></label>
                         	<div class="controls">
                         		         <form:select items="${productTypes}" itemValue="id" itemLabel="code"  path="product.type.id"/> 
 	                                     <span class="help-inline"></span>
@@ -165,9 +165,9 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
 
                         <div class="control-group">
 
-                              <label class="required"><s:message code="label.productedit.productname" text="Product name"/> (<c:out value="${description.language.code}"/>)</label>
+                              <label class="required"><s:message code="label.productedit.productname" text="Product Name"/> (<c:out value="${description.language.code}"/>)</label>
                               <div class="controls">
-                                          <form:input cssClass="input-large highlight" id="name${counter.index}" path="descriptions[${counter.index}].name"/>
+                                          <form:input cssClass="input-large highlight" id="name${counter.index}" path="descriptions[${counter.index}].name" placeholder="Required" required="true"/>
                                           <span class="help-inline"><form:errors path="descriptions[${counter.index}].name" cssClass="error" /></span>
                               </div>
 
@@ -175,7 +175,7 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
 
                       
                         <div class="control-group">
-                              <label class="required"><s:message code="label.sefurl" text="Search engine friendly url"/> (<c:out value="${description.language.code}"/>)</label>
+                              <label class="required"><s:message code="label.sefurl" text="Search Engine Friendly URL"/> (<c:out value="${description.language.code}"/>)</label>
                               <div class="controls">
                                           <form:input id="seUrl${counter.index}" cssClass="input-large" path="descriptions[${counter.index}].seUrl"/>
                                           <span class="help-inline"><form:errors path="descriptions[${counter.index}].seUrl" cssClass="error" /></span>
@@ -184,7 +184,7 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
                        
 
                         <div class="control-group">
-                              <label class="required"><s:message code="label.productedit.producthl" text="Product highlight"/> (<c:out value="${description.language.code}"/>)</label>
+                              <label class="required"><s:message code="label.productedit.producthl" text="Product Highlight"/> (<c:out value="${description.language.code}"/>)</label>
                               <div class="controls">
                                           <form:input cssClass="input-large" path="descriptions[${counter.index}].productHighlight"/>
                                           <span class="help-inline"><form:errors path="descriptions[${counter.index}].productHighlight" cssClass="error" /></span>
@@ -194,7 +194,7 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
 
 
                         <div class="control-group">
-                              <label class="required"><s:message code="label.productedit.productdesc" text="Product description"/> (<c:out value="${description.language.code}"/>)</label>
+                              <label class="required"><s:message code="label.productedit.productdesc" text="Product Description"/> (<c:out value="${description.language.code}"/>)</label>
                               <div class="controls">
                               		 
                               		 
@@ -241,9 +241,9 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
                       
 
                         <div class="control-group">
-                              <label class="required"><s:message code="label.product.title" text="Product title"/> (<c:out value="${description.language.code}"/>)</label>
+                              <label class="required"><s:message code="label.product.title" text="Product Title"/> (<c:out value="${description.language.code}"/>)</label>
                               <div class="controls">
-                                          <form:input cssClass="input-large" path="descriptions[${counter.index}].metatagTitle"/>
+                                          <form:input cssClass="input-large" path="descriptions[${counter.index}].metatagTitle" placeholder="Required" required="true"/>
                                           <span class="help-inline"><form:errors path="descriptions[${counter.index}].metatagTitle" cssClass="error" /></span>
                               </div>
                        </div>
@@ -251,7 +251,7 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
                       
 
                         <div class="control-group">
-                              <label class="required"><s:message code="label.metatags.description" text="Metatag description"/> (<c:out value="${description.language.code}"/>)</label>
+                              <label class="required"><s:message code="label.metatags.description" text="Metatag Description"/> (<c:out value="${description.language.code}"/>)</label>
                               <div class="controls">
                                           <form:input cssClass="input-large" path="descriptions[${counter.index}].metatagDescription"/>
                                           <span class="help-inline"><form:errors path="descriptions[${counter.index}].metatagDescription" cssClass="error" /></span>
