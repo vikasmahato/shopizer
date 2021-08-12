@@ -8,10 +8,18 @@ import com.salesmanager.core.model.catalog.product.specification.ProductSpecific
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service("productSpecificationService")
 public class ProductSpecificationServiceImpl  extends SalesManagerEntityServiceImpl<Long, ProductSpecificationVariant> implements ProductSpecificationService {
+
+    @PersistenceContext
+    private EntityManager em;
 
     private ProductSpecificationRepository specificationRepository;
 
@@ -42,5 +50,29 @@ public class ProductSpecificationServiceImpl  extends SalesManagerEntityServiceI
     @Override
     public ProductSpecificationVariant getBySpecificationIdAndValue(Long productId, Long specificationId, String value){
         return specificationRepository.getBySpecificationIdAndValue(productId, specificationId, value);
+    }
+
+    @Override
+    public Map<String, String> getSpecificationNameValue(Long productId) {
+
+        StringBuilder queryBuilder = new StringBuilder();
+        queryBuilder.append("select cs.specification, ps.value from ProductSpecificationVariant ps, CategorySpecification cs ");
+        queryBuilder.append("where ps.specification.id = cs.id and ps.product.id = :productId");
+
+
+        String hql = queryBuilder.toString();
+        Query q = this.em.createQuery(hql);
+
+        q.setParameter("productId", productId);
+
+        List<Object[]> result =  (List<Object[]>) q.getResultList();
+
+        Map<String, String> specNameValue = new HashMap<>();
+
+        for(Object[] data: result) {
+
+             specNameValue.put((String) data[0], (String) data[1]);
+        }
+        return specNameValue;
     }
 }
