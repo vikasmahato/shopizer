@@ -6,7 +6,9 @@
 <%@ page session="false" %>
 
 <script src="<c:url value="/resources/js/jquery.showLoading.min.js" />"></script>
+<script src="<c:url value="/resources/js/toastr.min.js" />"></script>
 <link href="<c:url value="/resources/css/showLoading.css" />" rel="stylesheet">
+<link href="<c:url value="/resources/css/toastr.min.css" />" rel="stylesheet">
 
 <script>
 

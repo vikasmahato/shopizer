@@ -14,6 +14,7 @@
     <script src="<c:url value="/resources/js/shopping-cart.js" />"></script>
     <script src="<c:url value="/resources/js/login.js" />"></script>
     <script src="<c:url value="/resources/js/jquery.showLoading.min.js" />"></script>
+	<script src="<c:url value="/resources/js/toastr.min.js" />"></script>
     
     <!-- specific css -->
     <link href="<c:url value="/resources/templates/bootstrap/css/bootstrap.min.css" />" rel="stylesheet">
@@ -22,7 +23,8 @@
     <!-- generic and common css file -->
     <link href="<c:url value="/resources/css/sm.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/showLoading.css" />" rel="stylesheet">
-    
+	<link href="<c:url value="/resources/css/toastr.min.css" />" rel="stylesheet">
+
     <!-- template css file -->
     <link href="<c:url value="/resources/templates/bootstrap/css/theme.css" />" rel="stylesheet">
     

@@ -31,7 +31,7 @@
     	<!-- generic and common css file -->
     	<link href="<c:url value="/resources/css/sm.css" />" rel="stylesheet">
     	<link href="<c:url value="/resources/css/showLoading.css" />" rel="stylesheet">
-    
+		<link href="<c:url value="/resources/css/toastr.min.css" />" rel="stylesheet">
     	<!-- ////////////// -->
     	
 
