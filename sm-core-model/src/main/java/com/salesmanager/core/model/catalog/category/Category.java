@@ -77,8 +77,7 @@ public class Category extends SalesManagerEntity<Long, Category> implements Audi
     @Column(name="CODE", length=100, nullable=false)
     private String code;
 
-    @OneToMany
-    @JoinColumn(name = "CATEGORY_ID")
+    @OneToMany(mappedBy="category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProductSpecificationVariant> productSpecificationVariant;
 
     public Set<ProductSpecificationVariant> getProductSpecificationVariant() {
