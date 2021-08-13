@@ -30,7 +30,7 @@
                  <!-- Listing grid include -->
                  <c:set value="/admin/specifications/page.html?categoryId=${category.id}" var="pagingUrl" scope="request" />
                  <!--<c:set value="/admin/specifications/specification/remove.html" var="removeUrl" scope="request"/>-->
-                 <c:set value="/admin/categories/specifications/editSpecification.html" var="editUrl" scope="request"/>
+                 <c:set value="/admin/category/editSpecification.html" var="editUrl" scope="request"/>
                  <c:set value="/admin/categories/specifications/list.html?id=${category.id}" var="afterRemoveUrl" scope="request"/>
                  <c:set var="entityId" value="specificationId" scope="request"/>
                  <c:set var="appendQueryStringToEdit" value="categoryId=${category.id}" scope="request"/>

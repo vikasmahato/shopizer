@@ -52,8 +52,7 @@ public class CategorySpecification extends SalesManagerEntity<Long, CategorySpec
     @JoinColumn(name="LANGUAGE_ID", nullable=false)
     private Language language;
 
-    @OneToMany
-    @JoinColumn(name = "SPECIFICATION_ID")
+    @OneToMany(mappedBy="specification", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProductSpecificationVariant> productSpecificationVariant;
 
     public String getSpecification() {
