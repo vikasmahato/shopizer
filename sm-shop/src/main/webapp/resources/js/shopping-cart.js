@@ -144,7 +144,7 @@
 			 error: function(e) { 
 				log('Error while adding to cart');
 				$('#pageContainer').hideLoading();
-				 toastr.options.timeOut = 2500;
+
 				 toastr.error('Could not add item to Cart');
 			 },
 			 success: function(cart) {
@@ -154,10 +154,10 @@
 			     if(cart.message!=null) { 
 			    	 //TODO error message
 			    	 log('Error while adding to cart ' + cart.message);
-			    	 toastr.options.timeOut = 2500;
+
 			    	 toastr.error('Could not add item to Cart');
 			     } else {
-			          toastr.options.timeOut = 2500;
+
 			          toastr.success('Added to cart successfully');
 			     }
 
