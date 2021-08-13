@@ -5,6 +5,7 @@ import com.salesmanager.core.business.services.common.generic.SalesManagerEntity
 import com.salesmanager.core.model.catalog.product.specification.ProductSpecificationVariant;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProductSpecificationService extends SalesManagerEntityService<Long, ProductSpecificationVariant> {
 
@@ -13,4 +14,6 @@ public interface ProductSpecificationService extends SalesManagerEntityService<L
     List<ProductSpecificationVariant> getBySpecificationId(Long productId, Long specificationId);
 
     ProductSpecificationVariant getBySpecificationIdAndValue(Long productId, Long specificationId, String value);
+
+    Map<String, String> getSpecificationNameValue(Long productId);
 }
