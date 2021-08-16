@@ -43,7 +43,8 @@
     <script src="<c:url value="/resources/js/shop-account.js" />"></script>
     <script src="<c:url value="/resources/js/login.js" />"></script>
     <script src="<c:url value="/resources/js/jquery.showLoading.min.js" />"></script>
-    
+    <script src="<c:url value="/resources/js/toastr.min.js" />"></script>
+
     <c:if test="${requestScope.CONTENT['heroSlider']!=null}">
 		  <script defer src="/resources/js/jquery.flexslider.js"></script>
 		  <script type="text/javascript">

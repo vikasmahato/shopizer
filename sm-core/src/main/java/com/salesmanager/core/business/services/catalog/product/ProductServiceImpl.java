@@ -2,16 +2,12 @@ package com.salesmanager.core.business.services.catalog.product;
 
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import com.salesmanager.core.business.services.catalog.product.specification.ProductSpecificationService;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,6 +84,9 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 
 	@Inject
 	ProductReviewService productReviewService;
+
+	@Inject
+	ProductSpecificationService productSpecificationService;
 
 	@Inject
 	public ProductServiceImpl(ProductRepository productRepository) {
@@ -358,6 +357,11 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		Validate.notNull(merchant, "MerchantStore must not be null");
 		Validate.notNull(id, "id must not be null");
 		return productRepository.getById(id, merchant);
+	}
+
+	@Override
+	public Map<String, String> getSpecificationNameValue(Long productId) {
+		return productSpecificationService.getSpecificationNameValue(productId);
 	}
 
 	@Override

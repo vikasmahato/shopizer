@@ -2,6 +2,7 @@ package com.salesmanager.core.business.services.catalog.product;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -85,6 +86,8 @@ public interface ProductService extends SalesManagerEntityService<Long, Product>
 	 * @return
 	 */
 	Product findOne(Long id, MerchantStore merchant);
+
+	Map<String, String> getSpecificationNameValue(Long productId);
 
 
 }

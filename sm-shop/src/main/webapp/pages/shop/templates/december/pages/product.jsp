@@ -161,6 +161,7 @@
 													<s:message
 													code="label.productedit.productdesc"
 													text="Product description" /></a></li>
+
 									</ul>
 									<!-- Tab panes -->
 									<div class="tab-content">
@@ -169,54 +170,18 @@
 												<c:out value="${product.description.description}"
 													escapeXml="false" />
 												<dl class="dl-horizontal">
-													<dt>
-														<s:message code="label.product.weight" text="Weight" />
-														:
-													</dt>
-													<dd>
-														<fmt:formatNumber value="${product.productSpecifications.weight}"
-															maxFractionDigits="2" />
-														&nbsp;
-														<s:message
-															code="label.generic.weightunit.${requestScope.MERCHANT_STORE.weightunitcode}"
-															text="Pounds" />
-													</dd>
-													<dt>
-														<s:message code="label.product.height" text="Height" />
-														:
-													</dt>
-													<dd>
-														<fmt:formatNumber value="${product.productSpecifications.height}"
-															maxFractionDigits="2" />
-														&nbsp;
-														<s:message
-															code="label.generic.sizeunit.${requestScope.MERCHANT_STORE.seizeunitcode}"
-															text="Inches" />
-													</dd>
-													<dt>
-														<s:message code="label.product.width" text="Width" />
-														:
-													</dt>
-													<dd>
-														<fmt:formatNumber value="${product.productSpecifications.width}"
-															maxFractionDigits="2" />
-														&nbsp;
-														<s:message
-															code="label.generic.sizeunit.${requestScope.MERCHANT_STORE.seizeunitcode}"
-															text="Inches" />
-													</dd>
-													<dt>
-														<s:message code="label.product.length" text="Length" />
-														:
-													</dt>
-													<dd>
-														<fmt:formatNumber value="${product.productSpecifications.length}"
-															maxFractionDigits="2" />
-														&nbsp;
-														<s:message
-															code="label.generic.sizeunit.${requestScope.MERCHANT_STORE.seizeunitcode}"
-															text="Inches" />
-													</dd>
+
+                                                    <c:forEach items="${specifications}" var="entry">
+                                                        <dt>
+                                                            ${entry.key}
+                                                            :
+                                                        </dt>
+                                                        <dd>
+                                                            ${entry.value}
+                                                        </dd>
+                                                    </c:forEach>
+
+
 												</dl>
 											</div>
 										</div>

@@ -147,7 +147,8 @@
 				log('Error while adding to cart');
 				//$('#pageContainer').hideLoading();
 				hideSMLoading('#pageContainer');
-				$("#addToCartError").show().fadeOut(2000);
+
+				toastr.error('Could not add item to Cart');
 			 },
 			 success: function(cart) {
 
@@ -156,9 +157,11 @@
 			     if(cart.message!=null) { 
 			    	 //TODO error message
 			    	 log('Error while adding to cart ' + cart.message);
-			    	 $("#addToCartError").show().fadeOut(2000);
+
+			    	 toastr.error('Could not add item to Cart');
 			     } else {
-			        $("#addToCartSuccess").show().fadeOut(2000);
+
+			        toastr.success('Added to cart successfully');
 			     }
 				 
 			     cleanupMiniCart();

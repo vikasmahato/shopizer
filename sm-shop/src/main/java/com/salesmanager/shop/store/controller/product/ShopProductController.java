@@ -337,11 +337,13 @@ public class ShopProductController {
 				});
 			}
 		}
+
+		Map<String, String> specifications = productService.getSpecificationNameValue(product.getId());
 		
 		model.addAttribute("attributes", attributesList);
 		model.addAttribute("options", optionsList);
-			
 		model.addAttribute("product", productProxy);
+		model.addAttribute("specifications", specifications);
 
 		
 		/** template **/
