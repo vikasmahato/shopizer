@@ -270,14 +270,25 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
 
                   </c:forEach>
 
-                 <div class="control-group">
 
-                        <label><s:message code="label.productedit.qtyavailable" text="Quantity available"/></label>
-                        <div class="controls">
-                                    <form:input id="quantity" cssClass="highlight" path="availability.productQuantity"/>
-                                    <span class="help-inline"><form:errors path="availability.productQuantity" cssClass="error" /></span>
-                        </div>
-                  </div>
+                         <div class="control-group">
+
+                                <label class="required"><s:message code="label.product.price" text="Price"/></label>
+
+                                <div class="controls">
+                                            <form:input id="productPriceAmount" cssClass="highlight" path="productPrice"/>
+                                            <span id="help-price" class="help-inline"><form:errors path="productPrice" cssClass="error" /></span>
+                                </div>
+                         </div>
+
+                         <div class="control-group">
+
+                                <label><s:message code="label.productedit.qtyavailable" text="Quantity available"/></label>
+                                <div class="controls">
+                                            <form:input id="quantity" cssClass="highlight" path="availability.productQuantity"/>
+                                            <span class="help-inline"><form:errors path="availability.productQuantity" cssClass="error" /></span>
+                                </div>
+                          </div>
 
                  <form:input id="ordermin" type="hidden" value="1" cssClass="highlight" path="availability.productQuantityOrderMin"/>
                  <form:input id="ordermax" type="hidden" value="5000" cssClass="highlight" path="availability.productQuantityOrderMax"/>
@@ -288,6 +299,7 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
 
                  <form:hidden path="availability.region" />
                  <form:hidden path="availability.id" />
+                 <form:hidden path="price.id" />
                  <form:hidden path="product.productVirtual" />
 
                  <form:input type="hidden" id="weight" cssClass="" value="1" path="product.productWeight"/>
