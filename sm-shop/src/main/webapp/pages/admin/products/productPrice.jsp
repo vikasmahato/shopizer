@@ -25,10 +25,29 @@
                         <span class="help-inline"><div id="searchStatus" style=""></div></span>
                 </div>
             </div>
-            <button type="text" class="btn btn-primary">Search</button>
+            <button type="text" id="searchButton" onclick="searchProductByCode()" class="btn btn-primary">Search</button>
 
         </div>
     </div>
 
 
 </div>
+
+
+<script>
+
+function searchProductByCode() {
+    $.ajax({
+        type: 'GET',
+        url: '<c:url value="/admin/products/searchByCode.html"/>?code=' + $("#productCode").val(),
+        dataType: 'json',
+        success: function(response){
+              console.log(response);
+        },
+          error: function(xhr, textStatus, errorThrown) {
+            alert('error ' + errorThrown);
+        }
+
+    });
+}
+</script>

@@ -27,6 +27,8 @@ import com.salesmanager.core.model.catalog.product.relationship.ProductRelations
 import com.salesmanager.core.model.catalog.product.type.ProductType;
 import com.salesmanager.core.model.catalog.product.vendor.Vendor;
 import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.Order;
+import com.salesmanager.core.model.payments.Transaction;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.tax.taxclass.TaxClass;
 import com.salesmanager.shop.admin.model.web.Menu;
@@ -1285,5 +1287,46 @@ public class ProductController {
 		model.addAttribute("currentMenu",currentMenu);
 		model.addAttribute("activeMenus",activeMenus);
 		//	
+	}
+
+	@SuppressWarnings("unchecked")
+	@PreAuthorize("hasRole('PRODUCTS')")
+	@RequestMapping(value="/admin/products/searchByCode.html", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<String> findProductByCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String code = request.getParameter("code");
+
+		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+
+
+		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+
+		if(code==null) {
+			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+			String returnString = resp.toJSONString();
+			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		}
+
+		try {
+
+			Product product  =  productService.getByCode(code, store);
+
+			Map<String, String> entry = new HashMap<>();
+			entry.put("name", product.getProductDescription().getDescription());
+			resp.addDataEntry(entry);
+			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+
+		} catch(Exception e) {
+			LOGGER.error("Cannot get product with code " + code, e);
+			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+			resp.setErrorMessage(e);
+		}
+
+		String returnString = resp.toJSONString();
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+
+
 	}
 }
