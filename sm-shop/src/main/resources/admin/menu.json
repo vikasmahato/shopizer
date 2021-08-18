@@ -133,11 +133,12 @@
 				"code":"vendor-create","url":"/admin/catalogue/vendor/create.html","role":"PRODUCTS","order":1
 			}}
 		]
+	}},
+	{"menu":{
+		"code":"product-price","url":"/admin/catalogue/productPrice.html","role":"PRODUCTS","order":6
 	}}
 ]
 }},
-
-
 
 
 {

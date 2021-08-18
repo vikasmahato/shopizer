@@ -57,6 +57,7 @@ public interface ControllerConstants
             String brandDetails="admin-products-brand-details";
             String vendorList="admin-products-vendor";
             String vendorDetails="admin-products-vendor-details";
+            String productPriceMenu="admin-products-product-price";
         }
         
         interface User{
