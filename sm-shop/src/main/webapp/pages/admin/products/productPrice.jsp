@@ -27,6 +27,24 @@
             </div>
             <button type="text" id="searchButton" onclick="searchProductByCode()" class="btn btn-primary">Search</button>
 
+            <div class="control-group">
+                        <label for="sellingPrice">Selling Price</label>
+                            <div class="controls">
+                                    <input id="sellingPrice" class="input-large highlight" placeholder="Required" required="true" type="number" value="">
+                            </div>
+
+                        <label for="dealerPrice">Dealer Price</label>
+                            <div class="controls">
+                                    <input id="dealerPrice" class="input-large highlight" placeholder="Required" required="true" type="number" value="">
+                            </div>
+                        <label for="listingPrice">Listing Price</label>
+                            <div class="controls">
+                                    <input id="listingPrice" class="input-large highlight" placeholder="Required" required="true" type="number" value="">
+                            </div>
+                        <input class="btn btn-primary" type="submit" value="Submit">
+
+            </div>
+
         </div>
     </div>
 
