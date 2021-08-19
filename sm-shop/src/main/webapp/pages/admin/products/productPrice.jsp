@@ -29,6 +29,9 @@
 
 
                 <h2 id="productsku"></h2>
+
+                <div id="variantDropdowns"></div>
+
             <div class="control-group">
                         <label for="sellingPrice">Selling Price</label>
                             <div class="controls">
@@ -62,9 +65,37 @@ function searchProductByCode() {
         url: '<c:url value="/admin/products/searchByCode.html"/>?code=' + $("#productCode").val(),
         dataType: 'json',
         success: function(response){
+             debugger;
              var data = response.response.data;
              var stringToDisplay = data[0].code + ": " + data[0].name;
              $("#productsku").html(stringToDisplay);
+
+             var specificationDetails = JSON.parse(data[0].specficationDetails);
+
+             var variantOptions = "";
+
+             for (const [key, value] of Object.entries(specificationDetails)) {
+
+               var optionString = "";
+
+                value.forEach(function (item, index) {
+                  optionString += "<option value='"+item+"'>"+ item +"</option>"
+                });
+
+                var html = "<div class='control-group'>";
+                html += "<label>"+key+"</label>";
+                html += "<div class='controls'>";
+                html += "<select id=''>"; //TODO: Give ID
+                html += optionString;
+                html += "</select>";
+                html += "</div>";
+                html += "</div>";
+
+                variantOptions += html;
+             }
+
+            $("#variantDropdowns").html(variantOptions);
+
         },
           error: function(xhr, textStatus, errorThrown) {
             alert('error ' + errorThrown);

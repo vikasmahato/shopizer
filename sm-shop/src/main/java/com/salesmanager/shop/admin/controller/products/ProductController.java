@@ -1,5 +1,6 @@
 package com.salesmanager.shop.admin.controller.products;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.brand.BrandService;
@@ -13,6 +14,7 @@ import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.category.CategoryDescription;
+import com.salesmanager.core.model.catalog.category.CategorySpecification;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
@@ -24,6 +26,7 @@ import com.salesmanager.core.model.catalog.product.image.ProductImageDescription
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
 import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
+import com.salesmanager.core.model.catalog.product.specification.ProductSpecificationVariant;
 import com.salesmanager.core.model.catalog.product.type.ProductType;
 import com.salesmanager.core.model.catalog.product.vendor.Vendor;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -1313,9 +1316,37 @@ public class ProductController {
 
 			Product product  =  productService.getByCode(code, store);
 
+
+			List<CategorySpecification> categorySpecifications = new ArrayList<>();
+
+			for(Category category : product.getCategories()) {
+				categorySpecifications.addAll(category.getSpecifications());
+			}
+
+			List<ProductSpecificationVariant> productSpecifications = new ArrayList<>(product.getProductSpecificationVariant());
+
+			Map<String, List<String>> specNameValueList = new HashMap<>();
+
+			for(CategorySpecification categorySpecification: categorySpecifications) {
+				List<String> specifiationValue = new ArrayList<>();
+
+				for(ProductSpecificationVariant productSpecificationVariant : productSpecifications) {
+					if(productSpecificationVariant.getSpecification().getId().equals(categorySpecification.getId())) {
+						specifiationValue.add(productSpecificationVariant.getValue());
+					}
+				}
+				specNameValueList.put(categorySpecification.getSpecification(), specifiationValue);
+			}
+
+			ObjectMapper objectMapper = new ObjectMapper();
+
+			String json = objectMapper.writeValueAsString(specNameValueList);
+
+
 			Map<String, String> entry = new HashMap<>();
 			entry.put("name", product.getDescriptions().iterator().next().getName());
 			entry.put("code", product.getSku());
+			entry.put("specficationDetails", json);
 			resp.addDataEntry(entry);
 			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
 
