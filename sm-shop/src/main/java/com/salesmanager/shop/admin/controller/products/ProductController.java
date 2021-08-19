@@ -1314,7 +1314,8 @@ public class ProductController {
 			Product product  =  productService.getByCode(code, store);
 
 			Map<String, String> entry = new HashMap<>();
-			entry.put("name", product.getProductDescription().getDescription());
+			entry.put("name", product.getDescriptions().iterator().next().getName());
+			entry.put("code", product.getSku());
 			resp.addDataEntry(entry);
 			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
 

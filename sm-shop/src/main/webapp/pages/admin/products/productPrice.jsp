@@ -27,6 +27,8 @@
             </div>
             <button type="text" id="searchButton" onclick="searchProductByCode()" class="btn btn-primary">Search</button>
 
+
+                <h2 id="productsku"></h2>
             <div class="control-group">
                         <label for="sellingPrice">Selling Price</label>
                             <div class="controls">
@@ -60,7 +62,9 @@ function searchProductByCode() {
         url: '<c:url value="/admin/products/searchByCode.html"/>?code=' + $("#productCode").val(),
         dataType: 'json',
         success: function(response){
-              console.log(response);
+             var data = response.response.data;
+             var stringToDisplay = data[0].code + ": " + data[0].name;
+             $("#productsku").html(stringToDisplay);
         },
           error: function(xhr, textStatus, errorThrown) {
             alert('error ' + errorThrown);
