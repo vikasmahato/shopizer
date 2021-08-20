@@ -148,7 +148,7 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 	}
 
 	public Integer getProductQuantity() {
-		return productQuantity;
+		return 99999999;
 	}
 
 	public void setProductQuantity(Integer productQuantity) {
