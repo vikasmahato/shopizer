@@ -92,21 +92,13 @@
 										<h1>${product.description.name}</h1>
 									</div>
 									<div class="checkbox">
-										<span><i class="fa fa-check-square" aria-hidden="true"></i>
+										<span>
 											<c:if test="${not product.productVirtual}">
-												<div class="checkbox">
+
 													<!-- availability -->
 													<strong><s:message code="label.product.available"
-															text="Availability" /></strong>:&nbsp;<span><c:choose>
-															<c:when test="${product.quantity>0}">
-																<span itemprop="availability" content="in_stock">${product.quantity}</span>
-															</c:when>
-															<c:otherwise>
-																<span itemprop="availability" content="out_of_stock"><s:message
-																		code="label.product.outofstock" text="Out of stock" />
-															</c:otherwise>
-														</c:choose></span><br>
-												</div>
+															text="Available" /></strong><br>
+
 											</c:if></span>
 									</div>
 									<!-- sku-->
