@@ -59,7 +59,7 @@ public class ProductPriceController {
 	@RequestMapping(value="/admin/products/prices.html", method=RequestMethod.GET)
 	public String getProductPrices(@RequestParam("id") long productId,Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		setMenu(model,request);
+		setMenu(model,request, "catalogue-products");
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 
@@ -214,7 +214,7 @@ public class ProductPriceController {
 		}
 		
 		
-		setMenu(model,request);
+		setMenu(model,request, "catalogue-products");
 		return displayProductPrice(product, productPriceId, model, request, response);
 		
 	}
@@ -233,7 +233,7 @@ public class ProductPriceController {
 			return "redirect:/admin/products/products.html";
 		}
 		
-		setMenu(model,request);
+		setMenu(model,request, "catalogue-products");
 		return displayProductPrice(product, null, model, request, response);
 
 
@@ -340,7 +340,7 @@ public class ProductPriceController {
 		
 		//dates after save
 		
-		setMenu(model,request);
+		setMenu(model,request, "catalogue-products");
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
@@ -485,12 +485,12 @@ public class ProductPriceController {
 	}
 		
 	
-	private void setMenu(Model model, HttpServletRequest request) throws Exception {
+	private void setMenu(Model model, HttpServletRequest request, String activeMenu) throws Exception {
 		
 		//display menu
 		Map<String,String> activeMenus = new HashMap<String,String>();
 		activeMenus.put("catalogue", "catalogue");
-		activeMenus.put("catalogue-products", "catalogue-products");
+		activeMenus.put(activeMenu, activeMenu);
 		
 		@SuppressWarnings("unchecked")
 		Map<String, Menu> menus = (Map<String, Menu>)request.getAttribute("MENUMAP");
@@ -502,4 +502,13 @@ public class ProductPriceController {
 		
 	}
 
+
+	@PreAuthorize("hasRole('PRODUCTS')")
+	@RequestMapping(value="/admin/catalogue/productPrice.html", method= RequestMethod.GET)
+	public String getProductPrice(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		this.setMenu(model, request, "product-price");
+
+		return ControllerConstants.Tiles.Product.productPriceMenu;
+	}
 }
