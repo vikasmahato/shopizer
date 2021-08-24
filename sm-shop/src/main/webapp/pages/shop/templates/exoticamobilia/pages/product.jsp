@@ -105,8 +105,6 @@ response.setDateHeader ("Expires", -1);
 									
 									<hr>
 									<c:set var="HIDEACTION" value="TRUE" scope="request" />
-									<!-- product rating -->
-									<jsp:include page="/pages/shop/common/catalog/rating.jsp" />
 									<span itemprop="offerDetails" itemscope itemtype="http://data-vocabulary.org/Offer">
 									<meta itemprop="seller" content="${requestScope.MERCHANT_STORE.storename}"/>
 									<meta itemprop="currency" content="<c:out value="${requestScope.MERCHANT_STORE.currency.code}" />" />
@@ -191,18 +189,6 @@ response.setDateHeader ("Expires", -1);
 														
 														
 													</div>
-													<div id="h2tab3" class="tab-pane fade">
-														<!-- comments start -->
-															<h4 class="space-top">
-																<s:message code="label.product.customer.reviews" text="Customer reviews" />
-															</h4>
-
-														<!-- reviews -->
-														<jsp:include page="/pages/shop/common/catalog/reviews.jsp" />
-
-
-													
-												</div>
 											</div>
 										</div>
 									</div>

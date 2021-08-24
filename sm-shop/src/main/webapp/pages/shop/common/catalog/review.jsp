@@ -41,8 +41,6 @@ response.setDateHeader ("Expires", -1);
 										<tr>
 											<td style="border-top: none;">
 												<c:set var="HIDEACTION" value="TRUE" scope="request" />
-												<!-- product rating -->
-												<jsp:include page="/pages/shop/common/catalog/rating.jsp" />
 											</td>
 										</tr>
 									</table>

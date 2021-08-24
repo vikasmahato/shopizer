@@ -110,10 +110,6 @@
 									<span> <s:message code="label.product.code"
 											text="Product code" /> ${product.sku}
 									</span>
-									<div class="product-price-star star-2">
-										<!-- Review -->
-										<jsp:include page="/pages/shop/common/catalog/rating.jsp" />
-									</div>
 									<!-- price -->
 									<h4>
 										<span itemprop="offerDetails" itemscope
@@ -236,8 +232,6 @@
 													<s:message code="label.product.customer.reviews"
 														text="Customer reviews" />
 												</h4>
-												<!-- reviews -->
-												<jsp:include page="/pages/shop/common/catalog/reviews.jsp" />
 											</div>
 										</div>
 									</div>
