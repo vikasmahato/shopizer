@@ -61,7 +61,7 @@ public class ProductSpecificationController {
         }
 
         ProductSpecificationVariant productSpecification = new ProductSpecificationVariant();
-        Map<Long, ArrayList<String>> valueMap = new HashMap<Long, ArrayList<String>>();
+        Map<Long, ArrayList<String>> valueMap = new TreeMap<>();
         com.salesmanager.shop.admin.model.catalog.Category adminCategory = new com.salesmanager.shop.admin.model.catalog.Category();
 
         for(Category category : product.getCategories()) {
@@ -80,6 +80,13 @@ public class ProductSpecificationController {
                 valueMap.put(specf.getId(), value);
                 specifications.add(specf);
             }
+            /**
+             ValueMap is a TreeMap, so it is sorted in natural order of its keys.
+             We will have to sort specifications list in the same order as well.
+             Since keys in ValueMap are specification id, therefore, we must also
+             sort specifications list in order of id
+            */
+            specifications.sort(Comparator.comparing(CategorySpecification::getId));
             adminCategory.setSpecifications(specifications);
             adminCategory.setCategory(category);
         }
