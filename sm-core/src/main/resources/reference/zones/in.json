@@ -134,7 +134,31 @@
 		"zoneCode": "WestBengal",
 		"zoneName": "West Bengal",
 		"countryCode": "IN"
-	}
-
-  ] 
+	},
+	  {
+		  "zoneCode": "UttarPradesh",
+		  "zoneName": "Uttar Pradesh",
+		  "countryCode": "IN"
+	  },
+	  {
+		  "zoneCode": "Delhi",
+		  "zoneName": "Delhi",
+		  "countryCode": "IN"
+	  },
+	  {
+		  "zoneCode": "Chandigarh",
+		  "zoneName": "Chandigarh",
+		  "countryCode": "IN"
+	  },
+	  {
+		  "zoneCode": "Jammu&Kashmir",
+		  "zoneName": "Jammu & Kashmir",
+		  "countryCode": "IN"
+	  },
+	  {
+		  "zoneCode": "Ladakh",
+		  "zoneName": "Ladakh",
+		  "countryCode": "IN"
+	  }
+  ]
 }
