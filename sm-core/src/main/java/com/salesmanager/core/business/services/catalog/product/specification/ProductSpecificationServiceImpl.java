@@ -57,7 +57,7 @@ public class ProductSpecificationServiceImpl  extends SalesManagerEntityServiceI
 
         StringBuilder queryBuilder = new StringBuilder();
         queryBuilder.append("select cs.specification, ps.value from ProductSpecificationVariant ps, CategorySpecification cs ");
-        queryBuilder.append("where ps.specification.id = cs.id and ps.product.id = :productId");
+        queryBuilder.append("where ps.specification.id = cs.id and ps.product.id = :productId and cs.variant = false");
 
 
         String hql = queryBuilder.toString();
