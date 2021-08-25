@@ -105,6 +105,10 @@
 									<span> <s:message code="label.product.code"
 											text="Product code" /> ${product.sku}
 									</span>
+									<div class="product-price-star star-2">
+                                            <!-- Review -->
+                                          <%--  <jsp:include page="/pages/shop/common/catalog/rating.jsp" /> --%>
+                                    </div>
 									<!-- price -->
 									<h4>
 										<span itemprop="offerDetails" itemscope
@@ -182,7 +186,38 @@
 					</div>
 				
 				<!-- product-simple-area-end -->
-				
+				<%-- <div class="product-info-detailed pb-80 ptb-40-md ptb-20-xs">
+                              						<div class="row">
+                              							<div class="col-lg-12">
+                              								<div class="product-info-tab">
+                              									<!-- Nav tabs -->
+                              									<ul class="product-info-tab-menu" role="tablist">
+                              										<li class="active"><a href="#reviews" data-toggle="tab"><i
+                              												class="fa fa-star pr-5"></i> <s:message
+                              													code="label.product.customer.reviews"
+                              													text="Customer reviews" /></a></li>
+                              									</ul>
+                              									<!-- Tab panes -->
+                              									<div>
+                              										<div class="tab-pane" id="reviews">
+                              											<div class="customer-review-top">
+                              												<h4>
+                              													<s:message code="label.product.customer.reviews"
+                              														text="Customer reviews" />
+                              												</h4>
+                              												<!-- reviews -->
+                              												<jsp:include page="/pages/shop/common/catalog/reviews.jsp" />
+                              											</div>
+                              										</div>
+                              									</div>
+                              								</div>
+                              							</div>
+                              						</div>
+                              						<!--fin col 9 -->
+                              					</div> --%>
+
+
+                              				<!-- customer review -->
 
 
 				<!-- Related items -->
