@@ -49,12 +49,8 @@ response.setDateHeader ("Expires", -1);
 						<!-- Product description column -->
 						<div class="span8">
 							<p class="lead"><strong>${product.description.name}</strong></p>
-							
-							
 							<!-- product rating -->
-							<jsp:include page="/pages/shop/common/catalog/rating.jsp" />
-							
-							
+                            <%--commented <jsp:include page="/pages/shop/common/catalog/rating.jsp" /> --%>
 							<address>
 								<strong><s:message code="label.product.brand" text="Brand"/></strong> <span itemprop="brand"><c:out value="${product.brand.description.name}" /></span><br>
 								<strong><s:message code="label.product.code" text="Product code"/></strong> <span itemprop="identifier" content="mpn:${product.sku}">${product.sku}</span><br>								
@@ -111,12 +107,9 @@ response.setDateHeader ("Expires", -1);
 								  </c:if>
 								</div>
 								<div class="tab-pane" id="reviews">
-
-									<!-- reviews -->
-									<jsp:include page="/pages/shop/common/catalog/reviews.jsp" />
-
-
-								</div>						
+                                    <!-- reviews -->
+								    <%-- <jsp:include page="/pages/shop/common/catalog/reviews.jsp" /> --%>
+								</div>
                         </div>	
                         <br/>
                         <br/>

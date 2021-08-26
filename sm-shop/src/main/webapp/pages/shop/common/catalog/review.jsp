@@ -15,7 +15,6 @@ response.setDateHeader ("Expires", -1);
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
 <script src="<c:url value="/resources/js/jquery.raty.min.js" />"></script>
-
 					<div id="review" class="row-fluid container">
 
 					<p class="lead"><s:message code="label.product.rate"/></p>
@@ -42,7 +41,7 @@ response.setDateHeader ("Expires", -1);
 											<td style="border-top: none;">
 												<c:set var="HIDEACTION" value="TRUE" scope="request" />
 												<!-- product rating -->
-												<jsp:include page="/pages/shop/common/catalog/rating.jsp" />
+                                                <%--commented <jsp:include page="/pages/shop/common/catalog/rating.jsp" /> --%>
 											</td>
 										</tr>
 									</table>
@@ -136,4 +135,5 @@ response.setDateHeader ("Expires", -1);
 					</sec:authorize>
 					
 					<div>&nbsp;</div>
+
 

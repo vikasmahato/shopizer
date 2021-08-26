@@ -283,9 +283,9 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
 
                          <div class="control-group">
 
-                                <label><s:message code="label.productedit.qtyavailable" text="Quantity available"/></label>
+                                <!-- <label><s:message code="label.productedit.qtyavailable" text="Quantity available"/></label> -->
                                 <div class="controls">
-                                            <form:input id="quantity" cssClass="highlight" path="availability.productQuantity"/>
+                                            <form:input type="hidden" id="quantity" cssClass="highlight" path="availability.productQuantity"/>
                                             <span class="help-inline"><form:errors path="availability.productQuantity" cssClass="error" /></span>
                                 </div>
                           </div>
