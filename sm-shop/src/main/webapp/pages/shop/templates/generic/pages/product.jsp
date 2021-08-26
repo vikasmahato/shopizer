@@ -111,9 +111,9 @@
 											text="Product code" /> ${product.sku}
 									</span>
 									<div class="product-price-star star-2">
-										<!-- Review -->
-										<jsp:include page="/pages/shop/common/catalog/rating.jsp" />
-									</div>
+                                            <!-- Review -->
+                                         <%--   <jsp:include page="/pages/shop/common/catalog/rating.jsp" /> --%>
+                                        </div>
 									<!-- price -->
 									<h4>
 										<span itemprop="offerDetails" itemscope
@@ -237,7 +237,7 @@
 														text="Customer reviews" />
 												</h4>
 												<!-- reviews -->
-												<jsp:include page="/pages/shop/common/catalog/reviews.jsp" />
+                                                       <%-- <jsp:include page="/pages/shop/common/catalog/reviews.jsp" /> --%>
 											</div>
 										</div>
 									</div>

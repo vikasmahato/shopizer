@@ -14,7 +14,6 @@ response.setDateHeader ("Expires", -1);
 
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
-
 					<div id="review" class="review">
 								<div>
 									<div class="stars" id="productRating" style="width: 100px;">
