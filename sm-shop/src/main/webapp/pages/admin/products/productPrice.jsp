@@ -2,105 +2,120 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+
 <%@ page session="false" %>
 
-
-
 <div class="tabbable">
+   <jsp:include page="/common/adminTabs.jsp" />
+	<div class="tab-content">
+		<div class="tab-pane active" id="catalogue-section">
+           <div class="sm-ui-component">
 
-    <jsp:include page="/common/adminTabs.jsp" />
+				<h3>
+					<s:message code="menu.product-price" text="Product Price" />
+				</h3>
 
-    <div class="tab-content">
+			<c:url var="addProductPrice" value="/admin/products/price/save.html" />
+			<form:form method="POST" enctype="multipart/form-data" modelAttribute="price" action="${addProductPrice}">
+			<form:errors path="*" cssClass="alert alert-error" element="div" />
+			<div id="store.success" class="alert alert-success"	style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>">
+					<s:message code="message.success" text="Request successfull" />
+			</div>
 
-        <div class="tab-pane active" id="catalogue-section">
-            <h3>
-                <!-- Page title -->
-                <s:message code="menu.product-price" text="Product Price" />
-            </h3>
-            <br/>
-            <div class="control-group">
-            <label>Search Product Code</label>
+			<div class="control-group">
+                <label>Search Product Code</label>
                 <div class="controls">
-                        <input id="productCode" class="input-large highlight" placeholder="Required" required="true" type="text" value="">
+                        <input id="productCode" class="input-large highlight" placeholder="Required" required="true" type="text" value="" name="productCode">
                         <span class="help-inline"><div id="searchStatus" style=""></div></span>
                 </div>
             </div>
-            <button type="text" id="searchButton" onclick="searchProductByCode()" class="btn btn-primary">Search</button>
-
+            <button type="button" id="searchButton" onclick="searchProductByCode()" class="btn btn-primary">Search</button>
 
                 <h2 id="productsku"></h2>
 
                 <div id="variantDropdowns"></div>
 
+           <div class="control-group">
+
+           </div>
+
+
+			<input type="hidden" name="productId" value="${product.id}">
+			<input type="hidden" name="categoryId" value="${category.category.id}">
+			<div class="form-actions">
+                  		<div class="pull-right">
+                  			<button type="submit" class="btn btn-success"><s:message code="label.generic.add" text="Add"/></button>
+                  		</div>
+            </div>
+
             <div class="control-group">
                         <label for="sellingPrice">Selling Price</label>
                             <div class="controls">
-                                    <input id="sellingPrice" class="input-large highlight" placeholder="Required" required="true" type="number" value="">
+                                <form:input cssClass="input-large highlight" id="sellingPrice" path="${price.priceText}" required="true" type="number"/>
                             </div>
 
                         <label for="dealerPrice">Dealer Price</label>
                             <div class="controls">
-                                    <input id="dealerPrice" class="input-large highlight" placeholder="Required" required="true" type="number" value="">
+                                <form:input cssClass="input-large highlight" id="sellingPrice" path="${price.dealerPrice}" required="true" type="number"/>
                             </div>
                         <label for="listingPrice">Listing Price</label>
                             <div class="controls">
-                                    <input id="listingPrice" class="input-large highlight" placeholder="Required" required="true" type="number" value="">
+                                <form:input cssClass="input-large highlight" id="sellingPrice" path="${price.listPrice}" required="true" type="number"/>
                             </div>
                         <input class="btn btn-primary" type="submit" value="Submit">
 
             </div>
 
-        </div>
-    </div>
-
-
+		  </form:form>
+		</div>
+	   </div>
+	</div>
 </div>
-
 
 <script>
 
-function searchProductByCode() {
-    $.ajax({
-        type: 'GET',
-        url: '<c:url value="/admin/products/searchByCode.html"/>?code=' + $("#productCode").val(),
-        dataType: 'json',
-        success: function(response){
-             debugger;
-             var data = response.response.data;
-             var stringToDisplay = data[0].code + ": " + data[0].name;
-             $("#productsku").html(stringToDisplay);
+    function searchProductByCode() {
+        $.ajax({
+            type: 'GET',
+            url: '<c:url value="/admin/products/searchByCode.html"/>?code=' + $("#productCode").val(),
+            dataType: 'json',
+            success: function(response){
+                 debugger;
+                 var data = response.response.data;
+                 console.log(data);
 
-             var specificationDetails = JSON.parse(data[0].specficationDetails);
+                 var stringToDisplay = data[0].code + ": " + data[0].name;
+                 $("#productsku").html(stringToDisplay);
 
-             var variantOptions = "";
+                 var specificationDetails = JSON.parse(data[0].specficationDetails);
+                 console.log(specificationDetails);
+                 var variantOptions = "";
 
-             for (const [key, value] of Object.entries(specificationDetails)) {
+                 for (const [key, value] of Object.entries(specificationDetails)) {
 
-               var optionString = "";
+                   var optionString = "";
 
-                value.forEach(function (item, index) {
-                  optionString += "<option value='"+item+"'>"+ item +"</option>"
-                });
+                    value.forEach(function (item, index) {
+                      optionString += "<option value='"+item.substring( item.indexOf("__")+2)+"'>"+ item.substring( 0, item.indexOf("__")) +"</option>"
+                    });
 
-                var html = "<div class='control-group'>";
-                html += "<label>"+key+"</label>";
-                html += "<div class='controls'>";
-                html += "<select id=''>"; //TODO: Give ID
-                html += optionString;
-                html += "</select>";
-                html += "</div>";
-                html += "</div>";
+                    var html = "<div class='control-group'>";
+                    html += "<label>"+key+"</label>";
+                    html += "<div class='controls'>";
+                    html += "<select id='' name='variants[]'>"; //TODO: Give ID
+                    html += optionString;
+                    html += "</select>";
+                    html += "</div>";
+                    html += "</div>";
 
-                variantOptions += html;
-             }
+                    variantOptions += html;
+                 }
 
-            $("#variantDropdowns").html(variantOptions);
-
-        },
-          error: function(xhr, textStatus, errorThrown) {
-            alert('error ' + errorThrown);
-        }
-
-    });
-}
+                $("#variantDropdowns").html(variantOptions);
+            },
+              error: function(xhr, textStatus, errorThrown) {
+                alert('error ' + errorThrown);
+            }
+        });
+    }
 </script>

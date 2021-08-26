@@ -18,6 +18,7 @@ import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.LabelUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.drools.core.beliefsystem.BeliefSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -339,23 +340,53 @@ public class ProductPriceController {
 	public String saveProductPrice(@Valid @ModelAttribute("price") com.salesmanager.shop.admin.model.catalog.ProductPrice price, BindingResult result, Model model, HttpServletRequest request, Locale locale) throws Exception {
 		
 		//dates after save
+		LOGGER.error("Request", request);
 		
-		setMenu(model,request, "catalogue-products");
+		setMenu(model,request, "product-price");
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
-		
-		Product product = price.getProduct();
-		Product dbProduct = productService.getById(product.getId());
-		if(store.getId().intValue()!=dbProduct.getMerchantStore().getId().intValue()) {
-			return "redirect:/admin/products/products.html";
+		Product dbProduct = null;
+		if(price.getProduct() != null)
+		{
+			Product product = price.getProduct();
+			dbProduct = productService.getById(product.getId());
+			if(store.getId().intValue()!=dbProduct.getMerchantStore().getId().intValue()) {
+				return "redirect:/admin/products/products.html";
+			}
 		}
+		else{
+			Product product = productService.getByCode(request.getParameterMap().get("productCode")[0], store.getDefaultLanguage());
+//			dbProduct = productService.getById(product.getId());
+//			if(store.getId().intValue()!=dbProduct.getMerchantStore().getId().intValue()) {
+//				return "redirect:/admin/products/products.html";
+//			}
+		}
+
 		
 		model.addAttribute("product",dbProduct);
+
+		String variants = request.getParameterMap().get("variants")[0];
 		
 		//validate price
 		BigDecimal submitedPrice = null;
 		try {
 			submitedPrice = priceUtil.getAmount(price.getPriceText());
+		} catch (Exception e) {
+			ObjectError error = new ObjectError("productPrice",messages.getMessage("NotEmpty.product.productPrice", locale));
+			result.addError(error);
+		}
+
+		BigDecimal submitedDPrice = null;
+		try {
+			submitedDPrice = priceUtil.getAmount(price.getDealerPrice());
+		} catch (Exception e) {
+			ObjectError error = new ObjectError("productPrice",messages.getMessage("NotEmpty.product.productPrice", locale));
+			result.addError(error);
+		}
+
+		BigDecimal submitedLPrice = null;
+		try {
+			submitedLPrice = priceUtil.getAmount(price.getListPrice());
 		} catch (Exception e) {
 			ObjectError error = new ObjectError("productPrice",messages.getMessage("NotEmpty.product.productPrice", locale));
 			result.addError(error);
@@ -401,6 +432,8 @@ public class ProductPriceController {
 		
 
 		price.getPrice().setProductPriceAmount(submitedPrice);
+		price.getPrice().setDealersPrice(submitedDPrice);
+		price.getPrice().setLisingPrice(submitedLPrice);
 		if(!StringUtils.isBlank(price.getSpecialPriceText())) {
 			price.getPrice().setProductPriceSpecialAmount(submitedDiscountPrice);
 		}
@@ -507,6 +540,8 @@ public class ProductPriceController {
 	@RequestMapping(value="/admin/catalogue/productPrice.html", method= RequestMethod.GET)
 	public String getProductPrice(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+		com.salesmanager.shop.admin.model.catalog.ProductPrice pprice = new com.salesmanager.shop.admin.model.catalog.ProductPrice();
+		model.addAttribute("price",pprice);
 		this.setMenu(model, request, "product-price");
 
 		return ControllerConstants.Tiles.Product.productPriceMenu;
