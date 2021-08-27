@@ -7,68 +7,23 @@
 
 <script type="text/javascript">
 
-    initFeatures();
-
-    function addFeature() {
-      var $features = $('.features')
-      var pillInput = $('<span class="tag pill-input"><input type="text" size="1"/><i class="delete">&times;</i></span>');
-      $features.append(pillInput);
-      initFeatures();
-      $('.pill-input').last().find('input').focus()
-    }
-
-    function removeFeatures() {
-      $('.pill-input').remove();
-    }
-
-    function initFeatures() {
-      var $parent = $('.pill-input');
-      var $input = $('.pill-input > input');
-      var $closeButton = $('.delete');
-
-      $closeButton.click(function() {
-        $(this).parent().remove();
-      });
-
-      $parent.click(function() {
-        $(this).find('input').focus();
-      });
-
-      $input.focus(function() {
-        $(this).parent().addClass('focus');
-      });
-
-      $input.blur(function() {
-        var input = $(this);
-
-        if (input.length) {
-          input.parent().addClass('tag-gray')
-        }
-
-        input.parent().removeClass('focus');
-      });
-
-      var e = 'keyup,keypress,focus,blur,change'.split(',');
-
-      for (var i in e) {
-        $input.on(e[i], function() {
-          var $this = $(this);
-
-          if ($this.val().length == 0) {
-            $this.attr('size', 1);
-          } else {
-            $this.attr('size', $this.val().length);
-          }
+    $( document ).ready(function() {
+        $('.delete').click(function() {
+          $(this).parent().remove();
         });
-      }
+
+    });
+
+    function addFeature(featureDivId) {
+      var featureDiv = $('#'+featureDivId)
+      var pillInput = $('<span class="tag pill-input"><input type="text" size="1"/><i class="delete">x</i></span>');
+      featureDiv.append(pillInput);
+      featureDiv.find('input:last').focus()
     }
 
-    $("input").on('change, keyup, keydown, keypress, focus, blur',function (e){
-        alert();
-        if(e.keyCode == 188){
-            e.preventDefault();
-        }
-    });
+    function removeFeatures(featureDivId) {
+      $('#'+featureDivId).empty();
+    }
 
 </script>
 
@@ -104,23 +59,26 @@
                  <table id="specifications">
                    <th>Specification</th>
                    <th>Value</th>
-
                    <c:forEach items="${product_specification.valueMap}" var="values" varStatus="spec_count">
-
                    <tr>
                     <td>${category.specifications[spec_count.index].specification}</td>
                     <td>
                         <c:choose>
                             <c:when test="${category.specifications[spec_count.index].variant == true}">
                                 <div class="pad container">
-                                <c:forEach items="${values.value}" var="key_values">
-                                    <form:input cssClass="input-large highlight pill-input" path="valueMap[${values.key}]" required="true" />
-                                </c:forEach>
                                   <div class="actions push-bottom">
-                                    <button type="button" class="button button-default" onClick="addFeature()">Add Values</button>
-                                    <button type="button" class="button button-red" onClick="removeFeatures()">Remove All</button>
+                                    <button type="button" class="button button-default" onClick="addFeature('feature_${spec_count.index}')">Add Values</button>
+                                    <button type="button" class="button button-red" onClick="removeFeatures('feature_${spec_count.index}')">Remove All</button>
                                   </div>
-                                  <div class="features"></div>
+                                  <div class="features" id="feature_${spec_count.index}">
+                                    <c:forEach items="${values.value}" var="key_values">
+                                        <c:forEach items="${key_values}" var="specValue">
+                                              <span class="tag pill-input tag-gray">
+                                                  <input type="text" size="1" name="value[]" value="${specValue}">
+                                                  <i class="delete">x</i></span>
+                                        </c:forEach>
+                                    </c:forEach>
+                                  </div>
                                 </div>
                             </c:when>
                             <c:otherwise>
