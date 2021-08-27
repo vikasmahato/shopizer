@@ -112,17 +112,23 @@ public class ProductSpecificationController {
         Map<Long, ArrayList<String>> valueMap = specification.getValueMap();
         for (Long specification_id : valueMap.keySet())
         {
+            List<ProductSpecificationVariant> variants= specificationService.getBySpecificationId(product.getId(), specification_id);
+            for (ProductSpecificationVariant var : variants)
+                if(!valueMap.get(specification_id).contains(var.getValue()))
+                    specificationService.delete(var);
+
             for (String value : valueMap.get(specification_id))
             {
                 ProductSpecificationVariant variant = specificationService.getBySpecificationIdAndValue(product.getId(), specification_id, value);
                 if (variant == null)
                 {
-                    specification.setProduct(product);
-                    specification.setCategory(category);
-                    specification.setSpecification(categorySpecificationService.getById(specification_id));
-                    specification.setLanguage(language);
-                    specification.setValue(value);
-                    specificationService.save(specification);
+                    ProductSpecificationVariant specificationVariant = new ProductSpecificationVariant();
+                    specificationVariant.setProduct(product);
+                    specificationVariant.setCategory(category);
+                    specificationVariant.setSpecification(categorySpecificationService.getById(specification_id));
+                    specificationVariant.setLanguage(language);
+                    specificationVariant.setValue(value);
+                    specificationService.save(specificationVariant);
                 }
 
             }

@@ -26,6 +26,7 @@ import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
+import com.salesmanager.core.model.catalog.product.availability.ProductsAvailable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.utils.CloneUtils;
 
@@ -53,6 +54,12 @@ public class ProductPrice extends SalesManagerEntity<Long, ProductPrice> {
 	@Column(name = "PRODUCT_PRICE_AMOUNT", nullable=false)
 	private BigDecimal productPriceAmount = new BigDecimal(0);
 
+	@Column(name = "DEALER_PRICE_AMOUNT")
+	private BigDecimal dealersPrice = new BigDecimal(0);
+
+	@Column(name = "LIST_PRICE_AMOUNT")
+	private BigDecimal lisingPrice = new BigDecimal(0);
+
 	@Column(name = "PRODUCT_PRICE_TYPE", length=20)
 	@Enumerated(value = EnumType.STRING)
 	private ProductPriceType productPriceType = ProductPriceType.ONE_TIME;
@@ -72,9 +79,15 @@ public class ProductPrice extends SalesManagerEntity<Long, ProductPrice> {
 	private BigDecimal productPriceSpecialAmount;
 	
 	@JsonIgnore
-	@ManyToOne(targetEntity = ProductAvailability.class)
-	@JoinColumn(name = "PRODUCT_AVAIL_ID", nullable = false)
+	@ManyToOne(targetEntity = ProductAvailability.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "PRODUCT_AVAIL_ID")
 	private ProductAvailability productAvailability;
+
+
+	@JsonIgnore
+	@ManyToOne(targetEntity = ProductsAvailable.class)
+	@JoinColumn(name = "VARIANT_AVAIL_ID")
+	private ProductsAvailable productsAvailable;
 	
 
 	public ProductPrice() {
@@ -177,5 +190,27 @@ public class ProductPrice extends SalesManagerEntity<Long, ProductPrice> {
 		return productPriceType;
 	}
 
+	public BigDecimal getDealersPrice() {
+		return dealersPrice;
+	}
 
+	public void setDealersPrice(BigDecimal dealersPrice) {
+		this.dealersPrice = dealersPrice;
+	}
+
+	public BigDecimal getLisingPrice() {
+		return lisingPrice;
+	}
+
+	public void setLisingPrice(BigDecimal lisingPrice) {
+		this.lisingPrice = lisingPrice;
+	}
+
+	public ProductsAvailable getProductsAvailabile() {
+		return productsAvailable;
+	}
+
+	public void setProductsAvailabile(ProductsAvailable productsAvailabile) {
+		this.productsAvailable = productsAvailabile;
+	}
 }

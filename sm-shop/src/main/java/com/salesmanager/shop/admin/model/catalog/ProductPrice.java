@@ -1,6 +1,7 @@
 package com.salesmanager.shop.admin.model.catalog;
 
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
+import com.salesmanager.core.model.catalog.product.availability.ProductsAvailable;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
 
 import javax.validation.Valid;
@@ -14,8 +15,11 @@ public class ProductPrice {
 	@Valid
 	private List <ProductPriceDescription> descriptions = new ArrayList<ProductPriceDescription>();
 	private String priceText;
+	private String dealerPrice;
+	private String listPrice;
 	private String specialPriceText;
 	private ProductAvailability productAvailability;
+	private ProductsAvailable productsAvailable;
 	
 	
 	//cannot convert in this object to date ??? needs to use a string, parse, bla bla
@@ -79,4 +83,27 @@ public class ProductPrice {
 		this.productPriceSpecialEndDate = productPriceSpecialEndDate;
 	}
 
+	public ProductsAvailable getProductsAvailable() {
+		return productsAvailable;
+	}
+
+	public void setProductsAvailable(ProductsAvailable productsAvailable) {
+		this.productsAvailable = productsAvailable;
+	}
+
+	public String getDealerPrice() {
+		return dealerPrice;
+	}
+
+	public void setDealerPrice(String dealerPrice) {
+		this.dealerPrice = dealerPrice;
+	}
+
+	public String getListPrice() {
+		return listPrice;
+	}
+
+	public void setListPrice(String listPrice) {
+		this.listPrice = listPrice;
+	}
 }

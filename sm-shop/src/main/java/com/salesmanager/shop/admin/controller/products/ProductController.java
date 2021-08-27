@@ -1328,14 +1328,16 @@ public class ProductController {
 			Map<String, List<String>> specNameValueList = new HashMap<>();
 
 			for(CategorySpecification categorySpecification: categorySpecifications) {
-				List<String> specifiationValue = new ArrayList<>();
-
-				for(ProductSpecificationVariant productSpecificationVariant : productSpecifications) {
-					if(productSpecificationVariant.getSpecification().getId().equals(categorySpecification.getId())) {
-						specifiationValue.add(productSpecificationVariant.getValue());
+				if(categorySpecification.getVariant() == true)
+				{
+					List<String> specifiationValue = new ArrayList<>();
+					for(ProductSpecificationVariant productSpecificationVariant : productSpecifications) {
+						if(productSpecificationVariant.getSpecification().getId().equals(categorySpecification.getId())) {
+							specifiationValue.add(productSpecificationVariant.getValue()+"__"+productSpecificationVariant.getId());
+						}
 					}
+					specNameValueList.put(categorySpecification.getSpecification(), specifiationValue);
 				}
-				specNameValueList.put(categorySpecification.getSpecification(), specifiationValue);
 			}
 
 			ObjectMapper objectMapper = new ObjectMapper();
