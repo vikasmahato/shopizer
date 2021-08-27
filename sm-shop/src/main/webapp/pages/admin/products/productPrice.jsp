@@ -16,7 +16,7 @@
 				</h3>
 
 			<c:url var="addProductPrice" value="/admin/products/price/save.html" />
-			<form:form method="POST" enctype="multipart/form-data" modelAttribute="price" action="${addProductPrice}">
+			<form:form method="POST" modelAttribute="price" action="${addProductPrice}">
 			<form:errors path="*" cssClass="alert alert-error" element="div" />
 			<div id="store.success" class="alert alert-success"	style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>">
 					<s:message code="message.success" text="Request successfull" />
@@ -51,16 +51,16 @@
             <div class="control-group">
                         <label for="sellingPrice">Selling Price</label>
                             <div class="controls">
-                                <form:input cssClass="input-large highlight" id="sellingPrice" path="${price.priceText}" required="true" type="number"/>
+                                <input id="sellingPrice" class="input-large highlight" placeholder="Required" required="true" type="text" value="" name="priceText">
                             </div>
 
                         <label for="dealerPrice">Dealer Price</label>
                             <div class="controls">
-                                <form:input cssClass="input-large highlight" id="sellingPrice" path="${price.dealerPrice}" required="true" type="number"/>
+                                <input id="sellingPrice" class="input-large highlight" placeholder="Required" required="true" type="text" value="" name="dealerPrice">
                             </div>
                         <label for="listingPrice">Listing Price</label>
                             <div class="controls">
-                                <form:input cssClass="input-large highlight" id="sellingPrice" path="${price.listPrice}" required="true" type="number"/>
+                                <input id="sellingPrice" class="input-large highlight" placeholder="Required" required="true" type="text" value="" name="listPrice">
                             </div>
                         <input class="btn btn-primary" type="submit" value="Submit">
 

@@ -1,12 +1,15 @@
 package com.salesmanager.shop.admin.controller.products;
 
 import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.catalog.product.availability.ProductsAvailableService;
 import com.salesmanager.core.business.services.catalog.product.price.ProductPriceService;
+import com.salesmanager.core.business.services.catalog.product.specification.ProductSpecificationService;
 import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
+import com.salesmanager.core.model.catalog.product.availability.ProductsAvailable;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceType;
@@ -52,6 +55,12 @@ public class ProductPriceController {
 	
 	@Inject
 	private ProductPriceUtils priceUtil;
+
+	@Inject
+	private ProductsAvailableService productsAvailableService;
+
+	@Inject
+	private ProductSpecificationService productSpecificationService;
 	
 	@Inject
 	LabelUtils messages;
@@ -340,32 +349,22 @@ public class ProductPriceController {
 	public String saveProductPrice(@Valid @ModelAttribute("price") com.salesmanager.shop.admin.model.catalog.ProductPrice price, BindingResult result, Model model, HttpServletRequest request, Locale locale) throws Exception {
 		
 		//dates after save
-		LOGGER.error("Request", request);
-		
+
 		setMenu(model,request, "product-price");
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
-		Product dbProduct = null;
-		if(price.getProduct() != null)
-		{
-			Product product = price.getProduct();
-			dbProduct = productService.getById(product.getId());
-			if(store.getId().intValue()!=dbProduct.getMerchantStore().getId().intValue()) {
-				return "redirect:/admin/products/products.html";
-			}
-		}
-		else{
-			Product product = productService.getByCode(request.getParameterMap().get("productCode")[0], store.getDefaultLanguage());
-//			dbProduct = productService.getById(product.getId());
-//			if(store.getId().intValue()!=dbProduct.getMerchantStore().getId().intValue()) {
-//				return "redirect:/admin/products/products.html";
-//			}
+
+		Product product = productService.getByCode(request.getParameter("productCode"), store.getDefaultLanguage());
+		Product dbProduct = productService.getById(product.getId());
+		if(store.getId().intValue()!=dbProduct.getMerchantStore().getId().intValue()) {
+			return "redirect:/admin/products/products.html";
 		}
 
 		
 		model.addAttribute("product",dbProduct);
 
-		String variants = request.getParameterMap().get("variants")[0];
+		String[] variants = request.getParameterMap().get("variants[]");
+		ProductPrice productPrice = new ProductPrice();
 		
 		//validate price
 		BigDecimal submitedPrice = null;
@@ -429,28 +428,57 @@ public class ProductPriceController {
 		if (result.hasErrors()) {
 			return ControllerConstants.Tiles.Product.productPrice;
 		}
-		
 
-		price.getPrice().setProductPriceAmount(submitedPrice);
-		price.getPrice().setDealersPrice(submitedDPrice);
-		price.getPrice().setLisingPrice(submitedLPrice);
+		productPrice.setProductPriceAmount(submitedPrice);
+		productPrice.setDealersPrice(submitedDPrice);
+		productPrice.setLisingPrice(submitedLPrice);
 		if(!StringUtils.isBlank(price.getSpecialPriceText())) {
 			price.getPrice().setProductPriceSpecialAmount(submitedDiscountPrice);
 		}
-		
-		ProductAvailability productAvailability = null;
-		
-		Set<ProductAvailability> availabilities = dbProduct.getAvailabilities();
-		for(ProductAvailability availability : availabilities) {
-			
-			if(availability.getId().longValue()==price.getProductAvailability().getId().longValue()) {
-				productAvailability = availability;
-				break;
+
+		ProductsAvailable productsAvailable = new ProductsAvailable();
+		Long avail_id = (productsAvailableService.getLastAvailId() ==null) ? 0 : productsAvailableService.getLastAvailId();
+		avail_id += 1;
+		if(variants != null)
+		{
+			for (String variantId : variants)
+			{
+				ProductsAvailable available = productsAvailableService.getByProductVariant(product.getId(), Long.parseLong(variantId));
+				if(available == null)
+				{
+					available = new ProductsAvailable();
+					available.setProduct(product);
+					available.setVariant(productSpecificationService.getById(Long.parseLong(variantId)));
+					available.setAvailId(avail_id);
+					productsAvailableService.save(available);
+				}
+					productsAvailable = available;
 			}
-			
-			
+		}
+		else {
+			ProductsAvailable available = productsAvailableService.getByProduct(product.getId());
+			if(available == null) {
+				available = new ProductsAvailable();
+				available.setProduct(product);
+				available.setAvailId(avail_id);
+				productsAvailableService.save(available);
+			}
+			productsAvailable = available;
 		}
 		
+		ProductAvailability productAvailability = null;
+
+//		Set<ProductAvailability> availabilities = dbProduct.getAvailabilities();
+//		for(ProductAvailability availability : availabilities) {
+//
+//			if(availability.getId().longValue()==price.getProductAvailability().getId().longValue()) {
+//				productAvailability = availability;
+//				break;
+//			}
+//
+//
+//		}
+//
 		
 		
 		
@@ -464,10 +492,11 @@ public class ProductPriceController {
 			}
 		}
 		
-		price.getPrice().setDescriptions(descriptions);
-		price.getPrice().setProductAvailability(productAvailability);
+//		price.getPrice().setDescriptions(descriptions);
+//		price.getPrice().setProductAvailability(productAvailability);
+		productPrice.setProductsAvailabile(productsAvailable);
 		
-		productPriceService.saveOrUpdate(price.getPrice());
+		productPriceService.saveOrUpdate(productPrice);
 		model.addAttribute("success","success");
 		
 		return ControllerConstants.Tiles.Product.productPrice;
@@ -542,6 +571,9 @@ public class ProductPriceController {
 
 		com.salesmanager.shop.admin.model.catalog.ProductPrice pprice = new com.salesmanager.shop.admin.model.catalog.ProductPrice();
 		model.addAttribute("price",pprice);
+//		pprice.setDealerPrice("10");
+//		pprice.setListPrice("10");
+//		pprice.setPriceText("10");
 		this.setMenu(model, request, "product-price");
 
 		return ControllerConstants.Tiles.Product.productPriceMenu;
