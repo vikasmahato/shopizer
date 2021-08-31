@@ -17,10 +17,6 @@
       $('.input_'+count).last().find('input').focus();
     }
 
-    function removeFeatures() {
-      $('.pill-input').remove();
-    }
-
     function initFeatures() {
       var $parent = $('.pill-input');
       var $input = $('.pill-input > input');
@@ -53,7 +49,6 @@
       for (var i in e) {
         $input.on(e[i], function() {
           var $this = $(this);
-
           if ($this.val().length == 0) {
             $this.attr('size', 1);
           } else {
@@ -69,6 +64,16 @@
             e.preventDefault();
         }
     });
+
+    $( document ).ready(function() {
+        $('.delete').click(function() {
+          $(this).parent().remove();
+        });
+    });
+
+    function removeFeatures(featureDivId) {
+      $('#'+featureDivId).empty();
+    }
 
 </script>
 
@@ -104,9 +109,7 @@
                  <table id="specifications">
                    <th>Specification</th>
                    <th>Value</th>
-
                    <c:forEach items="${product_specification.valueMap}" var="values" varStatus="spec_count">
-
                    <tr>
                     <td>${category.specifications[spec_count.index].specification}</td>
                     <td>
@@ -114,15 +117,15 @@
                             <c:when test="${category.specifications[spec_count.index].variant == true}">
                                 <div class="pad container">
                                 <c:forEach items="${values.value}" var="key_values">
-                                    <input class="input-large highlight pill-input input_${spec_count.index}" name="valueMap[${values.key}]" value="${key_values}" required="true">
-
+                                  <span><input class="input-large highlight pill-input input_${spec_count.index}" name="valueMap[${values.key}]" value="${key_values}" required="true">
+                                    <i class="delete">&times;</i></span>
                                 </c:forEach>
                                   <div class="actions push-bottom">
                                     <button type="button" id="addMore_${spec_count.index}" class="button button-default" data-key="" onClick="addFeature(${spec_count.index}, ${values.key})">Add Values</button>
                                     <!-- <button type="button" id = "removeAll_${spec_count.index}"class="button button-red" onClick="removeFeatures()">Remove All</button> -->
                                   </div>
                                   <div class="features"></div>
-                                </div
+                                </div>
                             </c:when>
                             <c:otherwise>
                                 <form:input cssClass="input-large highlight" id="name${spec_count.index}" path="valueMap[${values.key}]" required="${(category.specifications[spec_count.index].filter == true) ? true : false }" />
