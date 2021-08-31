@@ -9,12 +9,12 @@
 
     initFeatures();
 
-    function addFeature() {
+    function addFeature(count, key) {
       var $features = $('.features')
-      var pillInput = $('<span class="tag pill-input"><input type="text" size="1"/><i class="delete">&times;</i></span>');
+      var pillInput = $('<span class="tag pill-input"><input type="text" size="1" name="valueMap['+key+']" value=""/><i class="delete">&times;</i></span>');
       $features.append(pillInput);
       initFeatures();
-      $('.pill-input').last().find('input').focus()
+      $('.input_'+count).last().find('input').focus();
     }
 
     function removeFeatures() {
@@ -114,14 +114,15 @@
                             <c:when test="${category.specifications[spec_count.index].variant == true}">
                                 <div class="pad container">
                                 <c:forEach items="${values.value}" var="key_values">
-                                    <form:input cssClass="input-large highlight pill-input" path="valueMap[${values.key}]" required="true" />
+                                    <input class="input-large highlight pill-input input_${spec_count.index}" name="valueMap[${values.key}]" value="${key_values}" required="true">
+
                                 </c:forEach>
                                   <div class="actions push-bottom">
-                                    <button type="button" class="button button-default" onClick="addFeature()">Add Values</button>
-                                    <button type="button" class="button button-red" onClick="removeFeatures()">Remove All</button>
+                                    <button type="button" id="addMore_${spec_count.index}" class="button button-default" data-key="" onClick="addFeature(${spec_count.index}, ${values.key})">Add Values</button>
+                                    <!-- <button type="button" id = "removeAll_${spec_count.index}"class="button button-red" onClick="removeFeatures()">Remove All</button> -->
                                   </div>
                                   <div class="features"></div>
-                                </div>
+                                </div
                             </c:when>
                             <c:otherwise>
                                 <form:input cssClass="input-large highlight" id="name${spec_count.index}" path="valueMap[${values.key}]" required="${(category.specifications[spec_count.index].filter == true) ? true : false }" />

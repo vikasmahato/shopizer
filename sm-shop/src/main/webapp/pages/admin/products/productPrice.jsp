@@ -42,7 +42,7 @@
 
 			<input type="hidden" name="productId" value="${product.id}">
 			<input type="hidden" name="categoryId" value="${category.category.id}">
-			<div class="form-actions">
+			<div class="form-actions" style="display: none;">
                   		<div class="pull-right">
                   			<button type="submit" class="btn btn-success"><s:message code="label.generic.add" text="Add"/></button>
                   		</div>
