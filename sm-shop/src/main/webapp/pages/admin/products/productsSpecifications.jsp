@@ -7,19 +7,69 @@
 
 <script type="text/javascript">
 
+    initFeatures();
+
+    function addFeature(count, key) {
+      var $features = $('.features')
+      var pillInput = $('<span class="tag pill-input"><input type="text" size="1" name="valueMap['+key+']" value=""/><i class="delete">&times;</i></span>');
+      $features.append(pillInput);
+      initFeatures();
+      $('.input_'+count).last().find('input').focus();
+    }
+
+    function initFeatures() {
+      var $parent = $('.pill-input');
+      var $input = $('.pill-input > input');
+      var $closeButton = $('.delete');
+
+      $closeButton.click(function() {
+        $(this).parent().remove();
+      });
+
+      $parent.click(function() {
+        $(this).find('input').focus();
+      });
+
+      $input.focus(function() {
+        $(this).parent().addClass('focus');
+      });
+
+      $input.blur(function() {
+        var input = $(this);
+
+        if (input.length) {
+          input.parent().addClass('tag-gray')
+        }
+
+        input.parent().removeClass('focus');
+      });
+
+      var e = 'keyup,keypress,focus,blur,change'.split(',');
+
+      for (var i in e) {
+        $input.on(e[i], function() {
+          var $this = $(this);
+          if ($this.val().length == 0) {
+            $this.attr('size', 1);
+          } else {
+            $this.attr('size', $this.val().length);
+          }
+        });
+      }
+    }
+
+    $("input").on('change, keyup, keydown, keypress, focus, blur',function (e){
+        alert();
+        if(e.keyCode == 188){
+            e.preventDefault();
+        }
+    });
+
     $( document ).ready(function() {
         $('.delete').click(function() {
           $(this).parent().remove();
         });
-
     });
-
-    function addFeature(featureDivId) {
-      var featureDiv = $('#'+featureDivId)
-      var pillInput = $('<span class="tag pill-input"><input type="text" size="1"/><i class="delete">x</i></span>');
-      featureDiv.append(pillInput);
-      featureDiv.find('input:last').focus()
-    }
 
     function removeFeatures(featureDivId) {
       $('#'+featureDivId).empty();
@@ -66,19 +116,15 @@
                         <c:choose>
                             <c:when test="${category.specifications[spec_count.index].variant == true}">
                                 <div class="pad container">
+                                <c:forEach items="${values.value}" var="key_values">
+                                  <span><input class="input-large highlight pill-input input_${spec_count.index}" name="valueMap[${values.key}]" value="${key_values}" required="true">
+                                    <i class="delete">&times;</i></span>
+                                </c:forEach>
                                   <div class="actions push-bottom">
-                                    <button type="button" class="button button-default" onClick="addFeature('feature_${spec_count.index}')">Add Values</button>
-                                    <button type="button" class="button button-red" onClick="removeFeatures('feature_${spec_count.index}')">Remove All</button>
+                                    <button type="button" id="addMore_${spec_count.index}" class="button button-default" data-key="" onClick="addFeature(${spec_count.index}, ${values.key})">Add Values</button>
+                                    <!-- <button type="button" id = "removeAll_${spec_count.index}"class="button button-red" onClick="removeFeatures()">Remove All</button> -->
                                   </div>
-                                  <div class="features" id="feature_${spec_count.index}">
-                                    <c:forEach items="${values.value}" var="key_values">
-                                        <c:forEach items="${key_values}" var="specValue">
-                                              <span class="tag pill-input tag-gray">
-                                                  <input type="text" size="1" name="value[]" value="${specValue}">
-                                                  <i class="delete">x</i></span>
-                                        </c:forEach>
-                                    </c:forEach>
-                                  </div>
+                                  <div class="features"></div>
                                 </div>
                             </c:when>
                             <c:otherwise>
