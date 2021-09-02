@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -34,6 +35,10 @@ public class CustomerEntity extends Customer implements Serializable {
 	private String language;
 	private String firstName;
 	private String lastName;
+
+	@Valid
+	@Size(min = 15, max = 15)
+	private String gstin = null;
 	
 	private String provider;//online, facebook ...
 
@@ -149,8 +154,11 @@ public class CustomerEntity extends Customer implements Serializable {
 		this.provider = provider;
 	}
 
+	public String getGstin() {
+		return gstin;
+	}
 
-
-    
-
+	public void setGstin(String gstin) {
+		this.gstin = gstin;
+	}
 }
