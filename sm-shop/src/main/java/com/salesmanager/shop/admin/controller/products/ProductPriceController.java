@@ -20,6 +20,7 @@ import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.LabelUtils;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.commons.lang3.StringUtils;
 import org.drools.core.beliefsystem.BeliefSet;
 import org.slf4j.Logger;
@@ -354,18 +355,72 @@ public class ProductPriceController {
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 
-		Product product = productService.getByCode(request.getParameter("productCode"), store.getDefaultLanguage());
+		LOGGER.error(request.getParameter("productCode"));
+		LOGGER.error("Language", store.getDefaultLanguage());
+//		Product product = productService.getByCode(request.getParameter("productCode"), store.getDefaultLanguage());
+		Product product = productService.getByCode(request.getParameter("productCode"), store);
+		Long avail_id = (request.getParameter("avail_id").equals("")) ? 0L : Long.parseLong(request.getParameter("avail_id"));
+		Long price_id = (request.getParameter("price_id").equals("")) ? 0L : Long.parseLong(request.getParameter("price_id"));
 		Product dbProduct = productService.getById(product.getId());
+
 		if(store.getId().intValue()!=dbProduct.getMerchantStore().getId().intValue()) {
 			return "redirect:/admin/products/products.html";
 		}
-
 		
 		model.addAttribute("product",dbProduct);
+		model.addAttribute("price",price);
 
 		String[] variants = request.getParameterMap().get("variants[]");
-		ProductPrice productPrice = new ProductPrice();
-		
+		ProductPrice productPrice =  new ProductPrice();
+		ProductAvailability productAvailability = dbProduct.getAvailabilities().stream().findFirst().get();
+		Set<ProductsAvailable> productsAvailable = new HashSet<ProductsAvailable>();
+
+		if(price_id  > 0)
+		{
+			productPrice = productPriceService.getById(price_id);
+			productsAvailable = productPrice.getProductsAvailable();
+		}
+		else
+		{
+//			Boolean flag = true;
+			if (productAvailability.getPrices() != null)
+			{
+				for (ProductPrice price1 : productAvailability.getPrices())
+				{
+					if(price1.getProductsAvailable().size() == 0)
+					{
+						productPrice = price1;
+//						flag = false;
+//						break;
+					}
+				}
+			}
+//			else if(flag)
+//			{
+				avail_id = (productsAvailableService.getLastAvailId() ==null) ? 0 : productsAvailableService.getLastAvailId();
+				avail_id += 1;
+				if(variants != null)
+				{
+					for (String variantId : variants)
+					{
+						ProductsAvailable available = new ProductsAvailable();
+						available.setProduct(product);
+						available.setVariant(productSpecificationService.getById(Long.parseLong(variantId)));
+						available.setAvailId(avail_id);
+						productsAvailableService.save(available);
+						productsAvailable.add(available);
+					}
+				}
+				else {
+					ProductsAvailable available = new ProductsAvailable();
+					available.setProduct(product);
+					available.setAvailId(avail_id);
+					productsAvailableService.save(available);
+					productsAvailable.add(available);
+				}
+//			}
+		}
+
 		//validate price
 		BigDecimal submitedPrice = null;
 		try {
@@ -426,7 +481,7 @@ public class ProductPriceController {
 		
 		
 		if (result.hasErrors()) {
-			return ControllerConstants.Tiles.Product.productPrice;
+			return ControllerConstants.Tiles.Product.productPriceMenu;
 		}
 
 		productPrice.setProductPriceAmount(submitedPrice);
@@ -436,70 +491,33 @@ public class ProductPriceController {
 			price.getPrice().setProductPriceSpecialAmount(submitedDiscountPrice);
 		}
 
-		ProductsAvailable productsAvailable = new ProductsAvailable();
-		Long avail_id = (productsAvailableService.getLastAvailId() ==null) ? 0 : productsAvailableService.getLastAvailId();
-		avail_id += 1;
-		if(variants != null)
-		{
-			for (String variantId : variants)
-			{
-				ProductsAvailable available = productsAvailableService.getByProductVariant(product.getId(), Long.parseLong(variantId));
-				if(available == null)
-				{
-					available = new ProductsAvailable();
-					available.setProduct(product);
-					available.setVariant(productSpecificationService.getById(Long.parseLong(variantId)));
-					available.setAvailId(avail_id);
-					productsAvailableService.save(available);
-				}
-					productsAvailable = available;
-			}
-		}
-		else {
-			ProductsAvailable available = productsAvailableService.getByProduct(product.getId());
-			if(available == null) {
-				available = new ProductsAvailable();
-				available.setProduct(product);
-				available.setAvailId(avail_id);
-				productsAvailableService.save(available);
-			}
-			productsAvailable = available;
-		}
 		
-		ProductAvailability productAvailability = null;
-
-//		Set<ProductAvailability> availabilities = dbProduct.getAvailabilities();
-//		for(ProductAvailability availability : availabilities) {
+//		Set<ProductPriceDescription> descriptions = new HashSet<ProductPriceDescription>();
+//		if(price.getDescriptions()!=null && price.getDescriptions().size()>0) {
 //
-//			if(availability.getId().longValue()==price.getProductAvailability().getId().longValue()) {
-//				productAvailability = availability;
-//				break;
+//			for(ProductPriceDescription description : price.getDescriptions()) {
+//				description.setProductPrice(price.getPrice());
+//				descriptions.add(description);
+//				description.setProductPrice(price.getPrice());
 //			}
-//
-//
 //		}
-//
-		
-		
-		
-		Set<ProductPriceDescription> descriptions = new HashSet<ProductPriceDescription>();
-		if(price.getDescriptions()!=null && price.getDescriptions().size()>0) {
-			
-			for(ProductPriceDescription description : price.getDescriptions()) {
-				description.setProductPrice(price.getPrice());
-				descriptions.add(description);
-				description.setProductPrice(price.getPrice());
-			}
-		}
 		
 //		price.getPrice().setDescriptions(descriptions);
-//		price.getPrice().setProductAvailability(productAvailability);
-		productPrice.setProductsAvailabile(productsAvailable);
+		productPrice.setProductAvailability(productAvailability);
+		productPrice.setProductsAvailable(productsAvailable);
+
+		productPrice.setDefaultPrice(true);
 		
 		productPriceService.saveOrUpdate(productPrice);
+
+		for (ProductsAvailable available : productsAvailable)
+		{
+			available.setPrice(productPrice);
+			productsAvailableService.update(available);
+		}
 		model.addAttribute("success","success");
 		
-		return ControllerConstants.Tiles.Product.productPrice;
+		return ControllerConstants.Tiles.Product.productPriceMenu;
 		
 	}
 	
@@ -571,9 +589,6 @@ public class ProductPriceController {
 
 		com.salesmanager.shop.admin.model.catalog.ProductPrice pprice = new com.salesmanager.shop.admin.model.catalog.ProductPrice();
 		model.addAttribute("price",pprice);
-//		pprice.setDealerPrice("10");
-//		pprice.setListPrice("10");
-//		pprice.setPriceText("10");
 		this.setMenu(model, request, "product-price");
 
 		return ControllerConstants.Tiles.Product.productPriceMenu;

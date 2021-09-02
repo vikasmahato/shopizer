@@ -7,6 +7,7 @@ import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class ProductPrice {
 	
@@ -19,7 +20,7 @@ public class ProductPrice {
 	private String listPrice;
 	private String specialPriceText;
 	private ProductAvailability productAvailability;
-	private ProductsAvailable productsAvailable;
+	private Set<ProductsAvailable> productsAvailable;
 	
 	
 	//cannot convert in this object to date ??? needs to use a string, parse, bla bla
@@ -83,11 +84,11 @@ public class ProductPrice {
 		this.productPriceSpecialEndDate = productPriceSpecialEndDate;
 	}
 
-	public ProductsAvailable getProductsAvailable() {
+	public Set<ProductsAvailable> getProductsAvailable() {
 		return productsAvailable;
 	}
 
-	public void setProductsAvailable(ProductsAvailable productsAvailable) {
+	public void setProductsAvailable(Set<ProductsAvailable> productsAvailable) {
 		this.productsAvailable = productsAvailable;
 	}
 
