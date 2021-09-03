@@ -3287,6 +3287,14 @@ p.checkout-coupon input[type=submit]{
 	width: 100%;
 }
 
+.variant-select select{
+	-moz-appearance: none;
+	border: 1px solid #ddd;
+	height: 32px;
+	padding-left: 10px;
+	width: 100%;
+}
+
 .checkout-form-list{margin-bottom: 30px;}
 .checkout-form-list label{color: #333;}
 .checkout-form-list label span.required{}
