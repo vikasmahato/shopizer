@@ -611,7 +611,7 @@ function initPayment(paymentSelection) {
 						<input type="hidden" id="useDistanceWindow" name="useDistanceWindow" value="<c:out value="${shippingMetaData.useDistanceModule}"/>">
 						<div class="col-lg-6 col-md-6">
 							<div class="checkbox-form">						
-								<h3><s:message code="label.customer.billinginformation" text="Billing information"/></h3>
+								<h3><s:message code="label.customer.billinginformation" text="Billing Information"/></h3>
 								<div class="row">
 									<div class="col-md-6">
 										<div class="checkout-form-list">
@@ -631,7 +631,7 @@ function initPayment(paymentSelection) {
 										    <span id="error-customer.billing.lastName" class="error"></span>
 										</div>
 									</div>
-									<div class="col-md-12">
+									<div class="col-md-6">
 										<div class="checkout-form-list">
 											<label><s:message code="label.customer.billing.company" text="Billing company"/></label>
 										    <form:input id="customer.billing.company" cssClass="" path="customer.billing.company"/>
@@ -639,6 +639,15 @@ function initPayment(paymentSelection) {
 											<span id="error-customer.billing.company" class="error"></span>
 										</div>
 									</div>
+
+									<div class="col-md-6">
+                                        <div class="checkout-form-list">
+                                            <label><s:message code="label.gstin" text="GSTIN"/></label>
+                                            <form:input id="customer.gstin" minlength="15" maxlength="15" path="customer.gstin" placeholder="Required" cssClass="" />
+                                            <form:errors path="customer.gstin" cssClass="error" />
+                                            <span id="error-customer.gstin" class="error"></span>
+                                        </div>
+                                    </div>
 									<c:if test="${googleMapsKey != ''}">
 									<!-- geolocate component -->
 									<div class="col-md-12">

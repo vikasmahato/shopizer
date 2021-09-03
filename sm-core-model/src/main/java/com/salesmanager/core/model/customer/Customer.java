@@ -31,6 +31,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 
@@ -89,6 +90,10 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 
 	@Column(name="CUSTOMER_COMPANY", length=100)
 	private String company;
+
+	@Column(name="GSTIN", length = 15)
+	@Size(min = 15, max = 15)
+	private String gstin;
 	
 	@JsonIgnore
 	@Column(name="CUSTOMER_PASSWORD", length=60)
@@ -271,6 +276,14 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 
 	public void setShowCustomerStateList(String showCustomerStateList) {
 		this.showCustomerStateList = showCustomerStateList;
+	}
+
+	public String getGstin() {
+		return gstin;
+	}
+
+	public void setGstin(String gstin) {
+		this.gstin = gstin;
 	}
 
 	public String getShowBillingStateList() {
