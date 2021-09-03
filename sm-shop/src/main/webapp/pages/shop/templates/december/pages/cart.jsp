@@ -139,8 +139,6 @@
 															<tr>
 																<th><s:message code="label.generic.item.title"
 																		text="Item" /></th>
-																<th><s:message code="label.gstin"
-                                                                		text="GSTIN" /></th>
 																<th><s:message code="label.quantity"
 																		text="Quantity" /></th>
 																<th><s:message code="label.generic.price"
@@ -185,10 +183,7 @@
 																	</div>
 																</div>
 															</td>
-															<td
-                                                            	data-th="<s:message code="label.gstin" text="GSTIN"/>"><strong>
-                                                            	  <input type="text" id="gstin" name="gstin" minlength="15" maxlength="15" placeholder="Required"><br><br>
-                                                            	</strong></td>
+
 															<td width="10%"
 																data-th="<s:message code="label.quantity" text="Quantity"/>">
 																<input type="number" min="1"
