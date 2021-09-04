@@ -10,11 +10,17 @@
     initFeatures();
 
     function addFeature(count, key) {
-      var $features = $('.features')
+    var featureDiv = $('#feature_'+count)
+    console.log(featureDiv);
+          //featureDiv.append(pillInput);
+          //featureDiv.find('input:last').focus()
+      //var $features = $('.features')
       var pillInput = $('<span class="tag pill-input"><input type="text" size="1" name="valueMap['+key+']" value=""/><i class="delete">&times;</i></span>');
-      $features.append(pillInput);
+      featureDiv.append(pillInput);
+      console.log(featureDiv);
       initFeatures();
-      $('.input_'+count).last().find('input').focus();
+      //$('.input_'+count).last().find('input').focus();
+      featureDiv.find('input:last').focus();
     }
 
     function initFeatures() {
@@ -116,15 +122,16 @@
                         <c:choose>
                             <c:when test="${category.specifications[spec_count.index].variant == true}">
                                 <div class="pad container">
-                                <c:forEach items="${values.value}" var="key_values">
-                                  <span><input class="input-large highlight pill-input input_${spec_count.index}" name="valueMap[${values.key}]" value="${key_values}" required="true">
-                                    <i class="delete">&times;</i></span>
-                                </c:forEach>
                                   <div class="actions push-bottom">
                                     <button type="button" id="addMore_${spec_count.index}" class="button button-default" data-key="" onClick="addFeature(${spec_count.index}, ${values.key})">Add Values</button>
                                     <!-- <button type="button" id = "removeAll_${spec_count.index}"class="button button-red" onClick="removeFeatures()">Remove All</button> -->
                                   </div>
-                                  <div class="features"></div>
+                                  <div class="features" id="feature_${spec_count.index}">
+                                    <c:forEach items="${values.value}" var="key_values">
+                                        <span><input class="input-large highlight pill-input input_${spec_count.index}" name="valueMap[${values.key}]" value="${key_values}" required="true">
+                                        <i class="delete">&times;</i></span>
+                                    </c:forEach>
+                                  </div>
                                 </div>
                             </c:when>
                             <c:otherwise>
