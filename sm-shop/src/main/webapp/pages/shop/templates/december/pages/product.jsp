@@ -317,7 +317,7 @@
                             alert('error ' + errorThrown);
                         }
                     });
-		    
+
 		})
 		
         function getPrice()
@@ -358,6 +358,6 @@
                           }
                        });
             }
-			
+
 		</script>
 
