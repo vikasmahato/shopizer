@@ -140,11 +140,7 @@
 									    <c:if test="${doesVariantExists}">
                                             <div>
 
-                                                <div class="variant-select">
-                                                    <label><s:message code="label.select.variant" text="Select Variant"/></label>
-                                                    <select id="variant-list" class="variant-list" style="background-color: rgb(255, 255, 255);">
-                                                           <option>Select</option>
-                                                     </select>
+                                                <div class="variant-select" id="variantDropdowns">
                                                 </div>
 
                                             </div>
@@ -291,6 +287,46 @@
 		        //re bind action
 		        $('.popup-img').magnificPopup({type:'image'});
 		    })
+
+		    $.ajax({
+                        type: 'GET',
+                        url: '<c:url value="/admin/products/searchByCode.html"/>?code=' + ${product.sku},
+                        dataType: 'json',
+                        success: function(response){
+                             var data = response.response.data;
+                             var stringToDisplay = data[0].code + ": " + data[0].name;
+                             $("#productsku").html(stringToDisplay);
+
+                             var specificationDetails = JSON.parse(data[0].specficationDetails);
+                             //console.log(specificationDetails);
+                             var variantOptions = "";
+                             var i=0;
+                             for (const [key, value] of Object.entries(specificationDetails)) {
+                               var optionString = "";
+
+                                value.forEach(function (item, index) {
+                                  optionString += "<option value='"+item.substring( item.indexOf("__")+2)+"'>"+ item.substring( 0, item.indexOf("__")) +"</option>"
+                                });
+
+                                var html = "<div class='control-group'>";
+                                html += "<label>"+key+"</label>";
+                                html += "<div class='controls'>";
+                                html += "<select id='variant_"+i+"' name='variants[]' onchange='getPrice()'>"; //TODO: Give ID
+                                html += optionString;
+                                html += "</select>";
+                                html += "</div>";
+                                html += "</div>";
+
+                                variantOptions += html;
+                                i++;
+                             }
+
+                            $("#variantDropdowns").html(variantOptions);
+                        },
+                          error: function(xhr, textStatus, errorThrown) {
+                            alert('error ' + errorThrown);
+                        }
+                    });
 		    
 		})
 		
