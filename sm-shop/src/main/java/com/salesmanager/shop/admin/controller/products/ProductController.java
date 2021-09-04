@@ -2,6 +2,7 @@ package com.salesmanager.shop.admin.controller.products;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.availability.ProductsAvailableService;
 import com.salesmanager.core.business.services.catalog.product.brand.BrandService;
@@ -76,6 +77,7 @@ public class ProductController {
 	
 	@Inject
 	private ProductService productService;
+
 	
 	@Inject
 	private BrandService brandService;
@@ -109,6 +111,9 @@ public class ProductController {
 
 	@Inject
 	ProductPriceService productPriceService;
+
+	@Inject
+	PricingService pricingService;
 
 	@PreAuthorize("hasRole('PRODUCTS')")
 	@RequestMapping(value="/admin/products/editProduct.html", method=RequestMethod.GET)
@@ -1375,9 +1380,9 @@ public class ProductController {
 
 	@PreAuthorize("hasRole('PRODUCTS')")
 	@RequestMapping(value="/admin/products/getVariantsPrices.html", method=RequestMethod.GET)
-	public @ResponseBody ResponseEntity<String> getVariantPrices(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public @ResponseBody ResponseEntity<String> getVariantPrices(HttpServletRequest request, HttpServletResponse response, @RequestParam("variants") String code) throws Exception {
 
-		String code = request.getParameter("variants");
+		Boolean withSymbol = Boolean.valueOf(request.getParameter("withSymbol"));
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 
@@ -1395,7 +1400,7 @@ public class ProductController {
 		try {
 
 			StringBuilder sb = new StringBuilder(code);
-			sb.deleteCharAt(code.length() - 1);
+			sb.deleteCharAt(code.length() - 1); // TODO: Gauri Why this? we are not using sb further
 			String[] vars = code.split(",");
 			List<Long> variants = new ArrayList<Long>();
 			for(String s : vars)
@@ -1422,9 +1427,9 @@ public class ProductController {
 					ProductPrice price= available.getPrice();
 
 					specNameValueList.put("price_id", price.getId().toString());
-					specNameValueList.put("price", price.getProductPriceAmount().toString());
-					specNameValueList.put("dealer_price", price.getDealersPrice().toString());
-					specNameValueList.put("list_price", price.getLisingPrice().toString());
+					specNameValueList.put("price", withSymbol ? pricingService.getDisplayAmount(price.getProductPriceAmount(), store) : price.getProductPriceAmount().toString());
+					specNameValueList.put("dealer_price", withSymbol ? pricingService.getDisplayAmount(price.getDealersPrice(), store) : price.getDealersPrice().toString());
+					specNameValueList.put("list_price", withSymbol ? pricingService.getDisplayAmount(price.getLisingPrice(), store) : price.getLisingPrice().toString());
 				}
 				else {
 					specNameValueList.put("avail_id", "");
