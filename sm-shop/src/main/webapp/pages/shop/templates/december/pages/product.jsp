@@ -135,6 +135,22 @@
 										</span>
 									</h4>
 									<c:if test="${product.productPrice.description!=null}"><strong><c:out value="${product.productPrice.description.priceAppender}"/></strong></c:if>
+
+									<c:if test="${displayVaiantDropdown}">
+									    <c:if test="${doesVariantExists}">
+                                            <div>
+
+                                                <div class="variant-select">
+                                                    <label><s:message code="label.select.variant" text="Select Variant"/></label>
+                                                    <select id="variant-list" class="variant-list" style="background-color: rgb(255, 255, 255);">
+                                                           <option>Select</option>
+                                                     </select>
+                                                </div>
+
+                                            </div>
+                                        </c:if>
+									</c:if>
+
 									<jsp:include
 										page="/pages/shop/common/catalog/addToCartProduct.jsp" />
 								</div>
