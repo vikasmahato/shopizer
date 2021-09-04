@@ -36,12 +36,19 @@ response.setDateHeader ("Expires", -1);
 
 				<!-- include all header js and css -->
                 <jsp:include page="/pages/shop/templates/december/sections/shopLinks.jsp" />
-                
+
+                <style>
+                    .backroundhover:hover {
+                        border: 1px solid yellow;
+                        box-shadow: 0 0 11px rgba(33,33,33,.2);
+                    }
+                </style>
                 
                 
     <script type="text/html" id="productBoxTemplate">
 			{{#products}}
-                        <div itemscope itemtype="http://schema.org/Enumeration" class="col-md-COLUMN-SIZE col-sm-6 col-xs-12 product" item-order="{{sortOrder}}" item-name="{{description.name}}" item-price="{{price}}" data-id="{{id}}">
+                        <div itemscope itemtype="http://schema.org/Enumeration" class="col-md-COLUMN-SIZE col-sm-6 col-xs-12 product backroundhover" item-order="{{sortOrder}}" item-name="{{description.name}}" item-price="{{price}}" data-id="{{id}}">
+
 								<div class="thumbnail product-img" style="border:none !important;">
                                     {{#image}}
 									<a href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html/ref=<c:out value="${requestScope.ref}"/>">
@@ -83,7 +90,6 @@ response.setDateHeader ("Expires", -1);
 		 <meta name="twitter:description" content="${requestScope.PAGE_INFORMATION.pageDescription}"/>
 		 <meta name="twitter:image" content="${requestScope.PAGE_INFORMATION.pageImageUrl}"/>
 	</c:if>
-
 	 </head>
  
  	<body>

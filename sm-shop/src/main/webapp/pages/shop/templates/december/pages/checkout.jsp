@@ -643,7 +643,7 @@ function initPayment(paymentSelection) {
 									<div class="col-md-6">
                                         <div class="checkout-form-list">
                                             <label><s:message code="label.gstin" text="GSTIN"/></label>
-                                            <form:input id="customer.gstin" minlength="15" maxlength="15" path="customer.gstin" placeholder="Required" cssClass="" />
+                                            <form:input id="customer.gstin" minlength="15" maxlength="15" path="customer.gstin" cssClass="" />
                                             <form:errors path="customer.gstin" cssClass="error" />
                                             <span id="error-customer.gstin" class="error"></span>
                                         </div>

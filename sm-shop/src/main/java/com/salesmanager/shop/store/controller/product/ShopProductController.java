@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.salesmanager.core.model.catalog.category.CategorySpecification;
 import com.salesmanager.shop.utils.FilePathUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -156,6 +157,8 @@ public class ShopProductController {
 		populator.setimageUtils(imageUtils);
 		
 		ReadableProduct productProxy = populator.populate(product, new ReadableProduct(), store, language);
+
+		Boolean doesVariantExists =  product.getCategories().stream().anyMatch(category -> category.getSpecifications().stream().anyMatch(CategorySpecification::getVariant));
 
 		//meta information
 		PageInformation pageInformation = new PageInformation();
@@ -339,11 +342,14 @@ public class ShopProductController {
 		}
 
 		Map<String, String> specifications = productService.getSpecificationNameValue(product.getId());
-		
+
+
 		model.addAttribute("attributes", attributesList);
 		model.addAttribute("options", optionsList);
 		model.addAttribute("product", productProxy);
 		model.addAttribute("specifications", specifications);
+		model.addAttribute("displayVaiantDropdown", true);
+		model.addAttribute("doesVariantExists", doesVariantExists);
 
 		
 		/** template **/
