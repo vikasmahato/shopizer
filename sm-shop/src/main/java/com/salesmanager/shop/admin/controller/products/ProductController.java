@@ -2,6 +2,7 @@ package com.salesmanager.shop.admin.controller.products;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.availability.ProductsAvailableService;
 import com.salesmanager.core.business.services.catalog.product.brand.BrandService;
@@ -76,6 +77,7 @@ public class ProductController {
 	
 	@Inject
 	private ProductService productService;
+
 	
 	@Inject
 	private BrandService brandService;
@@ -109,6 +111,9 @@ public class ProductController {
 
 	@Inject
 	ProductPriceService productPriceService;
+
+	@Inject
+	PricingService pricingService;
 
 	@PreAuthorize("hasRole('PRODUCTS')")
 	@RequestMapping(value="/admin/products/editProduct.html", method=RequestMethod.GET)
@@ -1373,94 +1378,4 @@ public class ProductController {
 
 	}
 
-	@PreAuthorize("hasRole('PRODUCTS')")
-	@RequestMapping(value="/admin/products/getVariantsPrices.html", method=RequestMethod.GET)
-	public @ResponseBody ResponseEntity<String> getVariantPrices(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		String code = request.getParameter("variants");
-
-		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
-
-
-		AjaxResponse resp = new AjaxResponse();
-		final HttpHeaders httpHeaders= new HttpHeaders();
-		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-
-		if(code==null) {
-			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-			String returnString = resp.toJSONString();
-			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
-		}
-
-		try {
-
-			StringBuilder sb = new StringBuilder(code);
-			sb.deleteCharAt(code.length() - 1);
-			String[] vars = code.split(",");
-			List<Long> variants = new ArrayList<Long>();
-			for(String s : vars)
-				variants.add(Long.parseLong(s));
-			Collections.sort(variants);
-			List<ProductsAvailable> availables = productsAvailableService.getByVariants(variants);
-
-			Map<String, String> specNameValueList = new HashMap<>();
-
-			if(availables.size() > 0)
-			{
-				List<Long> variants_avail = new ArrayList<Long>();
-				for (ProductsAvailable available : availables)
-				{
-					 variants_avail.add(available.getVariant().getId());
-				}
-				Collections.sort(variants_avail);
-				if(variants_avail.equals(variants))
-				{
-					ProductsAvailable available = availables.get(0);
-
-					specNameValueList.put("avail_id", available.getAvailId().toString());
-
-					ProductPrice price= available.getPrice();
-
-					specNameValueList.put("price_id", price.getId().toString());
-					specNameValueList.put("price", price.getProductPriceAmount().toString());
-					specNameValueList.put("dealer_price", price.getDealersPrice().toString());
-					specNameValueList.put("list_price", price.getLisingPrice().toString());
-				}
-				else {
-					specNameValueList.put("avail_id", "");
-					specNameValueList.put("price_id", "");
-					specNameValueList.put("price", "");
-					specNameValueList.put("dealer_price", "");
-					specNameValueList.put("list_price", "");
-				}
-			}
-			else {
-				specNameValueList.put("avail_id", "");
-				specNameValueList.put("price_id", "");
-				specNameValueList.put("price", "");
-				specNameValueList.put("dealer_price", "");
-				specNameValueList.put("list_price", "");
-			}
-
-
-			ObjectMapper objectMapper = new ObjectMapper();
-
-			String json = objectMapper.writeValueAsString(specNameValueList);
-
-
-			Map<String, String> entry = new HashMap<>();
-
-			entry.put("prices", json);
-			resp.addDataEntry(entry);
-			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
-
-		} catch(Exception e) {
-			LOGGER.error("Cannot get price for variants " + code, e);
-			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
-			resp.setErrorMessage(e);
-		}
-
-		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
-	}
 }
