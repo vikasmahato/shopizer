@@ -18,4 +18,6 @@ public interface ProductsAvailableService extends
     List<ProductsAvailable> getByVariants(List<Long> variants);
 
     Set<ProductsAvailable> getByAvailId(Long avail_id);
+
+    ProductsAvailable getByVariant(List<Long> variants);
 }

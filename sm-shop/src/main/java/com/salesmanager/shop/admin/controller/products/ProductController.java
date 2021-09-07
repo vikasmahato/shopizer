@@ -1307,7 +1307,7 @@ public class ProductController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@PreAuthorize("hasRole('PRODUCTS')")
+//	@PreAuthorize("hasRole('PRODUCTS')")
 	@RequestMapping(value="/admin/products/searchByCode.html", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<String> findProductByCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -1378,4 +1378,79 @@ public class ProductController {
 
 	}
 
+	//@PreAuthorize("hasRole('PRODUCTS')")
+	@RequestMapping(value="/admin/products/getVariantsPrices.html", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<String> getVariantPrices(HttpServletRequest request, HttpServletResponse response
+			, @RequestParam("variants") String variant, @RequestParam("code") String code, @RequestParam("withSymbol") Boolean withSymbol) throws Exception {
+
+		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+
+		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+
+		if(code==null) {
+			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+			String returnString = resp.toJSONString();
+			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		}
+
+		try {
+
+			Map<String, String> specNameValueList = new HashMap<>();
+			Product product = productService.getByCode(code, store);
+			ProductsAvailable available = new ProductsAvailable();
+
+			if(variant.length() == 0)
+				available = productsAvailableService.getByProduct(product.getId());
+			else
+			{
+				String[] vars = variant.split(",");
+				List<Long> variants = new ArrayList<Long>();
+				for(String s : vars)
+					variants.add(Long.parseLong(s));
+
+				available = productsAvailableService.getByVariant(variants);
+			}
+
+			if(available.getId() != null)
+			{
+				specNameValueList.put("avail_id", available.getAvailId().toString());
+
+				ProductPrice price= available.getPrice();
+
+				specNameValueList.put("price_id", price.getId().toString());
+				specNameValueList.put("price", withSymbol ? pricingService.getDisplayAmount(price.getProductPriceAmount(), store) : price.getProductPriceAmount().toString());
+				specNameValueList.put("dealer_price", withSymbol ? pricingService.getDisplayAmount(price.getDealersPrice(), store) : price.getDealersPrice().toString());
+				specNameValueList.put("list_price", withSymbol ? pricingService.getDisplayAmount(price.getLisingPrice(), store) : price.getLisingPrice().toString());
+			}
+			else {
+				specNameValueList.put("avail_id", "");
+				specNameValueList.put("price_id", "");
+				specNameValueList.put("price", "");
+				specNameValueList.put("dealer_price", "");
+				specNameValueList.put("list_price", "");
+			}
+
+
+			ObjectMapper objectMapper = new ObjectMapper();
+
+			String json = objectMapper.writeValueAsString(specNameValueList);
+
+
+			Map<String, String> entry = new HashMap<>();
+
+			entry.put("prices", json);
+			resp.addDataEntry(entry);
+			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+
+		} catch(Exception e) {
+			LOGGER.error("Cannot get price for product " + code, e);
+			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+			resp.setErrorMessage(e);
+		}
+
+		String returnString = resp.toJSONString();
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+	}
 }

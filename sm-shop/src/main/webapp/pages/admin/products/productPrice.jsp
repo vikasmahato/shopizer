@@ -135,10 +135,16 @@
                        variants+=sel.value+",";
                    }
               }
+              variants = variants.slice(0, variants.length - 1);
 
                $.ajax({
                   type: 'GET',
-                  url: '<c:url value="/admin/products/getVariantsPrices.html"/>?variants=' + variants,
+                  url: '<c:url value="/admin/products/getVariantsPrices.html"/>',
+                  data: {
+                    'code' : $("#productCode").val(),
+                    'variants': variants,
+                    'withSymbol': 'false'
+                  },
                   dataType: 'json',
                   success: function(response){
                     console.log(response);
