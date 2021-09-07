@@ -213,6 +213,9 @@ function setPaymentModule(module) {
 	else if(module.indexOf('braintree') >= 0) {
 			$('#paymentMethodType').val('CREDITCARD');
 			console.log('TYPE ' + $('#paymentMethodType').val());
+	}
+	else if(module.indexOf('razorpay') >= 0) {
+		$('#paymentMethodType').val('RAZORPAY');
 	} else {
 		pType = pType.toUpperCase();
 		console.log('Other type - ' + pType);
@@ -503,6 +506,11 @@ function bindActions() {
 		else if(paymentSelection.indexOf('beanstream') >= 0) {
 			//console.log('Beanstream ');
 			$('#paymentMethodType').val('CREDITCARD');
+			submitForm();
+		}
+		else if(paymentSelection.indexOf('razorpay') >= 0) {
+			//console.log('Beanstream ');
+			$('#paymentMethodType').val('RAZORPAY');
 			submitForm();
 		} else {
 			//submit form

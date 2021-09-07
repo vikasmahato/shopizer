@@ -495,6 +495,12 @@ function bindActions() {
 			//$('#paymentMethodType').val('CREDITCARD');
 			$('#paymentMethodType').attr("value", 'CREDITCARD');
 			submitForm();
+		} 
+		else if(paymentSelection.indexOf('razorpay') >= 0) {
+			//log('Beanstream ');
+			//$('#paymentMethodType').val('CREDITCARD');
+			$('#paymentMethodType').attr("value", 'RAZORPAY');
+			submitForm();
 		} else {
 			//submit form
 			submitForm();	

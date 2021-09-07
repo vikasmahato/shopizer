@@ -2,6 +2,9 @@ package com.salesmanager.shop.admin.controller.payments;
 
 import com.salesmanager.core.business.modules.integration.IntegrationException;
 import com.salesmanager.core.business.services.payments.PaymentService;
+import com.salesmanager.core.business.services.reference.init.InitializationDatabaseImpl;
+import com.salesmanager.core.business.services.reference.loader.IntegrationModulesLoader;
+import com.salesmanager.core.business.services.system.ModuleConfigurationService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.payments.TransactionType;
 import com.salesmanager.core.model.system.IntegrationConfiguration;
@@ -10,6 +13,8 @@ import com.salesmanager.shop.admin.controller.ControllerConstants;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.utils.LabelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +39,13 @@ public class PaymentsController {
 	@Inject
 	LabelUtils messages;
 
+	@Inject
+	private IntegrationModulesLoader modulesLoader;
+
+	@Inject
+	private ModuleConfigurationService moduleConfigurationService;
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(PaymentsController.class);
 	
 	@RequestMapping(value="/admin/payments/paymentMethods.html", method=RequestMethod.GET)
 	public String getPaymentMethods(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -42,6 +54,12 @@ public class PaymentsController {
 		//set menu
 		setMenu(model,request);
 		
+		//TODO:: RUN ONLY ONCE TO ADD RAZORPAY IN DB
+		// List<IntegrationModule> modules_IntegrationModules = modulesLoader.loadIntegrationModules("reference/integrationmodules.json");
+		// for (IntegrationModule entry : modules_IntegrationModules) {
+		// 	if(entry.getCode().equals("razorpay"))
+		// 		moduleConfigurationService.create(entry);
+		// }
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
 		//get payment methods

@@ -396,6 +396,11 @@ function setPaymentModule(module) {
 		$('#paymentMethodType').attr("value", 'CREDITCARD');
 		
 	}
+	else if(module.indexOf('razorpay') >= 0) {
+		$('#paymentMethodType').val('RAZORPAY');
+		$('#paymentMethodType').attr("value", 'RAZORPAY');
+		
+	}
 	else if(module.indexOf('braintree') >= 0) {
 		$('#paymentMethodType').val('CREDITCARD');
 		$('#paymentMethodType').attr("value", 'CREDITCARD');

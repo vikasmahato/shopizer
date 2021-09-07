@@ -266,7 +266,7 @@ public class ShoppingCartController extends AbstractController {
         List<ShoppingCartItem> items = shoppingCart.getShoppingCartItems();
         for(ShoppingCartItem item : items) {
         	String code = item.getProductCode();
-        	Product p =productService.getByCode(code, lang);
+        	Product p =productService.getByCode(code, store);
         	if(!p.isAvailable()) {
         		unavailables.add(item);
         	} else {
