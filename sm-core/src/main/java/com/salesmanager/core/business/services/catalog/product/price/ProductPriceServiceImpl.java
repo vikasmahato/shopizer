@@ -17,9 +17,12 @@ import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription
 public class ProductPriceServiceImpl extends SalesManagerEntityServiceImpl<Long, ProductPrice> 
 	implements ProductPriceService {
 
+	private ProductPriceRepository productPriceRepository;
+
 	@Inject
 	public ProductPriceServiceImpl(ProductPriceRepository productPriceRepository) {
 		super(productPriceRepository);
+		this.productPriceRepository = productPriceRepository;
 	}
 
 	@Override
@@ -60,6 +63,11 @@ public class ProductPriceServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		
 	}
 	
+	@Override
+	public ProductPrice getByAvailId(Long id)
+	{
+		return  productPriceRepository.getByAvailId(id);
+	}
 
 
 }

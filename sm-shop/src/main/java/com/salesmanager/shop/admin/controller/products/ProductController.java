@@ -3,8 +3,10 @@ package com.salesmanager.shop.admin.controller.products;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.catalog.product.availability.ProductsAvailableService;
 import com.salesmanager.core.business.services.catalog.product.brand.BrandService;
 import com.salesmanager.core.business.services.catalog.product.image.ProductImageService;
+import com.salesmanager.core.business.services.catalog.product.price.ProductPriceService;
 import com.salesmanager.core.business.services.catalog.product.type.ProductTypeService;
 import com.salesmanager.core.business.services.catalog.product.vendor.VendorService;
 import com.salesmanager.core.business.services.tax.TaxClassService;
@@ -18,6 +20,7 @@ import com.salesmanager.core.model.catalog.category.CategorySpecification;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
+import com.salesmanager.core.model.catalog.product.availability.ProductsAvailable;
 import com.salesmanager.core.model.catalog.product.brand.Brand;
 import com.salesmanager.core.model.catalog.product.brand.BrandDescription;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
@@ -100,6 +103,12 @@ public class ProductController {
 
 	@Inject
 	VendorService vendorService;
+
+	@Inject
+	ProductsAvailableService productsAvailableService;
+
+	@Inject
+	ProductPriceService productPriceService;
 
 	@PreAuthorize("hasRole('PRODUCTS')")
 	@RequestMapping(value="/admin/products/editProduct.html", method=RequestMethod.GET)
@@ -309,13 +318,13 @@ public class ProductController {
 		}
 
 		//validate price
-		BigDecimal submitedPrice = null;
-		try {
-			submitedPrice = priceUtil.getAmount(product.getProductPrice());
-		} catch (Exception e) {
-			ObjectError error = new ObjectError("productPrice",messages.getMessage("NotEmpty.product.productPrice", locale));
-			result.addError(error);
-		}
+//		BigDecimal submitedPrice = null;
+//		try {
+//			submitedPrice = priceUtil.getAmount(product.getProductPrice());
+//		} catch (Exception e) {
+//			ObjectError error = new ObjectError("productPrice",messages.getMessage("NotEmpty.product.productPrice", locale));
+//			result.addError(error);
+//		}
 
 		Date date = new Date();
 		if(!StringUtils.isBlank(product.getDateAvailable())) {
@@ -390,15 +399,15 @@ public class ProductController {
 		
 		Product newProduct = product.getProduct();
 		ProductAvailability newProductAvailability = null;
-		ProductPrice newProductPrice = null;
+//		ProductPrice newProductPrice = null;
 		
 		Set<ProductPriceDescription> productPriceDescriptions = null;
 		
 		//get tax class
 		//TaxClass taxClass = newProduct.getTaxClass();
 		//TaxClass dbTaxClass = taxClassService.getById(taxClass.getId());
-		Set<ProductPrice> prices = new HashSet<ProductPrice>();
-		Set<ProductAvailability> availabilities = new HashSet<ProductAvailability>();	
+//		Set<ProductPrice> prices = new HashSet<ProductPrice>();
+		Set<ProductAvailability> availabilities = new HashSet<ProductAvailability>();
 
 		if(product.getProduct().getId()!=null && product.getProduct().getId().longValue()>0) {
 		
@@ -427,23 +436,23 @@ public class ProductController {
 
 			Set<ProductAvailability> avails = newProduct.getAvailabilities();
 			if(avails !=null && avails.size()>0) {
-				
+
 				for(ProductAvailability availability : avails) {
 					if(availability.getRegion().equals(com.salesmanager.core.business.constants.Constants.ALL_REGIONS)) {
 
-						
+
 						newProductAvailability = availability;
-						Set<ProductPrice> productPrices = availability.getPrices();
-						
-						for(ProductPrice price : productPrices) {
-							if(price.isDefaultPrice()) {
-								newProductPrice = price;
-								newProductPrice.setProductPriceAmount(submitedPrice);
-								productPriceDescriptions = price.getDescriptions();
-							} else {
-								prices.add(price);
-							}	
-						}
+						// Set<ProductPrice> productPrices = availability.getPrices();
+
+						// for(ProductPrice price : productPrices) {
+						// 	if(price.isDefaultPrice()) {
+						// 		newProductPrice = price;
+						// 		newProductPrice.setProductPriceAmount(submitedPrice);
+						// 		productPriceDescriptions = price.getDescriptions();
+						// 	} else {
+						// 		prices.add(price);
+						// 	}
+						// }
 					} else {
 						availabilities.add(availability);
 					}
@@ -458,27 +467,27 @@ public class ProductController {
 			}
 		}
 		
-		if(newProductPrice==null) {
-			newProductPrice = new ProductPrice();
-			newProductPrice.setDefaultPrice(true);
-			newProductPrice.setProductPriceAmount(submitedPrice);
-		}
+//		if(newProductPrice==null) {
+//			newProductPrice = new ProductPrice();
+//			newProductPrice.setDefaultPrice(true);
+//			newProductPrice.setProductPriceAmount(submitedPrice);
+//		}
 		
 		if(product.getProductImage()!=null && product.getProductImage().getId() == null) {
 			product.setProductImage(null);
 		}
 		
-		if(productPriceDescriptions==null) {
-			productPriceDescriptions = new HashSet<ProductPriceDescription>();
-			for(ProductDescription description : product.getDescriptions()) {
-				ProductPriceDescription ppd = new ProductPriceDescription();
-				ppd.setProductPrice(newProductPrice);
-				ppd.setLanguage(description.getLanguage());
-				ppd.setName(ProductPriceDescription.DEFAULT_PRICE_DESCRIPTION);
-				productPriceDescriptions.add(ppd);
-			}
-			newProductPrice.setDescriptions(productPriceDescriptions);
-		}
+//		if(productPriceDescriptions==null) {
+//			productPriceDescriptions = new HashSet<ProductPriceDescription>();
+//			for(ProductDescription description : product.getDescriptions()) {
+//				ProductPriceDescription ppd = new ProductPriceDescription();
+//				ppd.setProductPrice(newProductPrice);
+//				ppd.setLanguage(description.getLanguage());
+//				ppd.setName(ProductPriceDescription.DEFAULT_PRICE_DESCRIPTION);
+//				productPriceDescriptions.add(ppd);
+//			}
+//			newProductPrice.setDescriptions(productPriceDescriptions);
+//		}
 		
 		newProduct.setMerchantStore(store);
 		
@@ -491,11 +500,11 @@ public class ProductController {
 		newProductAvailability.setProductQuantityOrderMin(product.getAvailability().getProductQuantityOrderMin());
 		newProductAvailability.setProductQuantityOrderMax(product.getAvailability().getProductQuantityOrderMax());
 		newProductAvailability.setProduct(newProduct);
-		newProductAvailability.setPrices(prices);
+		// newProductAvailability.setPrices(prices);
 		availabilities.add(newProductAvailability);
 			
-		newProductPrice.setProductAvailability(newProductAvailability);
-		prices.add(newProductPrice);
+		// newProductPrice.setProductAvailability(newProductAvailability);
+		// prices.add(newProductPrice);
 			
 		newProduct.setAvailabilities(availabilities);
 
@@ -1328,7 +1337,7 @@ public class ProductController {
 			Map<String, List<String>> specNameValueList = new HashMap<>();
 
 			for(CategorySpecification categorySpecification: categorySpecifications) {
-				if(categorySpecification.getVariant() == true)
+				if(categorySpecification.getVariant())
 				{
 					List<String> specifiationValue = new ArrayList<>();
 					for(ProductSpecificationVariant productSpecificationVariant : productSpecifications) {
@@ -1362,5 +1371,96 @@ public class ProductController {
 		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 
 
+	}
+
+	@PreAuthorize("hasRole('PRODUCTS')")
+	@RequestMapping(value="/admin/products/getVariantsPrices.html", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<String> getVariantPrices(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String code = request.getParameter("variants");
+
+		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+
+
+		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+
+		if(code==null) {
+			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+			String returnString = resp.toJSONString();
+			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		}
+
+		try {
+
+			StringBuilder sb = new StringBuilder(code);
+			sb.deleteCharAt(code.length() - 1);
+			String[] vars = code.split(",");
+			List<Long> variants = new ArrayList<Long>();
+			for(String s : vars)
+				variants.add(Long.parseLong(s));
+			Collections.sort(variants);
+			List<ProductsAvailable> availables = productsAvailableService.getByVariants(variants);
+
+			Map<String, String> specNameValueList = new HashMap<>();
+
+			if(availables.size() > 0)
+			{
+				List<Long> variants_avail = new ArrayList<Long>();
+				for (ProductsAvailable available : availables)
+				{
+					 variants_avail.add(available.getVariant().getId());
+				}
+				Collections.sort(variants_avail);
+				if(variants_avail.equals(variants))
+				{
+					ProductsAvailable available = availables.get(0);
+
+					specNameValueList.put("avail_id", available.getAvailId().toString());
+
+					ProductPrice price= available.getPrice();
+
+					specNameValueList.put("price_id", price.getId().toString());
+					specNameValueList.put("price", price.getProductPriceAmount().toString());
+					specNameValueList.put("dealer_price", price.getDealersPrice().toString());
+					specNameValueList.put("list_price", price.getLisingPrice().toString());
+				}
+				else {
+					specNameValueList.put("avail_id", "");
+					specNameValueList.put("price_id", "");
+					specNameValueList.put("price", "");
+					specNameValueList.put("dealer_price", "");
+					specNameValueList.put("list_price", "");
+				}
+			}
+			else {
+				specNameValueList.put("avail_id", "");
+				specNameValueList.put("price_id", "");
+				specNameValueList.put("price", "");
+				specNameValueList.put("dealer_price", "");
+				specNameValueList.put("list_price", "");
+			}
+
+
+			ObjectMapper objectMapper = new ObjectMapper();
+
+			String json = objectMapper.writeValueAsString(specNameValueList);
+
+
+			Map<String, String> entry = new HashMap<>();
+
+			entry.put("prices", json);
+			resp.addDataEntry(entry);
+			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+
+		} catch(Exception e) {
+			LOGGER.error("Cannot get price for variants " + code, e);
+			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+			resp.setErrorMessage(e);
+		}
+
+		String returnString = resp.toJSONString();
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 }
