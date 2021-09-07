@@ -2,6 +2,7 @@ package com.salesmanager.shop.admin.controller.products;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
+import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.availability.ProductsAvailableService;
 import com.salesmanager.core.business.services.catalog.product.brand.BrandService;
@@ -76,6 +77,7 @@ public class ProductController {
 	
 	@Inject
 	private ProductService productService;
+
 	
 	@Inject
 	private BrandService brandService;
@@ -109,6 +111,9 @@ public class ProductController {
 
 	@Inject
 	ProductPriceService productPriceService;
+
+	@Inject
+	PricingService pricingService;
 
 	@PreAuthorize("hasRole('PRODUCTS')")
 	@RequestMapping(value="/admin/products/editProduct.html", method=RequestMethod.GET)
@@ -1372,6 +1377,5 @@ public class ProductController {
 
 
 	}
-
 
 }
