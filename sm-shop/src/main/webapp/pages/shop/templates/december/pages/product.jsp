@@ -109,6 +109,17 @@
                                             <!-- Review -->
                                           <%--  <jsp:include page="/pages/shop/common/catalog/rating.jsp" /> --%>
                                     </div>
+
+                                    <c:if test="${displayVaiantDropdown}">
+                                    									    <c:if test="${doesVariantExists}">
+                                                                                <div>
+
+                                                                                    <div class="variant-select" id="variantDropdowns">
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </c:if>
+                                    									</c:if>
 									<!-- price -->
 									<h4>
 										<span itemprop="offerDetails" itemscope
@@ -117,35 +128,14 @@
 												content="${requestScope.MERCHANT_STORE.storename}" />
 											<meta itemprop="currency"
 												content="<c:out value="${requestScope.MERCHANT_STORE.currency.code}" />" />
-											<span id="productPrice" class="price"> 
-												<c:choose>
-													<c:when test="${product.discounted}">
-														<del>
-															<c:out value="${product.originalPrice}" />
-														</del>&nbsp;<span class="specialPrice"><span
-															itemprop="price"><c:out
-																	value="${product.finalPrice}" /></span></span>
-													</c:when>
-													<c:otherwise>
-														<span itemprop="price"><c:out
-																value="${product.finalPrice}" /></span>
-													</c:otherwise>
-												</c:choose>
-										</span>
+											<span id="productPrice" class="price">
+											    <span itemprop="price" id="sellingPrice"><c:out value="${product.finalPrice}" /></span>
+										    </span>
 										</span>
 									</h4>
 									<c:if test="${product.productPrice.description!=null}"><strong><c:out value="${product.productPrice.description.priceAppender}"/></strong></c:if>
 
-									<c:if test="${displayVaiantDropdown}">
-									    <c:if test="${doesVariantExists}">
-                                            <div>
 
-                                                <div class="variant-select" id="variantDropdowns">
-                                                </div>
-
-                                            </div>
-                                        </c:if>
-									</c:if>
 
 									<jsp:include
 										page="/pages/shop/common/catalog/addToCartProduct.jsp" />
@@ -327,10 +317,47 @@
                             alert('error ' + errorThrown);
                         }
                     });
-		    
+
 		})
 		
+        function getPrice()
+            {
+                        $("#avail_id").val("");
+                        $("#price_id").val("");
+                        $("#sellingPrice").val("");
+                      var variants = "";
 
-			
+                      var selects = document.getElementsByTagName('select');
+                      var sel;
+                      for(var z=0; z<selects.length; z++){
+                           sel = selects[z];
+                           if(sel.name.indexOf('variants') === 0){
+                               variants+=sel.value+",";
+                           }
+                      }
+
+                       $.ajax({
+                          type: 'GET',
+                          url: '<c:url value="/admin/products/getVariantsPrices.html"/>?withSymbol=true&variants=' + variants,
+                          dataType: 'json',
+                          success: function(response){
+                            console.log(response);
+                            var data = response.response.data;
+                            data = JSON.parse(data[0].prices);
+                            console.log(data);
+                            if(data.price=="" || data.price == null || data.price == undefined ) {
+                                $("#sellingPrice").html("This variant does not exist");
+                            }
+                            else {
+                                $("#sellingPrice").html(data.price);
+                            }
+
+                          },
+                          error: function(xhr, textStatus, errorThrown) {
+                            alert('error ' + errorThrown);
+                          }
+                       });
+            }
+
 		</script>
 
