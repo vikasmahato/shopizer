@@ -335,11 +335,17 @@
                                variants+=sel.value+",";
                            }
                       }
+                      variants = variants.slice(0, variants.length - 1);
 
                        $.ajax({
                           type: 'GET',
-                          url: '<c:url value="/admin/products/getVariantsPrices.html"/>?withSymbol=true&variants=' + variants,
+                          url: '<c:url value="/admin/products/getVariantsPrices.html"/>',
                           dataType: 'json',
+                          data: {
+                            withSymbol: 'true',
+                            variants: variants,
+                            code: ${product.sku}
+                          },
                           success: function(response){
                             console.log(response);
                             var data = response.response.data;
