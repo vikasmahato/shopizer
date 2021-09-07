@@ -6,8 +6,6 @@ import com.salesmanager.core.model.catalog.product.availability.ProductsAvailabl
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.List;
-import java.util.Set;
 
 @Service("productsAvailableService")
 public class ProductsAvailableServiceImpl extends
@@ -37,13 +35,5 @@ public class ProductsAvailableServiceImpl extends
         return productsAvailableRepository.getLastAvailId();
     }
 
-    @Override
-    public List<ProductsAvailable> getByVariants(List<Long> variants) {
-        return productsAvailableRepository.getByVariants(variants);
-    }
 
-    @Override
-    public Set<ProductsAvailable> getByAvailId(Long avail_id) {
-        return productsAvailableRepository.getByAvailId(avail_id);
-    }
 }

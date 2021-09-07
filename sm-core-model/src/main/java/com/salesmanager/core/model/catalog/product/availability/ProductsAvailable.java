@@ -9,10 +9,11 @@ import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "PRODUCTS_AVAILABLE",
-        indexes = {@Index(name = "PRODUCT_AVAIL_ID", columnList = "PRODUCT_AVAIL_ID", unique = false)})
+@Table(name = "PRODUCTS_AVAILABLE")
 public class ProductsAvailable extends SalesManagerEntity<Long, ProductsAvailable> implements Auditable {
 
     private static final long serialVersionUID = 1L;
@@ -39,9 +40,8 @@ public class ProductsAvailable extends SalesManagerEntity<Long, ProductsAvailabl
     @JoinColumn(name = "VARIANT_ID")
     private ProductSpecificationVariant variant;
 
-    @ManyToOne(targetEntity = ProductPrice.class)
-    @JoinColumn(name = "PRICE_ID")
-    private ProductPrice price;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "productsAvailable", cascade = CascadeType.ALL)
+    private Set<ProductPrice> prices = new HashSet<ProductPrice>();
 
     @Override
     public AuditSection getAuditSection() {
@@ -87,11 +87,11 @@ public class ProductsAvailable extends SalesManagerEntity<Long, ProductsAvailabl
         this.variant = variant;
     }
 
-    public ProductPrice getPrice() {
-        return price;
+    public Set<ProductPrice> getPrices() {
+        return prices;
     }
 
-    public void setPrice(ProductPrice price) {
-        this.price = price;
+    public void setPrices(Set<ProductPrice> prices) {
+        this.prices = prices;
     }
 }
