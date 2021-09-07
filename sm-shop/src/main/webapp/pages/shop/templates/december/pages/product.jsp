@@ -280,7 +280,7 @@
 
 		    $.ajax({
                         type: 'GET',
-                        url: '<c:url value="/admin/products/searchByCode.html"/>?code=' + ${product.sku},
+                        url: '<c:url value="/admin/products/searchByCode.html"/>?code=${product.sku}',
                         dataType: 'json',
                         success: function(response){
                              var data = response.response.data;
@@ -344,7 +344,7 @@
                           data: {
                             withSymbol: 'true',
                             variants: variants,
-                            code: ${product.sku}
+                            code: '${product.sku}'
                           },
                           success: function(response){
                             console.log(response);
