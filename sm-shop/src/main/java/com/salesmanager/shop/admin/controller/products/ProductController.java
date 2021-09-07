@@ -3,8 +3,10 @@ package com.salesmanager.shop.admin.controller.products;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.catalog.product.availability.ProductsAvailableService;
 import com.salesmanager.core.business.services.catalog.product.brand.BrandService;
 import com.salesmanager.core.business.services.catalog.product.image.ProductImageService;
+import com.salesmanager.core.business.services.catalog.product.price.ProductPriceService;
 import com.salesmanager.core.business.services.catalog.product.type.ProductTypeService;
 import com.salesmanager.core.business.services.catalog.product.vendor.VendorService;
 import com.salesmanager.core.business.services.tax.TaxClassService;
@@ -18,6 +20,7 @@ import com.salesmanager.core.model.catalog.category.CategorySpecification;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
+import com.salesmanager.core.model.catalog.product.availability.ProductsAvailable;
 import com.salesmanager.core.model.catalog.product.brand.Brand;
 import com.salesmanager.core.model.catalog.product.brand.BrandDescription;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
@@ -100,6 +103,12 @@ public class ProductController {
 
 	@Inject
 	VendorService vendorService;
+
+	@Inject
+	ProductsAvailableService productsAvailableService;
+
+	@Inject
+	ProductPriceService productPriceService;
 
 	@PreAuthorize("hasRole('PRODUCTS')")
 	@RequestMapping(value="/admin/products/editProduct.html", method=RequestMethod.GET)
@@ -309,13 +318,13 @@ public class ProductController {
 		}
 
 		//validate price
-		BigDecimal submitedPrice = null;
-		try {
-			submitedPrice = priceUtil.getAmount(product.getProductPrice());
-		} catch (Exception e) {
-			ObjectError error = new ObjectError("productPrice",messages.getMessage("NotEmpty.product.productPrice", locale));
-			result.addError(error);
-		}
+//		BigDecimal submitedPrice = null;
+//		try {
+//			submitedPrice = priceUtil.getAmount(product.getProductPrice());
+//		} catch (Exception e) {
+//			ObjectError error = new ObjectError("productPrice",messages.getMessage("NotEmpty.product.productPrice", locale));
+//			result.addError(error);
+//		}
 
 		Date date = new Date();
 		if(!StringUtils.isBlank(product.getDateAvailable())) {
@@ -390,14 +399,14 @@ public class ProductController {
 		
 		Product newProduct = product.getProduct();
 		ProductAvailability newProductAvailability = null;
-		ProductPrice newProductPrice = null;
+//		ProductPrice newProductPrice = null;
 		
 		Set<ProductPriceDescription> productPriceDescriptions = null;
 		
 		//get tax class
 		//TaxClass taxClass = newProduct.getTaxClass();
 		//TaxClass dbTaxClass = taxClassService.getById(taxClass.getId());
-		Set<ProductPrice> prices = new HashSet<ProductPrice>();
+//		Set<ProductPrice> prices = new HashSet<ProductPrice>();
 		Set<ProductAvailability> availabilities = new HashSet<ProductAvailability>();
 
 		if(product.getProduct().getId()!=null && product.getProduct().getId().longValue()>0) {
@@ -433,17 +442,17 @@ public class ProductController {
 
 
 						newProductAvailability = availability;
-						 Set<ProductPrice> productPrices = availability.getPrices();
+						// Set<ProductPrice> productPrices = availability.getPrices();
 
-						   for(ProductPrice price : productPrices) {
-						 	  if(price.isDefaultPrice()) {
-						 	  	  newProductPrice = price;
-						 		  newProductPrice.setProductPriceAmount(submitedPrice);
-						 		  productPriceDescriptions = price.getDescriptions();
-						 	  } else {
-						 		  prices.add(price);
-						 	  }
-						   }
+						// for(ProductPrice price : productPrices) {
+						// 	if(price.isDefaultPrice()) {
+						// 		newProductPrice = price;
+						// 		newProductPrice.setProductPriceAmount(submitedPrice);
+						// 		productPriceDescriptions = price.getDescriptions();
+						// 	} else {
+						// 		prices.add(price);
+						// 	}
+						// }
 					} else {
 						availabilities.add(availability);
 					}
@@ -458,27 +467,27 @@ public class ProductController {
 			}
 		}
 		
-		if(newProductPrice==null) {
-			newProductPrice = new ProductPrice();
-			newProductPrice.setDefaultPrice(true);
-			newProductPrice.setProductPriceAmount(submitedPrice);
-		}
+//		if(newProductPrice==null) {
+//			newProductPrice = new ProductPrice();
+//			newProductPrice.setDefaultPrice(true);
+//			newProductPrice.setProductPriceAmount(submitedPrice);
+//		}
 		
 		if(product.getProductImage()!=null && product.getProductImage().getId() == null) {
 			product.setProductImage(null);
 		}
 		
-		if(productPriceDescriptions==null) {
-			productPriceDescriptions = new HashSet<ProductPriceDescription>();
-			for(ProductDescription description : product.getDescriptions()) {
-				ProductPriceDescription ppd = new ProductPriceDescription();
-				ppd.setProductPrice(newProductPrice);
-				ppd.setLanguage(description.getLanguage());
-				ppd.setName(ProductPriceDescription.DEFAULT_PRICE_DESCRIPTION);
-				productPriceDescriptions.add(ppd);
-			}
-			newProductPrice.setDescriptions(productPriceDescriptions);
-		}
+//		if(productPriceDescriptions==null) {
+//			productPriceDescriptions = new HashSet<ProductPriceDescription>();
+//			for(ProductDescription description : product.getDescriptions()) {
+//				ProductPriceDescription ppd = new ProductPriceDescription();
+//				ppd.setProductPrice(newProductPrice);
+//				ppd.setLanguage(description.getLanguage());
+//				ppd.setName(ProductPriceDescription.DEFAULT_PRICE_DESCRIPTION);
+//				productPriceDescriptions.add(ppd);
+//			}
+//			newProductPrice.setDescriptions(productPriceDescriptions);
+//		}
 		
 		newProduct.setMerchantStore(store);
 		
@@ -491,11 +500,11 @@ public class ProductController {
 		newProductAvailability.setProductQuantityOrderMin(product.getAvailability().getProductQuantityOrderMin());
 		newProductAvailability.setProductQuantityOrderMax(product.getAvailability().getProductQuantityOrderMax());
 		newProductAvailability.setProduct(newProduct);
-		 newProductAvailability.setPrices(prices);
+		// newProductAvailability.setPrices(prices);
 		availabilities.add(newProductAvailability);
 			
-		 newProductPrice.setProductAvailability(newProductAvailability);
-		 prices.add(newProductPrice);
+		// newProductPrice.setProductAvailability(newProductAvailability);
+		// prices.add(newProductPrice);
 			
 		newProduct.setAvailabilities(availabilities);
 
@@ -1328,7 +1337,7 @@ public class ProductController {
 			Map<String, List<String>> specNameValueList = new HashMap<>();
 
 			for(CategorySpecification categorySpecification: categorySpecifications) {
-				if(categorySpecification.getVariant()==true)
+				if(categorySpecification.getVariant())
 				{
 					List<String> specifiationValue = new ArrayList<>();
 					for(ProductSpecificationVariant productSpecificationVariant : productSpecifications) {
