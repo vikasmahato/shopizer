@@ -1383,7 +1383,7 @@ public class ProductController {
 	public @ResponseBody ResponseEntity<String> getVariantPrices(HttpServletRequest request, HttpServletResponse response
 			, @RequestParam("variants") String variant, @RequestParam("code") String code, @RequestParam("withSymbol") Boolean withSymbol) throws Exception {
 
-		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+		MerchantStore store = withSymbol ? (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE) : (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
