@@ -14,7 +14,6 @@ response.setDateHeader ("Expires", -1);
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
 
-
           <div class="control-group">
             <label class="control-label"><s:message code="label.payment.moneyorder.usemoneyorder" text="Use money order" /></label>
             <div class="controls">
@@ -23,7 +22,7 @@ response.setDateHeader ("Expires", -1);
           </div>
 
          <div class="control-group payment-method-box">
-         <button id="rzp-button1" onclick="initiateRazorPayPayment();  return false;" class="btn btn-danger">Pay</button>
+         <button id="rzp-button1" onclick="return false;" class="btn btn-danger">Pay</button>
 
          	<s:message code="label.checkout.moneyorder" text="Please make your check or money order payable to:"/><br/>
 			<c:out value="${requestScope.paymentMethod.informations.integrationKeys['key_id']}" escapeXml="false"/>
@@ -45,12 +44,11 @@ response.setDateHeader ("Expires", -1);
                  "image": "https://example.com/your_logo",
                  "order_id": order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                  "handler": function (response){
-                     /*alert(response.razorpay_payment_id);
-                     alert(response.razorpay_order_id);
-                     alert(response.razorpay_signature)*/
+                     $("#r_payment_id").val(response.razorpay_payment_id);
+                     $("#r_order_id").val(response.razorpay_order_id);
+                     $("#r_signature").val(response.razorpay_signature);
 
-                    /* alert("Raz Pay Handler");
-                     alert(response);*/
+                     initPayment('RAZORPAY');
                  },
                  "prefill": {
                      "name": $("#customerfirstName").val(),
@@ -68,24 +66,18 @@ response.setDateHeader ("Expires", -1);
          }
 
          function initiateRazorPayPayment(){
+             var url = '<c:url value="/shop/razorpay/generateOrderId"/>';
+             var data = $(checkoutFormId).serialize();
+
              $.ajax({
                  method: "POST",
-                 url: "https://api.razorpay.com/v1/orders",
-
-                 headers: {
-                     "Access-Control-Allow-Origin": "*",
-                     "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
-                     "Accept": "application/json",
-                     "Authorization": "Basic",
-                     "Content-Type": "application/json"
-                 },
-                 data: JSON.stringify({
-                     "amount": parseInt($("#amt").html().replaceAll("Rs", "").replaceAll(".", "").replaceAll("," , "")),
-                     "currency": "INR",
-                     "receipt": "receipt#1"
-                 }),
+                 url: url,
+                 data: data,
                  success: function(response) {
-                     var rzp1 = new Razorpay(createRazorPayOptions(response.id, response));
+                     debugger;
+                     //TODO check response status
+                     var rzp1 = new Razorpay(createRazorPayOptions(response.response.data[0].order_id, response));
+
                      rzp1.on('payment.failed', function (response){
                              alert("Payment failed handler");
                              alert(response.error.code);
@@ -99,10 +91,13 @@ response.setDateHeader ("Expires", -1);
                      rzp1.open();
                      },
                  error: function (xhr, textStatus, errorThrown) {
-
+                     // TODO: Handle error
+                     //debugger;
                  }
              });
 
          }
 
          </script>
+
+

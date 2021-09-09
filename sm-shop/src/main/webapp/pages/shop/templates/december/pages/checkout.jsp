@@ -490,7 +490,7 @@ function bindActions() {
 		}
 		else if(paymentSelection.indexOf('razorpay') >= 0) {
 			$('#paymentMethodType').attr("value", 'RAZORPAY');
-			submitForm();
+			initiateRazorPayPayment();
 		} else {
 			//submit form
 			submitForm();	
@@ -1085,6 +1085,13 @@ function initPayment(paymentSelection) {
 						</c:if>
 					</div>
 						</div>
+
+						<div>
+							<input type="hidden" name='payment["r_payment_id"]' id="r_payment_id" />
+							<input type="hidden" name='payment["r_order_id"]' id="r_order_id"/>
+							<input type="hidden" name='payment["r_signature"]' id="r_signature"/>
+						</div>
+
 					</form:form>
 				</div>
 			</div>

@@ -83,7 +83,7 @@ public class Transaction extends SalesManagerEntity<Long, Transaction> implement
 	@Type(type = "org.hibernate.type.TextType")
 	private String details;
 
-	@Column(name="RAZORPAYORDERID", nullable=true)
+	@Column(name="RAZORPAY_ORDER_ID")
 	private String razorpayOrderId;
 
 	@Transient
