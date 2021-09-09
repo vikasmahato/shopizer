@@ -40,7 +40,7 @@ Templates definition
 <!-- total template -->
 <script type="text/html" id="totalTemplate">
 		<th><s:message code="order.total.total" text="Total"/></th>
-		<td><strong><span class="amount grand-total">{{grandTotal}}</td>
+		<td><strong><span id="amt" class="amount grand-total">{{grandTotal}}</td>
 </script>
 
 											
@@ -621,7 +621,7 @@ function initPayment(paymentSelection) {
 										<div class="checkout-form-list">
 											<label><s:message code="label.generic.firstname" text="First Name"/><span class="required">*</span></label>										
 											<s:message code="NotEmpty.customer.firstName" text="First name is required" var="msgFirstName"/>
-											<form:input id="customer.firstName" cssClass="required" path="customer.billing.firstName" autofocus="autofocus" title="${msgFirstName}"/>
+											<form:input id="customerfirstName" cssClass="required" path="customer.billing.firstName" autofocus="autofocus" title="${msgFirstName}"/>
 											<form:errors path="customer.billing.firstName" cssClass="error" />
 										    <span id="error-customer.billing.firstName" class="error"></span>
 										</div>
@@ -630,7 +630,7 @@ function initPayment(paymentSelection) {
 										<div class="checkout-form-list">
 											<label><s:message code="label.generic.lastname" text="Last Name"/><span class="required">*</span></label>										
 										    <s:message code="NotEmpty.customer.lastName" text="Last name is required" var="msgLastName"/>
-										    <form:input id="customer.lastName" cssClass="required"  maxlength="32" path="customer.billing.lastName" title="${msgLastName}" />
+										    <form:input id="customerlastName" cssClass="required"  maxlength="32" path="customer.billing.lastName" title="${msgLastName}" />
 										    <form:errors path="customer.billing.lastName" cssClass="error" />
 										    <span id="error-customer.billing.lastName" class="error"></span>
 										</div>
@@ -713,8 +713,8 @@ function initPayment(paymentSelection) {
 									<div class="col-md-6">
 										<div class="checkout-form-list">
 											<label><s:message code="label.generic.email" text="Email address"/> <span class="required">*</span></label>										
-											<s:message code="NotEmpty.customer.emailAddress" text="Email address is required" var="msgEmail"/> 
-										    <form:input id="customer.emailAddress" cssClass="required" path="customer.emailAddress" title="${msgEmail}"/>
+											<s:message code="NotEmpty.customer.emailAddress" text="Email address is required" var="msgEmail"/>
+										    <form:input id="customeremailAddress" cssClass="required" path="customer.emailAddress" title="${msgEmail}"/>
 										    <form:errors path="customer.emailAddress" cssClass="error" />
 											<span id="error-customer.emailAddress" class="error"></span>
 										</div>
@@ -723,7 +723,7 @@ function initPayment(paymentSelection) {
 										<div class="checkout-form-list">
 											<label><s:message code="label.generic.phone" text="Phone number"/>  <span class="required">*</span></label>										
 											<s:message code="NotEmpty.customer.billing.phone" text="Phone number is required" var="msgPhone"/>
-										    <form:input id="customer.billing.phone" cssClass="required" path="customer.billing.phone" title="${msgPhone}"/>
+										    <form:input id="customerbillingphone" cssClass="required" path="customer.billing.phone" title="${msgPhone}"/>
 										    <form:errors path="customer.billing.phone" cssClass="error" />
 											<span id="error-customer.billing.phone" class="error"></span>
 										</div>
