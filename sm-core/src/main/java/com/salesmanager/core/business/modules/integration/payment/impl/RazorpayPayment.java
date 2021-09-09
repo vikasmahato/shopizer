@@ -139,7 +139,7 @@ public class RazorpayPayment implements PaymentModule {
 
             RazorpayClient razorpay = new RazorpayClient(configuration.getIntegrationKeys().get("key_id"), apiKey);
             JSONObject options = new JSONObject();
-            options.put("amount", strAmount);
+            options.put("amount", strAmount);   //TODO: AJAY This amount should be in Paise?
             options.put("currency", store.getCurrency().getCode());
 
             com.razorpay.Order order = razorpay.Orders.create(options);
@@ -148,7 +148,7 @@ public class RazorpayPayment implements PaymentModule {
 
 
             transaction.setAmount(amount);
-            //transaction.setOrder(order);
+            transaction.setRazorpayOrderId(order.get("id"));
             transaction.setTransactionDate(new Date());
             transaction.setTransactionType(TransactionType.AUTHORIZE);
             transaction.setPaymentType(PaymentType.CREDITCARD);
@@ -171,7 +171,7 @@ public class RazorpayPayment implements PaymentModule {
                                Order order, Transaction capturableTransaction,
                                IntegrationConfiguration configuration, IntegrationModule module)
             throws IntegrationException {
-
+        //TODO : AJAY Capture payment
         return null;
 
     }
