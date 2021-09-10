@@ -280,12 +280,10 @@
 
 		    $.ajax({
                         type: 'GET',
-                        url: '<c:url value="/admin/products/searchByCode.html"/>?code=' + ${product.sku},
+                        url: '<c:url value="/shop/product/searchByCode.html"/>?code=${product.sku}',
                         dataType: 'json',
                         success: function(response){
                              var data = response.response.data;
-                             var stringToDisplay = data[0].code + ": " + data[0].name;
-                             $("#productsku").html(stringToDisplay);
 
                              var specificationDetails = JSON.parse(data[0].specficationDetails);
                              //console.log(specificationDetails);
@@ -312,13 +310,14 @@
                              }
 
                             $("#variantDropdowns").html(variantOptions);
+                            getPrice();
                         },
                           error: function(xhr, textStatus, errorThrown) {
                             alert('error ' + errorThrown);
                         }
                     });
 
-		})
+		});
 		
         function getPrice()
             {
@@ -339,12 +338,12 @@
 
                        $.ajax({
                           type: 'GET',
-                          url: '<c:url value="/admin/products/getVariantsPrices.html"/>',
+                          url: '<c:url value="/shop/product/getVariantsPrices.html"/>',
                           dataType: 'json',
                           data: {
                             withSymbol: 'true',
                             variants: variants,
-                            code: ${product.sku}
+                            code: '${product.sku}'
                           },
                           success: function(response){
                             console.log(response);

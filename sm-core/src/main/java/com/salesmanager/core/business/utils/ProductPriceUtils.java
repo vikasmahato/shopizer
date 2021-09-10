@@ -493,13 +493,8 @@ public class ProductPriceUtils {
 				for(ProductPrice price : prices) {
 					
 					FinalPrice p = finalPrice(price);
-					if(price.isDefaultPrice()) {
+					if(finalPrice == null || price.getProductPriceAmount().compareTo(finalPrice.getFinalPrice()) < 0) {
 						finalPrice = p;
-					} else {
-						if(otherPrices==null) {
-							otherPrices = new ArrayList<FinalPrice>();
-						}
-						otherPrices.add(p);
 					}
 				}
 			}
