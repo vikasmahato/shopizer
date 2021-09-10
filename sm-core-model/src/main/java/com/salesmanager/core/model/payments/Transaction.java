@@ -82,7 +82,10 @@ public class Transaction extends SalesManagerEntity<Long, Transaction> implement
 	@Column(name="DETAILS")
 	@Type(type = "org.hibernate.type.TextType")
 	private String details;
-	
+
+	@Column(name="RAZORPAY_ORDER_ID")
+	private String razorpayOrderId;
+
 	@Transient
 	private Map<String,String> transactionDetails= new HashMap<String,String>();
 
@@ -166,6 +169,14 @@ public class Transaction extends SalesManagerEntity<Long, Transaction> implement
 
 	public void setTransactionDetails(Map<String, String> transactionDetails) {
 		this.transactionDetails = transactionDetails;
+	}
+
+	public String getRazorpayOrderId() {
+		return razorpayOrderId;
+	}
+
+	public void setRazorpayOrderId(String razorpayOrderId) {
+		this.razorpayOrderId = razorpayOrderId;
 	}
 
 	@Override
