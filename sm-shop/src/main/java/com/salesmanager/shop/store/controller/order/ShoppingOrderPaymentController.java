@@ -1,21 +1,27 @@
 package com.salesmanager.shop.store.controller.order;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import java.math.BigDecimal;
+import java.util.*;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.razorpay.Order;
+import com.razorpay.RazorpayClient;
+import com.razorpay.RazorpayException;
+import com.salesmanager.core.business.modules.integration.payment.impl.RazorpayPayment;
+import com.salesmanager.core.model.payments.Signature;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.Validate;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -199,6 +205,59 @@ public class ShoppingOrderPaymentController extends AbstractController {
 					} catch (Exception e) {
 						ajaxResponse.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 					}
+				} else if (paymentmethod.equals("RAZORPAY")) {
+					try {
+						PaymentModule module = paymentService.getPaymentModule(paymentmethod.toLowerCase(Locale.ROOT));
+						RazorpayPayment p = (RazorpayPayment) module;
+						PaypalPayment payment = new PaypalPayment();
+						payment.setCurrency(store.getCurrency());
+						payment.setPaymentMetaData(order.getPayment());
+
+						String order_id = super.getSessionAttribute(Constants.RAZORPAY_ORDER_ID, request);
+
+						/** Verify signature */
+
+						String result = Signature.calculateRFC2104HMAC(order_id + "|" + payment.getPaymentMetaData().get("r_payment_id"), config.getIntegrationKeys().get("key_secret"));
+
+
+						if (result.equals(payment.getPaymentMetaData().get("r_signature"))) {
+							// payment is successful
+							Transaction transaction = p.initTransaction(store, null, orderTotalSummary.getTotal(), payment, config, integrationModule);
+							transactionService.create(transaction);
+
+							super.setSessionAttribute(Constants.INIT_TRANSACTION_KEY, transaction, request);
+							//TODO: ajaxResponse.addEntry("url", Constants.SHOP_URI + "/order/commitPreAuthorized.html");
+						} else {
+							// Failed
+							//TODO: ajaxResponse.addEntry("url", Constants.SHOP_URI + "/order/checkout.html");
+						}
+
+						/*StringBuilder urlAppender = new StringBuilder();
+
+						urlAppender.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_REGULAR"));
+
+						urlAppender.append(transaction.getTransactionDetails().get("TOKEN"));
+
+						if (config.getEnvironment()
+								.equals(com.salesmanager.core.business.constants.Constants.PRODUCTION_ENVIRONMENT)) {
+							StringBuilder url = new StringBuilder()
+									.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_PRODUCTION"))
+									.append(urlAppender.toString());
+							ajaxResponse.addEntry("url", url.toString());
+						} else {
+							StringBuilder url = new StringBuilder()
+									.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_SANDBOX"))
+									.append(urlAppender.toString());
+							ajaxResponse.addEntry("url", url.toString());
+						}*/
+
+						// keep order in session when user comes back from pp
+						super.setSessionAttribute(Constants.ORDER, order, request);
+						ajaxResponse.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+
+					} catch (Exception e) {
+						ajaxResponse.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+					}
 				}
 			}
 
@@ -222,5 +281,46 @@ public class ShoppingOrderPaymentController extends AbstractController {
 			return "redirect:" + Constants.SHOP_URI + "/order/checkout.html";
 		}
 	}
+
+	@RequestMapping(value = { "/razorpay/generateOrderId" }, method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> returnRazorpayOrderId(HttpServletRequest request, HttpServletResponse response, @ModelAttribute(value = "order") ShopOrder order) {
+
+		AjaxResponse resp = new AjaxResponse();
+		Map entry = new HashMap();
+
+		try {
+			Language language = (Language) request.getAttribute("LANGUAGE");
+			MerchantStore store = (MerchantStore) request.getAttribute(Constants.MERCHANT_STORE);
+			IntegrationConfiguration config = paymentService.getPaymentConfiguration("RAZORPAY", store);
+
+			OrderTotalSummary orderTotalSummary = super.getSessionAttribute(Constants.ORDER_SUMMARY, request);
+			if (orderTotalSummary == null) {
+				orderTotalSummary = orderFacade.calculateOrderTotal(store, order, language);
+				super.setSessionAttribute(Constants.ORDER_SUMMARY, orderTotalSummary, request);
+			}
+
+			RazorpayPayment razorpayPayment = new RazorpayPayment();
+
+			String razorPayOrderId = razorpayPayment.getOrderId(store, config, orderTotalSummary);
+
+			super.setSessionAttribute(Constants.RAZORPAY_ORDER_ID, razorPayOrderId, request);
+
+			entry.put("order_id", razorPayOrderId);
+
+			resp.addDataEntry(entry);
+			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+		} catch (Exception e) {
+			LOGGER.error("Error while generating order id", e);
+			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+			resp.setErrorMessage(e);
+		}
+
+		String returnString = resp.toJSONString();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString,httpHeaders, HttpStatus.OK);
+	}
+
+
 
 }

@@ -1,16 +1,18 @@
 package com.salesmanager.core.business.modules.integration.payment.impl;
 
+import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.inject.Inject;
 
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
+import com.salesmanager.core.model.order.OrderTotalSummary;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.json.JSONObject;
@@ -38,6 +40,29 @@ public class RazorpayPayment implements PaymentModule {
 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RazorpayPayment.class);
+
+    public String getOrderId(MerchantStore store, IntegrationConfiguration config, OrderTotalSummary orderTotalSummary) throws RazorpayException, UnirestException {
+
+        Unirest.setTimeouts(0, 0);
+        String key = Base64.getEncoder().encodeToString((config.getIntegrationKeys().get("key_id") + ":" + config.getIntegrationKeys().get("key_secret") ).getBytes());
+        HttpResponse<JsonNode> response = Unirest.post("https://api.razorpay.com/v1/orders")
+                .header("Accept", "application/json")
+                .header("Authorization", "Basic "+key)
+                .header("Content-Type", "application/json")
+                .body("{\n    \"amount\": "+orderTotalSummary.getTotal().multiply(BigDecimal.valueOf(100)).intValue()+",\n    \"currency\": \"INR\",\n    \"receipt\": \"receipt#1\"\n}")
+                .asJson();
+
+        return  response.getBody().getObject().get("id").toString();
+
+        /*RazorpayClient razorpay = new RazorpayClient(config.getIntegrationKeys().get("key_id"), config.getIntegrationKeys().get("key_secret"));
+        new RazorpayClient("rzp_test_bZuQuARGBl0Q0i", "YpyF0qDqdNZK7inG6cyvG9ru");
+        JSONObject orderRequest = new JSONObject();
+        orderRequest.put("amount", orderTotalSummary.getTotal().multiply(BigDecimal.valueOf(100)).longValue()); // amount in the smallest currency unit
+        orderRequest.put("currency", store.getCurrency().getCode());
+
+        com.razorpay.Order razorPayOrder = razorpay.Orders.create(orderRequest);
+        return razorPayOrder;*/
+    }
 
     @Override
     public void validateModuleConfiguration(IntegrationConfiguration integrationConfiguration, MerchantStore store) throws IntegrationException {
@@ -86,6 +111,7 @@ public class RazorpayPayment implements PaymentModule {
         transaction.setPaymentType(payment.getPaymentType());
         transaction.setTransactionDate(new Date());
         transaction.setTransactionType(payment.getTransactionType());
+        transaction.setRazorpayOrderId(payment.getPaymentMetaData().get("r_order_id"));
 
         return transaction;
     }
