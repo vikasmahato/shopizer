@@ -1,6 +1,5 @@
 package com.salesmanager.shop.store.controller.order;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 import javax.inject.Inject;
@@ -8,14 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import com.razorpay.Order;
-import com.razorpay.RazorpayClient;
-import com.razorpay.RazorpayException;
-import com.salesmanager.core.business.modules.integration.payment.impl.RazorpayPayment;
-import com.salesmanager.core.model.payments.Signature;
+import com.salesmanager.core.business.modules.integration.payment.impl.RazorpayCheckoutPayment;
+import com.salesmanager.core.model.payments.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.Validate;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -38,8 +33,6 @@ import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.OrderTotalSummary;
-import com.salesmanager.core.model.payments.PaypalPayment;
-import com.salesmanager.core.model.payments.Transaction;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shipping.ShippingSummary;
 import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
@@ -208,8 +201,8 @@ public class ShoppingOrderPaymentController extends AbstractController {
 				} else if (paymentmethod.equals("RAZORPAY")) {
 					try {
 						PaymentModule module = paymentService.getPaymentModule(paymentmethod.toLowerCase(Locale.ROOT));
-						RazorpayPayment p = (RazorpayPayment) module;
-						PaypalPayment payment = new PaypalPayment();
+						RazorpayCheckoutPayment p = (RazorpayCheckoutPayment) module;
+						Payment payment = new RazorpayPayment();
 						payment.setCurrency(store.getCurrency());
 						payment.setPaymentMetaData(order.getPayment());
 
@@ -299,7 +292,7 @@ public class ShoppingOrderPaymentController extends AbstractController {
 				super.setSessionAttribute(Constants.ORDER_SUMMARY, orderTotalSummary, request);
 			}
 
-			RazorpayPayment razorpayPayment = new RazorpayPayment();
+			RazorpayCheckoutPayment razorpayPayment = new RazorpayCheckoutPayment();
 
 			String razorPayOrderId = razorpayPayment.getOrderId(store, config, orderTotalSummary);
 

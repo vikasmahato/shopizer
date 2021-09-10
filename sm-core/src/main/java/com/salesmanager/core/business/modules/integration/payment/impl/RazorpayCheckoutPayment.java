@@ -1,6 +1,5 @@
 package com.salesmanager.core.business.modules.integration.payment.impl;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -33,13 +32,13 @@ import com.salesmanager.core.model.system.IntegrationModule;
 import com.salesmanager.core.modules.integration.IntegrationException;
 import com.salesmanager.core.modules.integration.payment.model.PaymentModule;
 
-public class RazorpayPayment implements PaymentModule {
+public class RazorpayCheckoutPayment implements PaymentModule {
 
     @Inject
     private ProductPriceUtils productPriceUtils;
 
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RazorpayPayment.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RazorpayCheckoutPayment.class);
 
     public String getOrderId(MerchantStore store, IntegrationConfiguration config, OrderTotalSummary orderTotalSummary) throws RazorpayException, UnirestException {
 
