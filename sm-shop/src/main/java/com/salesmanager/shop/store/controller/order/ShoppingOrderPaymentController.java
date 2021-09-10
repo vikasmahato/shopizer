@@ -219,31 +219,11 @@ public class ShoppingOrderPaymentController extends AbstractController {
 							transactionService.create(transaction);
 
 							super.setSessionAttribute(Constants.INIT_TRANSACTION_KEY, transaction, request);
-							//TODO: ajaxResponse.addEntry("url", Constants.SHOP_URI + "/order/commitPreAuthorized.html");
+							ajaxResponse.addEntry("url", Constants.SHOP_URI + "/order/commitPreAuthorized.html");
 						} else {
 							// Failed
-							//TODO: ajaxResponse.addEntry("url", Constants.SHOP_URI + "/order/checkout.html");
+							ajaxResponse.addEntry("url", Constants.SHOP_URI + "/order/checkout.html");
 						}
-
-						/*StringBuilder urlAppender = new StringBuilder();
-
-						urlAppender.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_REGULAR"));
-
-						urlAppender.append(transaction.getTransactionDetails().get("TOKEN"));
-
-						if (config.getEnvironment()
-								.equals(com.salesmanager.core.business.constants.Constants.PRODUCTION_ENVIRONMENT)) {
-							StringBuilder url = new StringBuilder()
-									.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_PRODUCTION"))
-									.append(urlAppender.toString());
-							ajaxResponse.addEntry("url", url.toString());
-						} else {
-							StringBuilder url = new StringBuilder()
-									.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_SANDBOX"))
-									.append(urlAppender.toString());
-							ajaxResponse.addEntry("url", url.toString());
-						}*/
-
 						// keep order in session when user comes back from pp
 						super.setSessionAttribute(Constants.ORDER, order, request);
 						ajaxResponse.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);

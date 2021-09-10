@@ -83,6 +83,14 @@ public class RazorpayCheckoutPayment implements PaymentModule {
             errorFields.add("key_id");
         }
 
+        if(keys==null || StringUtils.isBlank(keys.get("transaction"))) {
+            if(errorFields==null) {
+                errorFields = new ArrayList<String>();
+            }
+            errorFields.add("transaction");
+        }
+
+
 
         if(errorFields!=null) {
             IntegrationException ex = new IntegrationException(IntegrationException.ERROR_VALIDATION_SAVE);
@@ -124,61 +132,15 @@ public class RazorpayCheckoutPayment implements PaymentModule {
         Transaction transaction = new Transaction();
         try {
 
-
-            String apiKey = configuration.getIntegrationKeys().get("key_secret");
-
-            if(payment.getPaymentMetaData()==null || StringUtils.isBlank(apiKey)) {
-                IntegrationException te = new IntegrationException(
-                        "Can't process Razorpay, missing payment.metaData");
-                te.setExceptionType(IntegrationException.TRANSACTION_EXCEPTION);
-                te.setMessageCode("message.payment.error");
-                te.setErrorCode(IntegrationException.TRANSACTION_EXCEPTION);
-                throw te;
-            }
-
-            /**
-             * this is send by Razorpay from tokenization ui
-             */
-            String token = payment.getPaymentMetaData().get("Razorpay_token");
-
-            if(StringUtils.isBlank(token)) {
-                IntegrationException te = new IntegrationException(
-                        "Can't process Razorpay, missing Razorpay token");
-                te.setExceptionType(IntegrationException.TRANSACTION_EXCEPTION);
-                te.setMessageCode("message.payment.error");
-                te.setErrorCode(IntegrationException.TRANSACTION_EXCEPTION);
-                throw te;
-            }
-
-
-            String amnt = productPriceUtils.getAdminFormatedAmount(store, amount);
-
-            //Razorpay does not support floating point
-            //so amnt * 100 or remove floating point
-            //553.47 = 55347
-
-            String strAmount = String.valueOf(amnt);
-            strAmount = strAmount.replace(".","");
-
-            Map<String, Object> chargeParams = new HashMap<String, Object>();
-
-            RazorpayClient razorpay = new RazorpayClient(configuration.getIntegrationKeys().get("key_id"), apiKey);
-            JSONObject options = new JSONObject();
-            options.put("amount", strAmount);   //TODO: AJAY This amount should be in Paise?
-            options.put("currency", store.getCurrency().getCode());
-
-            com.razorpay.Order order = razorpay.Orders.create(options);
-
-            //Map<String,String> metadata = ch.getMetadata();
-
-
             transaction.setAmount(amount);
-            transaction.setRazorpayOrderId(order.get("id"));
+            //transaction.setOrder(order);
             transaction.setTransactionDate(new Date());
             transaction.setTransactionType(TransactionType.AUTHORIZE);
-            transaction.setPaymentType(PaymentType.CREDITCARD);
-            transaction.getTransactionDetails().put("TRANSACTIONID", token);
-            transaction.getTransactionDetails().put("MESSAGETEXT", null);
+            transaction.setPaymentType(PaymentType.RAZORPAY);
+            transaction.getTransactionDetails().put("TRANSACTIONID", "");
+            transaction.getTransactionDetails().put("TRNAPPROVED", "");
+            transaction.getTransactionDetails().put("TRNORDERNUMBER", "");
+
 
         } catch (Exception e) {
 
@@ -196,8 +158,26 @@ public class RazorpayCheckoutPayment implements PaymentModule {
                                Order order, Transaction capturableTransaction,
                                IntegrationConfiguration configuration, IntegrationModule module)
             throws IntegrationException {
-        //TODO : AJAY Capture payment
-        return null;
+        Transaction transaction = new Transaction();
+        try {
+
+            transaction.setAmount(order.getTotal());
+            //transaction.setOrder(order);
+            transaction.setTransactionDate(new Date());
+            transaction.setTransactionType(TransactionType.AUTHORIZE);
+            transaction.setPaymentType(PaymentType.RAZORPAY);
+            transaction.getTransactionDetails().put("TRANSACTIONID", "");
+            transaction.getTransactionDetails().put("TRNAPPROVED", "");
+            transaction.getTransactionDetails().put("TRNORDERNUMBER", "");
+
+
+        } catch (Exception e) {
+
+            throw buildException(e);
+
+        }
+
+        return transaction;
 
     }
 
@@ -207,7 +187,26 @@ public class RazorpayCheckoutPayment implements PaymentModule {
                                            IntegrationConfiguration configuration, IntegrationModule module)
             throws IntegrationException {
 
-        return  null;
+        Transaction transaction = new Transaction();
+        try {
+
+            transaction.setAmount(amount);
+            //transaction.setOrder(order);
+            transaction.setTransactionDate(new Date());
+            transaction.setTransactionType(TransactionType.AUTHORIZE);
+            transaction.setPaymentType(PaymentType.RAZORPAY);
+            transaction.getTransactionDetails().put("TRANSACTIONID", "");
+            transaction.getTransactionDetails().put("TRNAPPROVED", "");
+            transaction.getTransactionDetails().put("TRNORDERNUMBER", "");
+
+
+        } catch (Exception e) {
+
+            throw buildException(e);
+
+        }
+
+        return transaction;
 
     }
 

@@ -23,9 +23,6 @@ response.setDateHeader ("Expires", -1);
 
          <div class="control-group payment-method-box">
 
-         <button id="rzp-button1" onclick="return false;" class="btn btn-danger">Pay</button>
-
-
          	<s:message code="label.checkout.moneyorder" text="Please make your check or money order payable to:"/><br/>
 			<c:out value="${requestScope.paymentMethod.informations.integrationKeys['key_id']}" escapeXml="false"/>
          </div>

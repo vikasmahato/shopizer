@@ -31,3 +31,10 @@
 	                        </span>
                   </div>
 
+					<div class="control-group">
+						<label class="required"><s:message code="module.payment.transactiontype" text="Transaction type"/></label>
+						<div class="controls">
+							<form:radiobutton cssClass="input-large highlight" path="integrationKeys['transaction']" value="AUTHORIZE" />&nbsp;<s:message code="module.payment.transactiontype.auth" text="Authorize" /><br/>
+							<form:radiobutton cssClass="input-large highlight" path="integrationKeys['transaction']" value="AUTHORIZECAPTURE" />&nbsp;<s:message code="module.payment.transactiontype.authcap" text="Authorize & Capture" /></br>
+						</div>
+					</div>
