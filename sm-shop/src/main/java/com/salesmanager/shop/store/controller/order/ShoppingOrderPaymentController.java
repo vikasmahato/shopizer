@@ -226,10 +226,10 @@ public class ShoppingOrderPaymentController extends AbstractController {
 							transactionService.create(transaction);
 
 							super.setSessionAttribute(Constants.INIT_TRANSACTION_KEY, transaction, request);
-							//ajaxResponse.addEntry("url", Constants.SHOP_URI + "/order/commitPreAuthorized.html");
+							//TODO: ajaxResponse.addEntry("url", Constants.SHOP_URI + "/order/commitPreAuthorized.html");
 						} else {
 							// Failed
-							//ajaxResponse.addEntry("url", Constants.SHOP_URI + "/order/checkout.html");
+							//TODO: ajaxResponse.addEntry("url", Constants.SHOP_URI + "/order/checkout.html");
 						}
 
 						/*StringBuilder urlAppender = new StringBuilder();
