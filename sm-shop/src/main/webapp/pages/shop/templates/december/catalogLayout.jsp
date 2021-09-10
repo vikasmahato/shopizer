@@ -59,10 +59,22 @@ response.setDateHeader ("Expires", -1);
 								<div class="product-content text-center">
 									<a class="listing-product-name" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html/ref=<c:out value="${requestScope.ref}"/>"><h3 itemprop="name" style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis">{{description.name}}</h3></a>
 									<!-- commented <div class="stars" id="productRating_{{id}}"></div> -->
+									<c:if test ="${price eq '0'}">
+									{{price}}
+									</c:if>
+									<c:choose>
+									<c:when test="${price == 0}">
 									<h4>
+									    <span itemprop="price" class="specialPrice">Ask for price</span>
+									</h4>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <h4>
 										{{#discounted}}<del>{{originalPrice}}</del>&nbsp;<span itemprop="price" class="specialPrice">{{finalPrice}}</span>{{/discounted}}
 										{{^discounted}}<span itemprop="price">{{finalPrice}}</span>{{/discounted}}
-									</h4>
+								    </h4>
+									</c:otherwise>
+                                    </c:choose>
 									<c:if test="${requestScope.CONFIGS['allowPurchaseItems'] == true}">
 									<div class="store-btn">
       									<div class="store-btn-addtocart"><a class="addToCart" href="javascript:void(0)" productId="{{id}}"><s:message code="button.label.addToCart" text="Add to cart"/></a></div>
