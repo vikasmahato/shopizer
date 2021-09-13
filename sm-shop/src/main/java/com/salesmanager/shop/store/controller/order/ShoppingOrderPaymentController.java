@@ -11,7 +11,6 @@ import javax.validation.Valid;
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
-import com.salesmanager.core.business.modules.integration.payment.impl.RazorpayPayment;
 import com.salesmanager.core.model.payments.Signature;
 import com.salesmanager.core.business.modules.integration.payment.impl.RazorpayCheckoutPayment;
 import com.salesmanager.core.model.payments.*;
@@ -280,7 +279,7 @@ public class ShoppingOrderPaymentController extends AbstractController {
 				super.setSessionAttribute(Constants.ORDER_SUMMARY, orderTotalSummary, request);
 			}
 
-			RazorpayPayment razorpayPayment = new RazorpayPayment();
+			RazorpayCheckoutPayment razorpayPayment = new RazorpayCheckoutPayment();
 
 			String razorPayOrderId = razorpayPayment.getOrderId(store, config, orderTotalSummary);
 
