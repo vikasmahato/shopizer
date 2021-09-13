@@ -320,8 +320,12 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 
 		ShoppingCartItem item = new ShoppingCartItem(product);
 
-		// set item price
-		FinalPrice price = pricingService.calculateFinalPrice(productPriceService.getById(priceId));
+		FinalPrice price = null;
+
+		if(priceId == 0)
+			price = pricingService.calculateProductPrice(product);
+		else price = pricingService.calculateFinalPrice(productPriceService.getById(priceId));
+
 		item.setItemPrice(price.getFinalPrice());
 		item.setPriceId(priceId);
 		return item;
@@ -390,19 +394,22 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 
 
 		// set item price
-		FinalPrice price = pricingService.calculateProductPrice(product, attributesList);
-		item.setItemPrice(price.getFinalPrice());
-		item.setFinalPrice(price);
-
+		FinalPrice price = null;
 		BigDecimal subTotal = BigDecimal.valueOf(0);
 
 		if(item.getPriceId() > 0)
 		{
 			ProductPrice price1 = productPriceService.getById(item.getPriceId());
+			price = pricingService.calculateFinalPrice(price1);
 			subTotal = price1.getProductPriceAmount().multiply(new BigDecimal(item.getQuantity()));
 		}
 		else
+		{
+			price = pricingService.calculateProductPrice(product, attributesList);
 			subTotal = item.getItemPrice().multiply(new BigDecimal(item.getQuantity()));
+		}
+		item.setItemPrice(price.getFinalPrice());
+		item.setFinalPrice(price);
 		item.setSubTotal(subTotal);
 
 	}
@@ -504,7 +511,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 							+ " does not belong to merchant " + store.getId());
 				}
 
-				ShoppingCartItem item = populateShoppingCartItem(product);
+				ShoppingCartItem item = populateShoppingCartItem(product,shoppingCartItem.getPriceId() );
 				item.setQuantity(shoppingCartItem.getQuantity());
 				item.setShoppingCart(cartModel);
 
