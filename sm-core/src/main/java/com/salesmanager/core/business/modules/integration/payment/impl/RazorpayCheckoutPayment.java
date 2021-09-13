@@ -41,28 +41,6 @@ public class RazorpayCheckoutPayment implements PaymentModule {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RazorpayCheckoutPayment.class);
 
-    public String getOrderId(MerchantStore store, IntegrationConfiguration config, OrderTotalSummary orderTotalSummary) throws RazorpayException, UnirestException {
-
-        Unirest.setTimeouts(0, 0);
-        String key = Base64.getEncoder().encodeToString((config.getIntegrationKeys().get("key_id") + ":" + config.getIntegrationKeys().get("key_secret") ).getBytes());
-        HttpResponse<JsonNode> response = Unirest.post("https://api.razorpay.com/v1/orders")
-                .header("Accept", "application/json")
-                .header("Authorization", "Basic "+key)
-                .header("Content-Type", "application/json")
-                .body("{\n    \"amount\": "+orderTotalSummary.getTotal().multiply(BigDecimal.valueOf(100)).intValue()+",\n    \"currency\": \"INR\",\n    \"receipt\": \"receipt#1\"\n}")
-                .asJson();
-
-        return  response.getBody().getObject().get("id").toString();
-
-        /*RazorpayClient razorpay = new RazorpayClient(config.getIntegrationKeys().get("key_id"), config.getIntegrationKeys().get("key_secret"));
-        new RazorpayClient("rzp_test_bZuQuARGBl0Q0i", "YpyF0qDqdNZK7inG6cyvG9ru");
-        JSONObject orderRequest = new JSONObject();
-        orderRequest.put("amount", orderTotalSummary.getTotal().multiply(BigDecimal.valueOf(100)).longValue()); // amount in the smallest currency unit
-        orderRequest.put("currency", store.getCurrency().getCode());
-
-        com.razorpay.Order razorPayOrder = razorpay.Orders.create(orderRequest);
-        return razorPayOrder;*/
-    }
 
     public String getOrderId(MerchantStore store, IntegrationConfiguration config, OrderTotalSummary orderTotalSummary) throws RazorpayException, UnirestException {
 
