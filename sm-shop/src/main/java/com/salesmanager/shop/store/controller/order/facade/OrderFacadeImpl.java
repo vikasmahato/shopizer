@@ -539,6 +539,18 @@ public class OrderFacadeImpl implements OrderFacade {
 
 			}
 
+			if (PaymentType.RAZORPAY.name().equals(paymentType)) {
+
+				// check for previous transaction
+				if (transaction == null) {
+					throw new ServiceException("payment.error");
+				}
+
+				payment = new com.salesmanager.core.model.payments.RazorpayPayment();
+
+
+
+			}
 			modelOrder.setShoppingCartCode(shoppingCartCode);
 			modelOrder.setPaymentModuleCode(order.getPaymentModule());
 			payment.setModuleName(order.getPaymentModule());

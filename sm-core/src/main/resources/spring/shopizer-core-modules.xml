@@ -87,7 +87,7 @@
 	<beans:bean id="braintree"
 		class="com.salesmanager.core.business.modules.integration.payment.impl.BraintreePayment" />
 	<beans:bean id="razorpay"
-		class="com.salesmanager.core.business.modules.integration.payment.impl.RazorpayPayment" />
+		class="com.salesmanager.core.business.modules.integration.payment.impl.RazorpayCheckoutPayment" />
 
 
 

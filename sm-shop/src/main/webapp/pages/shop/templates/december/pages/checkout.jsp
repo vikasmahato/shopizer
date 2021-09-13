@@ -1076,7 +1076,7 @@ function initPayment(paymentSelection) {
 												<button id="submitOrder" type="button" class=" 
 												<c:if test="${errorMessages!=null}"> btn-disabled</c:if>" 
 												<c:if test="${errorMessages!=null}"> disabled="true"</c:if>
-												><s:message code="button.label.submitorder" text="Submit order"/>
+												><s:message code="button.label.submitorder" text="Submit Order & Pay"/>
 												</button>
 			
 												<!-- submit can be a post or a pre ajax query -->
