@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 
+import com.salesmanager.core.business.services.catalog.product.price.ProductPriceService;
+import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -92,6 +94,9 @@ public class ShoppingCartFacadeImpl
     private PricingService pricingService;
 
     @Inject
+    private ProductPriceService productPriceService;
+
+    @Inject
     private ProductAttributeService productAttributeService;
 
 	@Inject
@@ -160,11 +165,12 @@ public class ShoppingCartFacadeImpl
         	Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> cartModelItems = cartModel.getLineItems();
         	for(com.salesmanager.core.model.shoppingcart.ShoppingCartItem cartItem : cartModelItems) {
         		if(cartItem.getProduct().getId().longValue()==shoppingCartItem.getProduct().getId().longValue()) {
-        			if(CollectionUtils.isEmpty(cartItem.getAttributes())) {
+        		    if(cartItem.getPriceId().longValue()==shoppingCartItem.getPriceId().longValue()) {
+//        			if(CollectionUtils.isEmpty(cartItem.getAttributes())) {
         				if(!duplicateFound) {
-        					if(!shoppingCartItem.isProductVirtual()) {
+//        					if(!shoppingCartItem.isProductVirtual()) {
 	        					cartItem.setQuantity(cartItem.getQuantity() + shoppingCartItem.getQuantity());
-        					}
+//        					}
         					duplicateFound = true;
         					break;
         				}
@@ -190,6 +196,7 @@ public class ShoppingCartFacadeImpl
         shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
         shoppingCartDataPopulator.setPricingService( pricingService );
         shoppingCartDataPopulator.setimageUtils(imageUtils);
+        shoppingCartDataPopulator.setProductPriceService(productPriceService);
 
 
         return shoppingCartDataPopulator.populate( cartModel, store, language );
@@ -241,9 +248,12 @@ public class ShoppingCartFacadeImpl
         	throw new Exception( "Item with id " + product.getId() + " is not available");
         }
 
+        com.salesmanager.core.model.shoppingcart.ShoppingCartItem item = null;
 
-        com.salesmanager.core.model.shoppingcart.ShoppingCartItem item =
-            shoppingCartService.populateShoppingCartItem( product );
+        if(shoppingCartItem.getPriceId() > 0)
+            item = shoppingCartService.populateShoppingCartItem( product, shoppingCartItem.getPriceId() );
+        else
+            item = shoppingCartService.populateShoppingCartItem( product );
 
         item.setQuantity( shoppingCartItem.getQuantity() );
         item.setShoppingCart( cartModel );
@@ -533,6 +543,7 @@ public class ShoppingCartFacadeImpl
         shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
         shoppingCartDataPopulator.setPricingService( pricingService );
         shoppingCartDataPopulator.setimageUtils(imageUtils);
+        shoppingCartDataPopulator.setProductPriceService(productPriceService);
 
         //Language language = (Language) getKeyValue( Constants.LANGUAGE );
         MerchantStore merchantStore = (MerchantStore) getKeyValue( Constants.MERCHANT_STORE );
@@ -572,6 +583,7 @@ public class ShoppingCartFacadeImpl
         shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
         shoppingCartDataPopulator.setPricingService( pricingService );
         shoppingCartDataPopulator.setimageUtils(imageUtils);
+        shoppingCartDataPopulator.setProductPriceService(productPriceService);
         //Language language = (Language) getKeyValue( Constants.LANGUAGE );
         MerchantStore merchantStore = (MerchantStore) getKeyValue( Constants.MERCHANT_STORE );
         return shoppingCartDataPopulator.populate( shoppingCartModel, merchantStore, language );
@@ -608,6 +620,7 @@ public class ShoppingCartFacadeImpl
                     shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
                     shoppingCartDataPopulator.setPricingService( pricingService );
                     shoppingCartDataPopulator.setimageUtils(imageUtils);
+                    shoppingCartDataPopulator.setProductPriceService(productPriceService);
                     return shoppingCartDataPopulator.populate( cartModel, store, language );
 
 
@@ -654,6 +667,7 @@ public class ShoppingCartFacadeImpl
                 shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
                 shoppingCartDataPopulator.setPricingService( pricingService );
                 shoppingCartDataPopulator.setimageUtils(imageUtils);
+                shoppingCartDataPopulator.setProductPriceService(productPriceService);
                 return shoppingCartDataPopulator.populate( cartModel, store, language );
 
             }
@@ -720,6 +734,7 @@ public class ShoppingCartFacadeImpl
             shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
             shoppingCartDataPopulator.setPricingService( pricingService );
             shoppingCartDataPopulator.setimageUtils(imageUtils);
+            shoppingCartDataPopulator.setProductPriceService(productPriceService);
             return shoppingCartDataPopulator.populate( cartModel, store, language );
 
         }

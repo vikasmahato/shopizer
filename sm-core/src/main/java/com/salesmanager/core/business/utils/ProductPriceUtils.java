@@ -514,6 +514,11 @@ public class ProductPriceUtils {
 		
 	}
 	
+	public FinalPrice getFinalPrice(ProductPrice price)
+	{
+		return finalPrice(price);
+	}
+	
 	private FinalPrice finalPrice(ProductPrice price) {
 		
 		FinalPrice finalPrice = new FinalPrice();

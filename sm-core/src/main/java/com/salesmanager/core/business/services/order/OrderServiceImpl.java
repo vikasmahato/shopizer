@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import com.salesmanager.core.business.services.catalog.product.price.ProductPriceService;
+import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -97,6 +99,9 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     
     @Inject
     private OrderTotalService orderTotalService;
+
+    @Inject
+    private ProductPriceService productPriceService;
 
     private final OrderRepository orderRepository;
 
@@ -235,7 +240,15 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         subTotal.setScale(2, RoundingMode.HALF_UP);
         for(ShoppingCartItem item : summary.getProducts()) {
 
-            BigDecimal st = item.getItemPrice().multiply(new BigDecimal(item.getQuantity()));
+            BigDecimal st = BigDecimal.valueOf(0);
+
+            if(item.getPriceId() > 0)
+            {
+                ProductPrice price1 = productPriceService.getById(item.getPriceId());
+                st = price1.getProductPriceAmount().multiply(new BigDecimal(item.getQuantity()));
+            }
+            else
+                st = item.getItemPrice().multiply(new BigDecimal(item.getQuantity()));
             item.setSubTotal(st);
             subTotal = subTotal.add(st);
             //Other prices

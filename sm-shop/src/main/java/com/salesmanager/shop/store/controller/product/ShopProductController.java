@@ -292,7 +292,7 @@ public class ShopProductController {
 				}
 				attrValue.setSortOrder(0);
 				if(attribute.getProductOptionSortOrder()!=null) {
-					attrValue.setSortOrder(attribute.getProductOptionSortOrder().intValue());
+					attrValue.setSortOrder(attribute.getProductOptionSortOrder());
 				}
 				
 				List<ProductOptionValueDescription> descriptions = optionValue.getDescriptionsSettoList();

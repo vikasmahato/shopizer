@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.salesmanager.core.business.services.catalog.product.price.ProductPriceService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.StringUtils;
@@ -148,6 +149,9 @@ public class ShoppingOrderController extends AbstractController {
 	
 	@Inject
 	private OrderProductDownloadService orderProdctDownloadService;
+	
+	@Inject
+	private ProductPriceService productPriceService;
 	
 	@SuppressWarnings("unused")
 	@RequestMapping("/checkout.html")
@@ -749,7 +753,13 @@ public class ShoppingOrderController extends AbstractController {
 		        	
 		        	Long id = item.getProduct().getId();
 		        	Product p = productService.getById(id);
-					FinalPrice finalPrice = pricingService.calculateProductPrice(p);
+					FinalPrice finalPrice = null;
+
+					if(item.getPriceId() > 0)
+						finalPrice = pricingService.calculateFinalPrice(productPriceService.getById(item.getPriceId()));
+					else
+						finalPrice = pricingService.calculateProductPrice(p);
+
 					if (finalPrice.getFinalPrice().longValue() > 0) {
 						freeShoppingCart = false;
 					}
