@@ -1,5 +1,9 @@
 package com.salesmanager.core.model.payments;
 
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.OrderTotalSummary;
+import com.salesmanager.core.model.system.IntegrationConfiguration;
+
 /**
  * When the user performs a payment using paypal
  * @author Carl Samson
