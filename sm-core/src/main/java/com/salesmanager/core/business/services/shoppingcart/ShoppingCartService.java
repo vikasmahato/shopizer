@@ -23,6 +23,8 @@ public interface ShoppingCartService extends SalesManagerEntityService<Long, Sho
 
 	//ShoppingCart getByCustomer(Customer customer) throws ServiceException;
 
+    ShoppingCartItem populateShoppingCartItem(Product product, Long priceId) throws ServiceException;
+
 	/**
 	 * Creates a list of ShippingProduct based on the ShoppingCart if items are
 	 * virtual return list will be null
