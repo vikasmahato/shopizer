@@ -61,6 +61,9 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	@Column(name="PRODUCT_ID", nullable=false) //TODO CODE
 	private Long productId;
 
+	@Column(name="PRICE_ID", nullable=false) //TODO CODE
+	private Long priceId;
+
 	@JsonIgnore
 	@Transient
 	private boolean productVirtual;
@@ -229,4 +232,11 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 		this.productVirtual = productVirtual;
 	}
 
+	public Long getPriceId() {
+		return priceId;
+	}
+
+	public void setPriceId(Long priceId) {
+		this.priceId = priceId;
+	}
 }

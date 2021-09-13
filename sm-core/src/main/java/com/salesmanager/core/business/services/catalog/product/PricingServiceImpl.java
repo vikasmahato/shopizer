@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,11 @@ public class PricingServiceImpl implements PricingService {
 	@Override
 	public FinalPrice calculateProductPrice(Product product) throws ServiceException {
 		return priceUtil.getFinalPrice(product);
+	}
+
+	@Override
+	public FinalPrice calculateFinalPrice(ProductPrice price) throws ServiceException {
+		return priceUtil.getFinalPrice(price);
 	}
 	
 	@Override

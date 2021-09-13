@@ -7,10 +7,12 @@ import com.salesmanager.core.business.repositories.shoppingcart.ShoppingCartRepo
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
+import com.salesmanager.core.business.services.catalog.product.price.ProductPriceService;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
+import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.common.UserContext;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -53,6 +55,9 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 
 	@Inject
 	private ProductAttributeService productAttributeService;
+
+	@Inject
+	private ProductPriceService productPriceService;
 
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ShoppingCartServiceImpl.class);
@@ -303,6 +308,22 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		// set item price
 		FinalPrice price = pricingService.calculateProductPrice(product);
 		item.setItemPrice(price.getFinalPrice());
+		item.setPriceId(price.getProductPrice().getId());
+		return item;
+
+	}
+
+	@Override
+	public ShoppingCartItem populateShoppingCartItem(final Product product, Long priceId) throws ServiceException {
+		Validate.notNull(product, "Product should not be null");
+		Validate.notNull(product.getMerchantStore(), "Product.merchantStore should not be null");
+
+		ShoppingCartItem item = new ShoppingCartItem(product);
+
+		// set item price
+		FinalPrice price = pricingService.calculateFinalPrice(productPriceService.getById(priceId));
+		item.setItemPrice(price.getFinalPrice());
+		item.setPriceId(priceId);
 		return item;
 
 	}
@@ -373,7 +394,15 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		item.setItemPrice(price.getFinalPrice());
 		item.setFinalPrice(price);
 
-		BigDecimal subTotal = item.getItemPrice().multiply(new BigDecimal(item.getQuantity()));
+		BigDecimal subTotal = BigDecimal.valueOf(0);
+
+		if(item.getPriceId() > 0)
+		{
+			ProductPrice price1 = productPriceService.getById(item.getPriceId());
+			subTotal = price1.getProductPriceAmount().multiply(new BigDecimal(item.getQuantity()));
+		}
+		else
+			subTotal = item.getItemPrice().multiply(new BigDecimal(item.getQuantity()));
 		item.setSubTotal(subTotal);
 
 	}

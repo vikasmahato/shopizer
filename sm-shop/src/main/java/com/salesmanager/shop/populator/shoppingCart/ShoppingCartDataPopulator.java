@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.salesmanager.core.business.services.catalog.product.price.ProductPriceService;
+import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import org.apache.commons.beanutils.ConversionException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.Validate;
@@ -51,6 +53,8 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
     private  ShoppingCartCalculationService shoppingCartCalculationService;
     
     private ImageFilePath imageUtils;
+
+    private ProductPriceService productPriceService;
 
 			public ImageFilePath getimageUtils() {
 				return imageUtils;
@@ -106,6 +110,7 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
                     shoppingCartItem.setProductVirtual(item.isProductVirtual());
 
                     shoppingCartItem.setProductId(item.getProductId());
+                    shoppingCartItem.setPriceId(item.getPriceId());
                     shoppingCartItem.setId(item.getId());
                     
                     String itemName = item.getProduct().getProductDescription().getName();
@@ -120,14 +125,24 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
                     
                     shoppingCartItem.setName(itemName);
 
-                    shoppingCartItem.setPrice(pricingService.getDisplayAmount(item.getItemPrice(),store));
+                    if(item.getPriceId() > 0)
+                    {
+                        ProductPrice price = productPriceService.getById(item.getPriceId());
+                        shoppingCartItem.setPrice(pricingService.getDisplayAmount(price.getProductPriceAmount(),store));
+                        shoppingCartItem.setProductPrice(price.getProductPriceAmount());
+                        shoppingCartItem.setSubTotal(pricingService.getDisplayAmount(item.getSubTotal(), store));
+                    }
+                    else
+                    {
+                        shoppingCartItem.setPrice(pricingService.getDisplayAmount(item.getItemPrice(),store));
+                        shoppingCartItem.setProductPrice(item.getItemPrice());
+                        shoppingCartItem.setSubTotal(pricingService.getDisplayAmount(item.getSubTotal(), store));
+                    }
                     shoppingCartItem.setQuantity(item.getQuantity());
                     
                     
                     cartQuantity = cartQuantity + item.getQuantity();
                     
-                    shoppingCartItem.setProductPrice(item.getItemPrice());
-                    shoppingCartItem.setSubTotal(pricingService.getDisplayAmount(item.getSubTotal(), store));
                     ProductImage image = item.getProduct().getProductImage();
                     if(image!=null && imageUtils!=null) {
                         String imagePath = imageUtils.buildProductImageUtils(store, item.getProduct().getSku(), image.getProductImage());
@@ -229,7 +244,11 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
         this.shoppingCartCalculationService = shoppingCartCalculationService;
     }
 
+    public ProductPriceService getProductPriceService() {
+        return productPriceService;
+    }
 
-
-
+    public void setProductPriceService(ProductPriceService productPriceService) {
+        this.productPriceService = productPriceService;
+    }
 }

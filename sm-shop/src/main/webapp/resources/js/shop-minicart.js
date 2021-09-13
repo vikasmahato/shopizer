@@ -53,6 +53,7 @@
 		if(!quantity || quantity==null || quantity==0) {
 			quantity = 1;
 		}
+        var variant_price = $("#variant_price").html();
 
 		var formId = '#input-' + sku;
 		//var $inputs = $(formId); 
@@ -109,7 +110,8 @@
 			shoppingCartItem = '"code":' + '"' + cartCode + '"'+',';
 		}
 		var shoppingCartItem = shoppingCartItem + '"quantity":' + quantity + ',';
-		var shoppingCartItem = shoppingCartItem + '"productId":' + sku;
+		var shoppingCartItem = shoppingCartItem + '"productId":' + sku + ',';
+		var shoppingCartItem = shoppingCartItem + '"priceId":' + variant_price;
 		
 		
 		var attributes = null;

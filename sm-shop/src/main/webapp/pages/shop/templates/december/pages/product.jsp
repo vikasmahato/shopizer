@@ -130,6 +130,7 @@
 												content="<c:out value="${requestScope.MERCHANT_STORE.currency.code}" />" />
 											<span id="productPrice" class="price">
 											    <span itemprop="price" id="sellingPrice"><c:out value="${product.finalPrice}" /></span>
+											    <span id="variant_price" style="display:none;"></span>
 										    </span>
 										</span>
 									</h4>
@@ -355,6 +356,7 @@
                             }
                             else {
                                 $("#sellingPrice").html(data.price);
+                                $("#variant_price").html(data.price_id);
                             }
 
                           },
