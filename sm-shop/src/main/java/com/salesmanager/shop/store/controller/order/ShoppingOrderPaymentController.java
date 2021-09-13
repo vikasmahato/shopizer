@@ -13,6 +13,8 @@ import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 import com.salesmanager.core.business.modules.integration.payment.impl.RazorpayPayment;
 import com.salesmanager.core.model.payments.Signature;
+import com.salesmanager.core.business.modules.integration.payment.impl.RazorpayCheckoutPayment;
+import com.salesmanager.core.model.payments.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.Validate;
 import org.json.JSONObject;
@@ -38,8 +40,6 @@ import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.OrderTotalSummary;
-import com.salesmanager.core.model.payments.PaypalPayment;
-import com.salesmanager.core.model.payments.Transaction;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shipping.ShippingSummary;
 import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
@@ -208,7 +208,7 @@ public class ShoppingOrderPaymentController extends AbstractController {
 				} else if (paymentmethod.equals("RAZORPAY")) {
 					try {
 						PaymentModule module = paymentService.getPaymentModule(paymentmethod.toLowerCase(Locale.ROOT));
-						RazorpayPayment p = (RazorpayPayment) module;
+						RazorpayCheckoutPayment p = (RazorpayCheckoutPayment) module;
 						PaypalPayment payment = new PaypalPayment();
 						payment.setCurrency(store.getCurrency());
 						payment.setPaymentMetaData(order.getPayment());
@@ -226,30 +226,11 @@ public class ShoppingOrderPaymentController extends AbstractController {
 							transactionService.create(transaction);
 
 							super.setSessionAttribute(Constants.INIT_TRANSACTION_KEY, transaction, request);
-							//TODO: ajaxResponse.addEntry("url", Constants.SHOP_URI + "/order/commitPreAuthorized.html");
+							ajaxResponse.addEntry("url", Constants.SHOP_URI + "/order/commitPreAuthorized.html");
 						} else {
 							// Failed
-							//TODO: ajaxResponse.addEntry("url", Constants.SHOP_URI + "/order/checkout.html");
+							ajaxResponse.addEntry("url", Constants.SHOP_URI + "/order/checkout.html");
 						}
-
-						/*StringBuilder urlAppender = new StringBuilder();
-
-						urlAppender.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_REGULAR"));
-
-						urlAppender.append(transaction.getTransactionDetails().get("TOKEN"));
-
-						if (config.getEnvironment()
-								.equals(com.salesmanager.core.business.constants.Constants.PRODUCTION_ENVIRONMENT)) {
-							StringBuilder url = new StringBuilder()
-									.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_PRODUCTION"))
-									.append(urlAppender.toString());
-							ajaxResponse.addEntry("url", url.toString());
-						} else {
-							StringBuilder url = new StringBuilder()
-									.append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_SANDBOX"))
-									.append(urlAppender.toString());
-							ajaxResponse.addEntry("url", url.toString());
-						}*/
 
 						// keep order in session when user comes back from pp
 						super.setSessionAttribute(Constants.ORDER, order, request);
