@@ -21,15 +21,6 @@ response.setDateHeader ("Expires", -1);
             </div>
           </div>
 
-         <div class="control-group payment-method-box">
-
-         <button id="rzp-button1" onclick="return false;" class="btn btn-danger">Pay</button>
-
-
-         	<s:message code="label.checkout.moneyorder" text="Please make your check or money order payable to:"/><br/>
-			<c:out value="${requestScope.paymentMethod.informations.integrationKeys['key_id']}" escapeXml="false"/>
-         </div>
-
 
          <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
