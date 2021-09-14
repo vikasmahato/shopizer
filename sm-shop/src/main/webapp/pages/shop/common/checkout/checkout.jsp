@@ -1503,7 +1503,7 @@ $(document).ready(function() {
 												<button id="submitOrder" type="button" class="btn btn-large btn-success 
 												<c:if test="${errorMessages!=null}"> btn-disabled</c:if>" 
 												<c:if test="${errorMessages!=null}"> disabled="true"</c:if>
-												><s:message code="button.label.submitorder" text="Submit Order & Pay"/></button>
+												><s:message code="button.label.submitorder" text="Pay & Submit Order"/></button>
 			
 												<!-- submit can be a post or a pre ajax query -->
 											</div>
