@@ -47,20 +47,20 @@ response.setDateHeader ("Expires", -1);
                 
     <script type="text/html" id="productBoxTemplate">
 			{{#products}}
-                        <div itemscope itemtype="http://schema.org/Enumeration" class="col-md-COLUMN-SIZE col-sm-6 col-xs-12 product backroundhover" item-order="{{sortOrder}}" item-name="{{description.name}}" item-price="{{price}}" data-id="{{id}}">
+                        <div itemscope itemtype="http://schema.org/Enumeration" style="height:350px; margin-bottom:1px;" class="col-md-COLUMN-SIZE col-sm-6 col-xs-12 product backroundhover" item-order="{{sortOrder}}" item-name="{{description.name}}" item-price="{{price}}" data-id="{{id}}">
 
-								<div class="thumbnail product-img" style="border:none !important;">
+								<div class="thumbnail product-img" style="border:none; margin-bottom:0px; height:220px !important;">
                                     {{#image}}
 									<a href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html/ref=<c:out value="${requestScope.ref}"/>">
-										<img src="<c:url value=""/>{{image.imageUrl}}" alt="" />
+										<img src="<c:url value=""/>{{image.imageUrl}}" alt=""  height="65%" width="65%"/>
 									</a>
 									{{/image}}
 								</div>
 								<div class="product-content text-center">
-									<a class="listing-product-name" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html/ref=<c:out value="${requestScope.ref}"/>"><h3 itemprop="name" style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis">{{description.name}}</h3></a>
+									<a class="listing-product-name" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html/ref=<c:out value="${requestScope.ref}"/>"><h3 itemprop="name" style="line-height:1.3; padding:0px; margin:0px; height:60px; overflow:hidden;">{{description.name}}</h3></a>
 									<!-- commented <div class="stars" id="productRating_{{id}}"></div> -->
 
-                                    <h4>
+                                    <h4 style="padding:0px; margin:0px;">
 										{{#discounted}}<del>{{originalPrice}}</del>&nbsp;<span itemprop="price" class="specialPrice">{{finalPrice}}</span>{{/discounted}}
 										{{^discounted}}<span itemprop="price">{{#price}}{{finalPrice}}{{/price}}{{^price}}Ask for price{{/price}}</span>{{/discounted}}
 								    </h4>
