@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import com.salesmanager.core.model.catalog.product.brand.BrandDescription;
+import com.salesmanager.core.model.catalog.product.specification.ProductSpecificationVariant;
 import com.salesmanager.shop.model.catalog.brand.ReadableBrand;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -461,7 +462,14 @@ public class ReadableProductPopulator extends
 				}
 			
 			}
-	
+
+			if(source.getProductSpecificationVariant().size()>1)
+			{
+				for (ProductSpecificationVariant specification : source.getProductSpecificationVariant() ) {
+					if (specification.getSpecification().getVariant())
+						target.setHasVariants(true);
+				}
+			}
 
 
 

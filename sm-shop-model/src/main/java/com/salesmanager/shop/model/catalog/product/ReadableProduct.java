@@ -29,6 +29,7 @@ public class ReadableProduct extends ProductEntity implements Serializable {
 	private List<ReadableCategory> categories = new ArrayList<ReadableCategory>();
 	private ReadableProductType type;
 	private boolean canBePurchased = false;
+	private boolean hasVariants = false;
 
 	// RENTAL
 	private RentalOwner owner;
@@ -145,4 +146,11 @@ public class ReadableProduct extends ProductEntity implements Serializable {
 		this.productPrice = productPrice;
 	}
 
+	public boolean isHasVariants() {
+		return hasVariants;
+	}
+
+	public void setHasVariants(boolean hasVariants) {
+		this.hasVariants = hasVariants;
+	}
 }
