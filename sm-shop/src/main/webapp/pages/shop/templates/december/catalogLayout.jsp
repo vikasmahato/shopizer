@@ -66,7 +66,8 @@ response.setDateHeader ("Expires", -1);
 								    </h4>
 									<c:if test="${requestScope.CONFIGS['allowPurchaseItems'] == true}">
 									<div class="store-btn">
-      									<div class="store-btn-addtocart"><a class="addToCart" href="javascript:void(0)" productId="{{id}}"><s:message code="button.label.addToCart" text="Add to cart"/></a></div>
+      									{{^hasVariants}}<div class="store-btn-addtocart"><a class="addToCart" href="javascript:void(0)" productId="{{id}}"><s:message code="button.label.addToCart" text="Add to cart"/></a></div>{{/hasVariants}}
+      									{{#hasVariants}}<div class="store-btn-addtocart"><a class="viewMore" productId="{{id}}" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html/ref=<c:out value="${requestScope.ref}"/>"><s:message code="button.label.viewMore" text="View More"/></a></div>{{/hasVariants}}
    									</div>
 									</c:if>
 								</div>
