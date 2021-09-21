@@ -227,7 +227,7 @@ public class ShoppingOrderController extends AbstractController {
 				freeShoppingCart = false;
 			}
 			if (p.isProductShipeable()) {
-				requiresShipping = true;
+//				requiresShipping = true;
 			}
         }
         cart.setLineItems(availables);

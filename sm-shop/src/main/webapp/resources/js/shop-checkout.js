@@ -114,7 +114,7 @@ function getZones(listDiv, textDiv, countryCode, defaultValue, defaultLongValue,
 function shippingQuotes(url,useDistanceWindow){
 
 	resetErrorMessage();
-	showSMLoading('#pageContainer');
+//	showSMLoading('#pageContainer');
 	var data = $(checkoutFormId).serialize();
 	//log(data);
 	
@@ -127,8 +127,9 @@ function shippingQuotes(url,useDistanceWindow){
 	
 	formValid = false;
 
+	formValid = isFormValid();
 	
-	$.ajax({
+	/*$.ajax({
 	  type: 'POST',
 	  url: url,
 	  data: data,
@@ -201,7 +202,7 @@ function shippingQuotes(url,useDistanceWindow){
 	  		alert('error ' + errorThrown);
 	  }
 
-	});
+	});*/
 	
 }
 

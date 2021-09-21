@@ -324,6 +324,17 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         
         orderTotals.add(orderTotalSubTotal);
 
+        OrderTotal orderShippingTotal = new OrderTotal();
+        orderShippingTotal.setModule(Constants.OT_SUBTOTAL_MODULE_CODE);
+        orderShippingTotal.setOrderTotalType(OrderTotalType.SHIPPING);
+        orderShippingTotal.setOrderTotalCode("order.total.shipping");
+        orderShippingTotal.setTitle(Constants.OT_SHIPPING_MODULE_CODE);
+        orderShippingTotal.setSortOrder(100);
+        orderShippingTotal.setValue(new BigDecimal(149));
+        grandTotal=grandTotal.add(new BigDecimal(149));
+
+        orderTotals.add(orderShippingTotal);
+
 
         //shipping
         if(summary.getShippingSummary()!=null) {
@@ -365,7 +376,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         }
 
         //tax
-        List<TaxItem> taxes = taxService.calculateTax(summary, customer, store, language);
+        /*List<TaxItem> taxes = taxService.calculateTax(summary, customer, store, language);
         if(taxes!=null && taxes.size()>0) {
         	BigDecimal totalTaxes = new BigDecimal(0);
         	totalTaxes.setScale(2, RoundingMode.HALF_UP);
@@ -390,7 +401,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
             }
             grandTotal = grandTotal.add(totalTaxes);
             totalSummary.setTaxTotal(totalTaxes);
-        }
+        }*/
 
         // grand total
         OrderTotal orderTotal = new OrderTotal();
