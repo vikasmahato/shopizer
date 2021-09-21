@@ -903,7 +903,8 @@ public class ShippingServiceImpl implements ShippingService {
 			}
 		}
 
-		return requiresShipping;		
+		return false;
+//		return requiresShipping;
 	}
 
 	@Override
