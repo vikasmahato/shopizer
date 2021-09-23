@@ -136,7 +136,13 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
                   		</div>
 
 						<form:hidden path="product.id" />
-                  		<form:hidden value="true" path="product.available" />
+
+						<div class="control-group">
+                            <label><s:message code="label.entity.available" text="Available"/></label>
+                            <div class="controls">
+                                        <form:checkbox value="true" path="product.available" />
+                            <div>
+                        </div>
                   		
 	                  	<div class="control-group">
                         	<label><s:message code="label.product.brand" text="Brand"/></label>
