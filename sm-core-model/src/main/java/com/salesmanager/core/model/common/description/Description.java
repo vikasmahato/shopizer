@@ -22,6 +22,7 @@ import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.reference.language.Language;
+import org.springframework.web.util.HtmlUtils;
 
 @MappedSuperclass
 @EntityListeners(value = AuditListener.class)
@@ -80,7 +81,7 @@ public class Description implements Auditable, Serializable {
 	}
 
 	public String getName() {
-		return name;
+		return HtmlUtils.htmlUnescape(name);
 	}
 
 	public void setName(String name) {
@@ -88,7 +89,7 @@ public class Description implements Auditable, Serializable {
 	}
 
 	public String getTitle() {
-		return title;
+		return HtmlUtils.htmlUnescape(title);
 	}
 
 	public void setTitle(String title) {

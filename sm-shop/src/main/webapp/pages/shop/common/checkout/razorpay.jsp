@@ -15,7 +15,7 @@ response.setDateHeader ("Expires", -1);
 <%@page pageEncoding="UTF-8"%>
 
           <div class="control-group">
-            <label class="control-label"><s:message code="label.payment.moneyorder.usemoneyorder" text="Use money order" /></label>
+            <!--<label class="control-label"><s:message code="label.payment.moneyorder.usemoneyorder" text="Use money order" /></label>-->
             <div class="controls">
                <jsp:include page="/pages/shop/common/checkout/selectedPayment.jsp" />
             </div>
@@ -30,7 +30,7 @@ response.setDateHeader ("Expires", -1);
          function createRazorPayOptions(order_id, response) {
              var options = {
                  "key": "${requestScope.paymentMethod.informations.integrationKeys['key_id']}", // Enter the Key ID generated from the Dashboard
-                 "amount": parseInt($("#amt").html().replaceAll("Rs", "").replaceAll(".", "").replaceAll("," , "")) , // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                 "amount": parseInt("${order.orderTotalSummary.total}".replaceAll("Rs", "").replaceAll(".", "").replaceAll("," , "")) , // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
                  "currency": "INR",
                  "name": "Screws n Tools",
                  "description": "Test Transaction",

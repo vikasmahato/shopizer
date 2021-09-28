@@ -180,6 +180,17 @@ Setup
     text-decoration: none;	
 }
 
+.viewMore {
+    float: left;
+    background-color: #555555;
+    color: white;
+    padding: 0 1.3em;
+    font-size: 1.0em;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    line-height: 42px;
+    text-decoration: none;
+}
+
 
 
 .store-btn{

@@ -54,6 +54,8 @@
 			quantity = 1;
 		}
         var variant_price = $("#variant_price").html();
+        if(variant_price == undefined)
+            variant_price = '""';
 
 		var formId = '#input-' + sku;
 		//var $inputs = $(formId); 
