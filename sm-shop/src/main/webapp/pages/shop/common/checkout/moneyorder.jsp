@@ -16,13 +16,13 @@ response.setDateHeader ("Expires", -1);
 
                 
           <div class="control-group">
-            <label class="control-label"><s:message code="label.payment.moneyorder.usemoneyorder" text="Use money order" /></label>
+            <label class="control-label"><s:message code="label.payment.moneyorder.usemoneyorder" text="Use Money Order" /></label>
             <div class="controls">
                <jsp:include page="/pages/shop/common/checkout/selectedPayment.jsp" />
             </div>
           </div>
           
          <div class="control-group payment-method-box">
-         	<s:message code="label.checkout.moneyorder" text="Please make your check or money order payable to:"/><br/>
+         	<s:message code="label.checkout.moneyorder" text="COD (Cash/Cheque on Delivery)"/><br/>
 			<c:out value="${requestScope.paymentMethod.informations.integrationKeys['address']}" escapeXml="false"/>
          </div>
