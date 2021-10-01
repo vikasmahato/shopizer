@@ -40,7 +40,7 @@ Templates definition
 <!-- total template -->
 <script type="text/html" id="totalTemplate">
 		<th><s:message code="order.total.total" text="Total"/></th>
-		<td><strong><span id="amt" class="amount grand-total">{{grandTotal}}</td>
+		<td><strong><span id="amt" class="amount grand-total">{{grandTotal}}</span></strong></td>
 </script>
 
 											
@@ -93,11 +93,9 @@ $(document).ready(function() {
 	//form displaying shipping address
 	$("#confirmShippingAddress").hide();
 
-    formValid = false;	
+    var formValid = false;
 
-	<!-- 
 		//can use masked input for phone (USA - CANADA)
-	-->
 
 	paymentModule = '${order.defaultPaymentMethodCode}';
 	log('PaymentModule ' + paymentModule);
