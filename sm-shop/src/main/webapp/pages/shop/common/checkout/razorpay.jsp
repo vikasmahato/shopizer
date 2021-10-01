@@ -15,7 +15,7 @@ response.setDateHeader ("Expires", -1);
 <%@page pageEncoding="UTF-8"%>
 
           <div class="control-group">
-            <!--<label class="control-label"><s:message code="label.payment.moneyorder.usemoneyorder" text="Use money order" /></label>-->
+            <label class="control-label"><s:message code="label.checkout.razorpay" text="Please make your payment to Razorpay" /></label>
             <div class="controls">
                <jsp:include page="/pages/shop/common/checkout/selectedPayment.jsp" />
             </div>
