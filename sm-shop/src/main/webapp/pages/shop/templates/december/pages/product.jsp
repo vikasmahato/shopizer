@@ -137,7 +137,7 @@
 									<c:if test="${product.productPrice.description!=null}"><strong><c:out value="${product.productPrice.description.priceAppender}"/></strong></c:if>
 
 
-
+									<input id="variant_id" type="hidden" value="" name="variant_id">
 									<jsp:include
 										page="/pages/shop/common/catalog/addToCartProduct.jsp" />
 								</div>
@@ -325,6 +325,7 @@
                         $("#avail_id").val("");
                         $("#price_id").val("");
                         $("#sellingPrice").val("");
+						$("#variant_id").val("");
                       var variants = "";
 
                       var selects = document.getElementsByTagName('select');
@@ -357,6 +358,7 @@
                             else {
                                 $("#sellingPrice").html(data.price);
                                 $("#variant_price").html(data.price_id);
+								$("#variant_id").val(data.variant_id);
                             }
 
                           },

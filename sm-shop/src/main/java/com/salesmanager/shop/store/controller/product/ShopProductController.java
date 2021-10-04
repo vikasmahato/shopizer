@@ -570,6 +570,7 @@ public class ShopProductController {
 				specNameValueList.put("price", withSymbol ? pricingService.getDisplayAmount(price.getProductPriceAmount(), store) : price.getProductPriceAmount().toString());
 				specNameValueList.put("dealer_price", withSymbol ? pricingService.getDisplayAmount(price.getDealersPrice(), store) : price.getDealersPrice().toString());
 				specNameValueList.put("list_price", withSymbol ? pricingService.getDisplayAmount(price.getLisingPrice(), store) : price.getLisingPrice().toString());
+				specNameValueList.put("variant_id", available.getVariant().getId().toString()); //TODO: Gauri Set ID of whatever class that contains description
 			}
 			else {
 				specNameValueList.put("avail_id", "");
@@ -577,6 +578,7 @@ public class ShopProductController {
 				specNameValueList.put("price", "");
 				specNameValueList.put("dealer_price", "");
 				specNameValueList.put("list_price", "");
+				specNameValueList.put("variant_id", "");
 			}
 
 
