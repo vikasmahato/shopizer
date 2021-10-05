@@ -103,7 +103,7 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
             if(items!=null) {
                 shoppingCartItemsList=new ArrayList<ShoppingCartItem>();
                 for(com.salesmanager.core.model.shoppingcart.ShoppingCartItem item : items) {
-                	
+
                     ShoppingCartItem shoppingCartItem = new ShoppingCartItem();
                     shoppingCartItem.setCode(cart.getCode());
                     shoppingCartItem.setProductCode(item.getProduct().getSku());
@@ -112,7 +112,7 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
                     shoppingCartItem.setProductId(item.getProductId());
                     shoppingCartItem.setPriceId(item.getPriceId());
                     shoppingCartItem.setId(item.getId());
-                    
+
                     String itemName = item.getProduct().getProductDescription().getName();
                     if(!CollectionUtils.isEmpty(item.getProduct().getDescriptions())) {
                     	for(ProductDescription productDescription : item.getProduct().getDescriptions()) {
@@ -122,6 +122,8 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
                     		}
                     	}
                     }
+
+                    //TODO: Gauri if item.getVariantId is not null fetch and append name in itemName.
                     
                     shoppingCartItem.setName(itemName);
 

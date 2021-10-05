@@ -19,6 +19,7 @@ public class ShoppingCartItem extends ShopEntity implements Serializable {
 	private BigDecimal productPrice;
 	private int quantity;
 	private long productId;
+	private long variantId;
 	private long priceId;
 	private String productCode;
 	private String code;//shopping cart code
@@ -106,5 +107,13 @@ public class ShoppingCartItem extends ShopEntity implements Serializable {
 
 	public void setPriceId(long priceId) {
 		this.priceId = priceId;
+	}
+
+	public long getVariantId() {
+		return variantId;
+	}
+
+	public void setVariantId(long variantId) {
+		this.variantId = variantId;
 	}
 }
