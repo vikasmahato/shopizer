@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import javax.persistence.NoResultException;
 
 import com.salesmanager.core.business.services.catalog.product.price.ProductPriceService;
+import com.salesmanager.core.business.services.catalog.product.specification.ProductSpecificationService;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -98,6 +99,9 @@ public class ShoppingCartFacadeImpl
 
     @Inject
     private ProductAttributeService productAttributeService;
+
+    @Inject
+    private ProductSpecificationService specificationService;
 
 	@Inject
 	@Qualifier("img")
@@ -197,7 +201,7 @@ public class ShoppingCartFacadeImpl
         shoppingCartDataPopulator.setPricingService( pricingService );
         shoppingCartDataPopulator.setimageUtils(imageUtils);
         shoppingCartDataPopulator.setProductPriceService(productPriceService);
-
+        shoppingCartDataPopulator.setProductSpecificationService(specificationService);
 
         return shoppingCartDataPopulator.populate( cartModel, store, language );
     }
@@ -545,6 +549,7 @@ public class ShoppingCartFacadeImpl
         shoppingCartDataPopulator.setPricingService( pricingService );
         shoppingCartDataPopulator.setimageUtils(imageUtils);
         shoppingCartDataPopulator.setProductPriceService(productPriceService);
+        shoppingCartDataPopulator.setProductSpecificationService(specificationService);
 
         //Language language = (Language) getKeyValue( Constants.LANGUAGE );
         MerchantStore merchantStore = (MerchantStore) getKeyValue( Constants.MERCHANT_STORE );
@@ -585,6 +590,7 @@ public class ShoppingCartFacadeImpl
         shoppingCartDataPopulator.setPricingService( pricingService );
         shoppingCartDataPopulator.setimageUtils(imageUtils);
         shoppingCartDataPopulator.setProductPriceService(productPriceService);
+        shoppingCartDataPopulator.setProductSpecificationService(specificationService);
         //Language language = (Language) getKeyValue( Constants.LANGUAGE );
         MerchantStore merchantStore = (MerchantStore) getKeyValue( Constants.MERCHANT_STORE );
         return shoppingCartDataPopulator.populate( shoppingCartModel, merchantStore, language );
@@ -622,6 +628,7 @@ public class ShoppingCartFacadeImpl
                     shoppingCartDataPopulator.setPricingService( pricingService );
                     shoppingCartDataPopulator.setimageUtils(imageUtils);
                     shoppingCartDataPopulator.setProductPriceService(productPriceService);
+                    shoppingCartDataPopulator.setProductSpecificationService(specificationService);
                     return shoppingCartDataPopulator.populate( cartModel, store, language );
 
 
@@ -669,6 +676,7 @@ public class ShoppingCartFacadeImpl
                 shoppingCartDataPopulator.setPricingService( pricingService );
                 shoppingCartDataPopulator.setimageUtils(imageUtils);
                 shoppingCartDataPopulator.setProductPriceService(productPriceService);
+                shoppingCartDataPopulator.setProductSpecificationService(specificationService);
                 return shoppingCartDataPopulator.populate( cartModel, store, language );
 
             }
@@ -736,6 +744,7 @@ public class ShoppingCartFacadeImpl
             shoppingCartDataPopulator.setPricingService( pricingService );
             shoppingCartDataPopulator.setimageUtils(imageUtils);
             shoppingCartDataPopulator.setProductPriceService(productPriceService);
+            shoppingCartDataPopulator.setProductSpecificationService(specificationService);
             return shoppingCartDataPopulator.populate( cartModel, store, language );
 
         }

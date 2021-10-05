@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.salesmanager.core.business.services.catalog.product.price.ProductPriceService;
+import com.salesmanager.core.business.services.catalog.product.specification.ProductSpecificationService;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import org.apache.commons.beanutils.ConversionException;
 import org.apache.commons.collections4.CollectionUtils;
@@ -55,6 +56,8 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
     private ImageFilePath imageUtils;
 
     private ProductPriceService productPriceService;
+
+    private ProductSpecificationService productSpecificationService;
 
 			public ImageFilePath getimageUtils() {
 				return imageUtils;
@@ -125,7 +128,7 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
 
                     //TODO: Gauri if item.getVariantId is not null fetch and append name in itemName.
                     
-                    shoppingCartItem.setName(itemName);
+                    List<String> variants = new ArrayList<String>();
 
                     if(item.getPriceId() > 0)
                     {
@@ -133,6 +136,13 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
                         shoppingCartItem.setPrice(pricingService.getDisplayAmount(price.getProductPriceAmount(),store));
                         shoppingCartItem.setProductPrice(price.getProductPriceAmount());
                         shoppingCartItem.setSubTotal(pricingService.getDisplayAmount(item.getSubTotal(), store));
+
+                        variants = productSpecificationService.getVariantForPrice(price.getId());
+                        if(variants.size() > 0)
+                            for (String variant: variants) {
+                                itemName = itemName.concat(" ");
+                                itemName = itemName.concat(variant);
+                            }
                     }
                     else
                     {
@@ -142,6 +152,7 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
                     }
                     shoppingCartItem.setQuantity(item.getQuantity());
                     
+                    shoppingCartItem.setName(itemName);
                     
                     cartQuantity = cartQuantity + item.getQuantity();
                     
@@ -252,5 +263,13 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
 
     public void setProductPriceService(ProductPriceService productPriceService) {
         this.productPriceService = productPriceService;
+    }
+
+    public ProductSpecificationService getProductSpecificationService() {
+        return productSpecificationService;
+    }
+
+    public void setProductSpecificationService(ProductSpecificationService productSpecificationService) {
+        this.productSpecificationService = productSpecificationService;
     }
 }
