@@ -251,12 +251,13 @@ public class ShoppingCartFacadeImpl
         com.salesmanager.core.model.shoppingcart.ShoppingCartItem item = null;
 
         if(shoppingCartItem.getPriceId() > 0)
-            item = shoppingCartService.populateShoppingCartItem( product, shoppingCartItem.getPriceId() );
+            item = shoppingCartService.populateShoppingCartItem( product, shoppingCartItem.getPriceId());
         else
             item = shoppingCartService.populateShoppingCartItem( product );
 
         item.setQuantity( shoppingCartItem.getQuantity() );
         item.setShoppingCart( cartModel );
+        item.setVariantId(shoppingCartItem.getVariantId());
 
         // attributes
         List<ShoppingCartAttribute> cartAttributes = shoppingCartItem.getShoppingCartAttributes();
