@@ -4,6 +4,7 @@ import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.catalog.category.CategorySpecificationRepository;
 import com.salesmanager.core.business.repositories.catalog.product.specification.ProductSpecificationRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
+import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.specification.ProductSpecificationVariant;
 import org.springframework.stereotype.Service;
 
@@ -74,5 +75,11 @@ public class ProductSpecificationServiceImpl  extends SalesManagerEntityServiceI
              specNameValue.put((String) data[0], (String) data[1]);
         }
         return specNameValue;
+    }
+
+    @Override
+    public List<String> getVariantForPrice(Long priceId) {
+        List<String> variants = specificationRepository.getVariantForPrice(priceId);
+        return variants;
     }
 }
