@@ -16,7 +16,7 @@ response.setDateHeader ("Expires", -1);
 
 								<c:set var="billing" value="${pageContext.request.contextPath}/shop/customer/billing.html"/>
 								<ul class="nav nav-list">
-									<li><a href="<c:url value="/shop/customer/dashboard.html"/>"><i class="fa fa-angle-right"></i> <s:message code="label.customer.myaccount" text="My account"/></a></li>
+									<!-- <li><a href="<c:url value="/shop/customer/dashboard.html"/>"><i class="fa fa-angle-right"></i> <s:message code="label.customer.myaccount" text="My account"/></a></li> -->
 									<li>
 									   <a href="${billing}">
 									   		<i class="fa fa-angle-right"></i> <s:message code="label.customer.billingshipping" text="Billing & shipping information"/>
