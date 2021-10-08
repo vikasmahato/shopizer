@@ -20,11 +20,21 @@
 		"zoneName": "Bihar",
 		"countryCode": "IN"
 	},
+    {
+	    "zoneCode": "Chandigarh",
+	    "zoneName": "Chandigarh",
+	    "countryCode": "IN"
+    },
 	{
 		"zoneCode": "Chhattisgarh",
 		"zoneName": "Chhattisgarh",
 		"countryCode": "IN"
 	},
+    {
+	    "zoneCode": "Delhi",
+		"zoneName": "Delhi",
+	    "countryCode": "IN"
+    },
 	{
 		"zoneCode": "Goa",
 		"zoneName": "Goa",
@@ -45,6 +55,12 @@
 		"zoneName": "Himachal Pradesh",
 		"countryCode": "IN"
 	},
+
+    {
+	    "zoneCode": "Jammu&Kashmir",
+	    "zoneName": "Jammu & Kashmir",
+	    "countryCode": "IN"
+    },
 	{
 		"zoneCode": "Jharkhand",
 		"zoneName": "Jharkhand",
@@ -60,6 +76,11 @@
 		"zoneName": "Kerala",
 		"countryCode": "IN"
 	},
+    {
+	    "zoneCode": "Ladakh",
+	    "zoneName": "Ladakh",
+	    "countryCode": "IN"
+    },
 	{
 		"zoneCode": "MadhyaPradesh",
 		"zoneName": "Madhya Pradesh",
@@ -130,35 +151,16 @@
 		"zoneName": "Uttarakhand",
 		"countryCode": "IN"
 	},
+    {
+	    "zoneCode": "UttarPradesh",
+	    "zoneName": "Uttar Pradesh",
+	    "countryCode": "IN"
+    },
 	{
 		"zoneCode": "WestBengal",
 		"zoneName": "West Bengal",
 		"countryCode": "IN"
-	},
-	  {
-		  "zoneCode": "UttarPradesh",
-		  "zoneName": "Uttar Pradesh",
-		  "countryCode": "IN"
-	  },
-	  {
-		  "zoneCode": "Delhi",
-		  "zoneName": "Delhi",
-		  "countryCode": "IN"
-	  },
-	  {
-		  "zoneCode": "Chandigarh",
-		  "zoneName": "Chandigarh",
-		  "countryCode": "IN"
-	  },
-	  {
-		  "zoneCode": "Jammu&Kashmir",
-		  "zoneName": "Jammu & Kashmir",
-		  "countryCode": "IN"
-	  },
-	  {
-		  "zoneCode": "Ladakh",
-		  "zoneName": "Ladakh",
-		  "countryCode": "IN"
-	  }
+	}
+
   ]
 }
