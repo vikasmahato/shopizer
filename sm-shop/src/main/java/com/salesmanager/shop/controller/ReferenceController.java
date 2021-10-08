@@ -92,10 +92,10 @@ public class ReferenceController {
 			Map<String,Country> countriesMap = countryService.getCountriesMap(language);
 			Country country = countriesMap.get(countryCode);
 			List<Zone> zones = zoneService.getZones(country, language);
-			if(zones!=null && zones.size()>0) {
-				
-				
-				
+
+			zones.sort((z1, z2) -> z1.getName().compareToIgnoreCase(z2.getName()));
+
+			if(zones.size()>0) {
 				for(Zone zone : zones) {
 				
 					@SuppressWarnings("rawtypes")
@@ -107,8 +107,6 @@ public class ReferenceController {
 					resp.addDataEntry(entry);
 				
 				}
-				
-				
 			}
 			
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
