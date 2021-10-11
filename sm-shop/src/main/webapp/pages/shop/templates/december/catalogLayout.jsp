@@ -47,7 +47,7 @@ response.setDateHeader ("Expires", -1);
                 
     <script type="text/html" id="productBoxTemplate">
 			{{#products}}
-                        <div itemscope itemtype="http://schema.org/Enumeration" style="height:350px; margin-bottom:1px;" class="col-md-COLUMN-SIZE col-sm-6 col-xs-12 product backroundhover" item-order="{{sortOrder}}" item-name="{{description.name}}" item-price="{{price}}" data-id="{{id}}">
+                        <div itemscope itemtype="http://schema.org/Enumeration" style="height:350px; margin-bottom:1px;" class="col-md-3 col-sm-6 col-xs-12 product backroundhover" item-order="{{sortOrder}}" item-name="{{description.name}}" item-price="{{price}}" data-id="{{id}}">
 
 								<div class="thumbnail product-img" style="border:none; margin-bottom:0px; height:220px !important;">
                                     {{#image}}
