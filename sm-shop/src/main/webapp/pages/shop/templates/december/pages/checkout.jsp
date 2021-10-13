@@ -84,7 +84,7 @@ var calculateTotalUrl = '<c:url value="/shop/order/calculateOrderTotal.json"/>'
 <!-- checkout field id -->
 var formErrorMessageId = '#formErrorMessage';
 var useDistanceWindow = <c:out value="${shippingMetaData.useDistanceModule}"/>;
-
+$("#searchBox").hide();
 $(document).ready(function() {
 	
 	

@@ -310,7 +310,11 @@
 </c:if>
 
 <script>
+	$("#searchBox").hide();
 	$(document).ready(function() {
+
+
+
 		$('.quantity').numeric();
 		$("input[type='text']").keypress(function(e) {
 			if (e.which == 13) {

@@ -321,7 +321,7 @@ $(document).ready(function() {
       </a>
     </div>
     <!-- end col -->
-    <div class="col-sm-7 vertical-align text-center">
+    <div class="col-sm-7 vertical-align text-center" id="searchBox">
 
 	  <c:if test="${requestScope.CONFIGS['displaySearchBox'] == true}">
       <form>
