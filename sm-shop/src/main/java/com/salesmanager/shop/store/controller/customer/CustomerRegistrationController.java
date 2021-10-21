@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.salesmanager.core.business.services.catalog.product.specification.ProductSpecificationService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,6 +108,9 @@ public class CustomerRegistrationController extends AbstractController {
     
     @Inject
     private PricingService pricingService;
+
+    @Inject
+    private ProductSpecificationService specificationService;
 	
     @Value("${config.recaptcha.siteKey}")
     private String siteKeyKey;
@@ -253,17 +257,18 @@ public class CustomerRegistrationController extends AbstractController {
             String sessionShoppingCartCode= (String)request.getSession().getAttribute( Constants.SHOPPING_CART );
             if(!StringUtils.isBlank(sessionShoppingCartCode)) {
 	            ShoppingCart shoppingCart = customerFacade.mergeCart( c, sessionShoppingCartCode, merchantStore, language );
-	            ShoppingCartData shoppingCartData=this.populateShoppingCartData(shoppingCart, merchantStore, language);
-	            if(shoppingCartData !=null) {
-	                request.getSession().setAttribute(Constants.SHOPPING_CART, shoppingCartData.getCode());
-	            }
+	            if(shoppingCart != null) {
+                    ShoppingCartData shoppingCartData=this.populateShoppingCartData(shoppingCart, merchantStore, language);
+                    if(shoppingCartData !=null) {
+                        request.getSession().setAttribute(Constants.SHOPPING_CART, shoppingCartData.getCode());
+                    }
 
-	            //set username in the cookie
-	            Cookie c1 = new Cookie(Constants.COOKIE_NAME_CART, shoppingCartData.getCode());
-	            c1.setMaxAge(60 * 24 * 3600);
-	            c1.setPath(Constants.SLASH);
-	            response.addCookie(c1);
-	            
+                    //set username in the cookie
+                    Cookie c1 = new Cookie(Constants.COOKIE_NAME_CART, shoppingCartData.getCode());
+                    c1.setMaxAge(60 * 24 * 3600);
+                    c1.setPath(Constants.SLASH);
+                    response.addCookie(c1);
+                }
             }
 
 	        return "redirect:/shop/customer/dashboard.html";
@@ -325,6 +330,7 @@ public class CustomerRegistrationController extends AbstractController {
         ShoppingCartDataPopulator shoppingCartDataPopulator = new ShoppingCartDataPopulator();
         shoppingCartDataPopulator.setShoppingCartCalculationService( shoppingCartCalculationService );
         shoppingCartDataPopulator.setPricingService( pricingService );
+        shoppingCartDataPopulator.setProductSpecificationService( specificationService );
         
         try
         {

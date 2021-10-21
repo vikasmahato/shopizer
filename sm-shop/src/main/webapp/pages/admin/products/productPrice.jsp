@@ -46,6 +46,7 @@
             </div>
             <input id="avail_id" type="hidden" value="" name="avail_id">
             <input id="price_id" type="hidden" value="" name="price_id">
+            <input id="variant_id" type="hidden" value="" name="variant_id">
             <div class="control-group">
                         <label for="sellingPrice">Selling Price</label>
                             <div class="controls">
@@ -125,6 +126,7 @@
                 $("#sellingPrice").val("");
                 $("#dealerPrice").val("");
                 $("#listingPrice").val("");
+                $("#variant_id").val("");
               var variants = "";
 
               var selects = document.getElementsByTagName('select');
@@ -156,6 +158,8 @@
                     $("#sellingPrice").val(data.price);
                     $("#dealerPrice").val(data.dealer_price);
                     $("#listingPrice").val(data.list_price);
+                    $("#variant_id").val(data.variant_id);
+
                   },
                   error: function(xhr, textStatus, errorThrown) {
                     alert('error ' + errorThrown);

@@ -57,6 +57,10 @@
         if(variant_price == undefined)
             variant_price = '""';
 
+		var variant_id = $("#variant_id").val();
+		if(variant_id === undefined)
+			variant_id = '""';
+
 		var formId = '#input-' + sku;
 		//var $inputs = $(formId); 
 		var $inputs = $(formId).find(':input');
@@ -113,7 +117,8 @@
 		}
 		var shoppingCartItem = shoppingCartItem + '"quantity":' + quantity + ',';
 		var shoppingCartItem = shoppingCartItem + '"productId":' + sku + ',';
-		var shoppingCartItem = shoppingCartItem + '"priceId":' + variant_price;
+		var shoppingCartItem = shoppingCartItem + '"priceId":' + variant_price + ',';
+		var shoppingCartItem = shoppingCartItem + '"variantId":' + variant_id;
 		
 		
 		var attributes = null;
@@ -152,7 +157,7 @@
 				//$('#pageContainer').hideLoading();
 				hideSMLoading('#pageContainer');
 
-				toastr.error('Could not add item to Cart');
+				toastr.error('Could not add item to Cart','Error', {timeOut: 1000});
 			 },
 			 success: function(cart) {
 
@@ -162,10 +167,10 @@
 			    	 //TODO error message
 			    	 log('Error while adding to cart ' + cart.message);
 
-			    	 toastr.error('Could not add item to Cart');
+			    	 toastr.error('Could not add item to Cart','Error', {timeOut: 1000});
 			     } else {
 
-			        toastr.success('Added to cart successfully');
+			        toastr.success('Added to cart successfully','Success', {timeOut: 1000});
 			     }
 				 
 			     cleanupMiniCart();

@@ -58,11 +58,14 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	@Embedded
 	private AuditSection auditSection = new AuditSection();
 
-	@Column(name="PRODUCT_ID", nullable=false) //TODO CODE
+	@Column(name="PRODUCT_ID", nullable=false) //TODO: Gauri Foreign key
 	private Long productId;
 
-	@Column(name="PRICE_ID", nullable=false) //TODO CODE
+	@Column(name="PRICE_ID", nullable=false) //TODO: Gauri Foreign key
 	private Long priceId;
+
+	@Column(name="VARIANT_ID")
+	private Long variantId;
 
 	@JsonIgnore
 	@Transient
@@ -238,5 +241,13 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 
 	public void setPriceId(Long priceId) {
 		this.priceId = priceId;
+	}
+
+	public Long getVariantId() {
+		return priceId;
+	}
+
+	public void setVariantId(Long variantId) {
+		this.variantId = variantId;
 	}
 }

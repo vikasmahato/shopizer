@@ -145,7 +145,7 @@
 				log('Error while adding to cart');
 				$('#pageContainer').hideLoading();
 
-				 toastr.error('Could not add item to Cart');
+				 toastr.error('Could not add item to Cart','Error', {timeOut: 1000});
 			 },
 			 success: function(cart) {
 
@@ -155,10 +155,10 @@
 			    	 //TODO error message
 			    	 log('Error while adding to cart ' + cart.message);
 
-			    	 toastr.error('Could not add item to Cart');
+			    	 toastr.error('Could not add item to Cart','Error', {timeOut: 1000});
 			     } else {
 
-			          toastr.success('Added to cart successfully');
+			          toastr.success('Added to cart successfully','Success', {timeOut: 1000});
 			     }
 
 				 displayShoppigCartItems(cart,'#shoppingcartProducts');

@@ -511,9 +511,10 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 							+ " does not belong to merchant " + store.getId());
 				}
 
-				ShoppingCartItem item = populateShoppingCartItem(product,shoppingCartItem.getPriceId() );
+				ShoppingCartItem item = populateShoppingCartItem(product,shoppingCartItem.getPriceId());
 				item.setQuantity(shoppingCartItem.getQuantity());
 				item.setShoppingCart(cartModel);
+				item.setVariantId(shoppingCartItem.getVariantId());
 
 				List<ShoppingCartAttributeItem> cartAttributes = new ArrayList<ShoppingCartAttributeItem>();
 				if(shoppingCartItem != null && !CollectionUtils.isEmpty(shoppingCartItem.getAttributes())) {

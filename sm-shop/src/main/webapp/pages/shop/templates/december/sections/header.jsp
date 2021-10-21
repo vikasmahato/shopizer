@@ -321,7 +321,7 @@ $(document).ready(function() {
       </a>
     </div>
     <!-- end col -->
-    <div class="col-sm-7 vertical-align text-center">
+    <div class="col-sm-7 vertical-align text-center" id="searchBox">
 
 	  <c:if test="${requestScope.CONFIGS['displaySearchBox'] == true}">
       <form>
@@ -370,31 +370,7 @@ $(document).ready(function() {
                 <!-- Categories -->
                 <!-- mega menu style -->
                 <!--<li class="dropdown megaDropMenu">-->
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="false"><s:message code="menu.catalogue-products" text="Products"/> <i class="fa fa-angle-down ml-5"></i></a>
-                  <ul class="dropdown-menu row">
-                    <c:set var="code" value="${category.code}"/>
-                    <c:forEach items="${requestScope.TOP_CATEGORIES}" var="category">
-                    <c:if test="${category.visible}">
-                    <li>
-                        <li class="<c:if test="${fn:length(category.children)>0}">dropdown-submenu</c:if> <sm:activeLink linkCode="${category.description.friendlyUrl}" activeReturnCode="active"/>"><a href="<c:url value="/shop/category/${category.description.friendlyUrl}.html"/><sm:breadcrumbParam categoryId="${category.id}"/>"><c:out value="${category.description.name}"/></a>
-                        <c:if test="${fn:length(category.children)>0}">
-                        		<ul class="dropdown-menu">
-								<c:forEach items="${category.children}" var="child">
-									<c:if test="${child.visible}">
-									<li><a href="<c:url value="/shop/category/${child.description.friendlyUrl}.html"/><sm:breadcrumbParam categoryId="${child.id}"/>"><c:out value="${child.description.name}"/></a></li>
-									</c:if>		
-								</c:forEach>
-								</ul>
-						</c:if>
-						</li>
-                    </li>
-                    </c:if>
-                    </c:forEach>
 
-                    
-                  </ul>
-                </li>
                   
 
                 <c:forEach items="${requestScope.CONTENT_PAGE}" var="content">
@@ -402,6 +378,28 @@ $(document).ready(function() {
                			<li><a href="<c:url value="/shop/pages/${content.seUrl}.html"/>" class="current">${content.name}</a></li>
                 	</c:if>
                 </c:forEach>
+
+					<c:forEach items="${requestScope.TOP_CATEGORIES}" var="category">
+						<c:if test="${category.visible}">
+							<li class="dropdown">
+								<a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="false"><c:out value="${category.description.name}"/> <i class="fa fa-angle-down ml-5"></i></a>
+								<ul class="dropdown-menu row">
+										<c:if test="${fn:length(category.children)>0}">
+
+												<c:forEach items="${category.children}" var="child">
+													<c:if test="${child.visible}">
+														<li><a href="<c:url value="/shop/category/${child.description.friendlyUrl}.html"/><sm:breadcrumbParam categoryId="${child.id}"/>"><c:out value="${child.description.name}"/></a></li>
+													</c:if>
+												</c:forEach>
+
+										</c:if>
+									</li>
+								</ul>
+							</li>
+						</c:if>
+					</c:forEach>
+
+
               </ul>
             </div><!-- /.navbar-collapse -->
           </div>
