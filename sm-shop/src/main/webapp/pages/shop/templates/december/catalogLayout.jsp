@@ -62,12 +62,13 @@ response.setDateHeader ("Expires", -1);
 
                                     <h4 style="padding:0px; margin:0px;">
 										{{#discounted}}<del>{{originalPrice}}</del>&nbsp;<span itemprop="price" class="specialPrice">{{finalPrice}}</span>{{/discounted}}
-										{{^discounted}}<span itemprop="price">{{#price}}{{finalPrice}}{{/price}}{{^price}}Ask for price{{/price}}</span>{{/discounted}}
+										{{^discounted}}{{#price}}{{finalPrice}}{{/price}}{{^price}}{{/price}}{{/discounted}}
 								    </h4>
 									<c:if test="${requestScope.CONFIGS['allowPurchaseItems'] == true}">
 									<div class="store-btn">
-      									{{^hasVariants}}<div class="store-btn-addtocart"><a class="addToCart" href="javascript:void(0)" productId="{{id}}"><s:message code="button.label.addToCart" text="Add to cart"/></a></div>{{/hasVariants}}
-      									{{#hasVariants}}<div class="store-btn-addtocart"><a class="viewMore" productId="{{id}}" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html/ref=<c:out value="${requestScope.ref}"/>"><s:message code="button.label.viewMore" text="View More"/></a></div>{{/hasVariants}}
+										{{^discounted}}{{^price}}<div class="store-btn-addtocart"><a class="open-askForPrice askForPrice" data-sku="{{sku}}" data-toggle="modal" data-target="#modalContactForm"><s:message code="button.label.askForPrice" text="Ask for price"/></a></div>{{/price}}{{/discounted}}
+      									{{^hasVariants}}{{#price}}<div class="store-btn-addtocart"><a class="addToCart" href="javascript:void(0)" productId="{{id}}"><s:message code="button.label.addToCart" text="Add to cart"/></a></div>{{/price}}{{/hasVariants}}
+      									{{#hasVariants}}{{#price}}<div class="store-btn-addtocart"><a class="viewMore" productId="{{id}}" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html/ref=<c:out value="${requestScope.ref}"/>"><s:message code="button.label.viewMore" text="View More"/></a></div>{{/price}}{{/hasVariants}}
    									</div>
 									</c:if>
 								</div>
@@ -95,6 +96,8 @@ response.setDateHeader ("Expires", -1);
 	 </head>
  
  	<body>
+
+	<jsp:include page="/pages/shop/templates/december/modalsForm.jsp" />
  	
  	     <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
