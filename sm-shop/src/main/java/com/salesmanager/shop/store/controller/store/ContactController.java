@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.salesmanager.shop.model.shop.EnquiryForm;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -155,5 +156,28 @@ public class ContactController extends AbstractController {
 		
 	}
 	
+	@RequestMapping(value={"/shop/store/priceEnquiry"}, method=RequestMethod.POST)
+	public @ResponseBody String sendEnquiryForm(@ModelAttribute(value="contact") EnquiryForm contact, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response, Locale locale){
+		AjaxResponse ajaxResponse = new AjaxResponse();
+		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+
+		try {
+			if ( bindingResult.hasErrors() )
+			{
+				LOGGER.debug( "found {} validation error while validating in customer registration ",
+						bindingResult.getErrorCount() );
+				ajaxResponse.setErrorString(bindingResult.getAllErrors().get(0).getDefaultMessage());
+				ajaxResponse.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+				return ajaxResponse.toJSONString();
+			}
+
+			emailTemplatesUtils.priceEnquiryMail(contact, store, LocaleUtils.getLocale(store.getDefaultLanguage()), request.getContextPath());
+		} catch (Exception e) {
+			LOGGER.error("An error occured while trying to send an email",e);
+			ajaxResponse.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+		}
+
+		return ajaxResponse.toJSONString();
+	}
 	
 }
