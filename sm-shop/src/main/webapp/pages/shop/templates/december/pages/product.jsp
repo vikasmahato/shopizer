@@ -167,6 +167,7 @@
 												<dl class="dl-horizontal">
 
                                                     <c:forEach items="${specifications}" var="entry">
+                                                        <c:if test="${!(entry.value).equals('-')}">
                                                         <dt>
                                                             ${entry.key}
                                                             :
@@ -174,6 +175,7 @@
                                                         <dd>
                                                             ${entry.value}
                                                         </dd>
+                                                        </c:if>
                                                     </c:forEach>
 
 

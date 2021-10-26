@@ -19,6 +19,7 @@ import com.salesmanager.shop.constants.ApplicationConstants;
 import com.salesmanager.shop.constants.EmailConstants;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.shop.ContactForm;
+import com.salesmanager.shop.model.shop.EnquiryForm;
 import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
@@ -495,4 +496,49 @@ public class EmailTemplatesUtils {
 		
 	}
 
+
+	@Async
+	public void priceEnquiryMail(EnquiryForm contact, MerchantStore merchantStore,
+								 Locale storeLocale, String contextPath){
+		LOGGER.info( "Sending email to store owner" );
+		try {
+
+			Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(contextPath, merchantStore, messages, storeLocale);
+
+			StringBuilder details = new StringBuilder();
+			details.append("Product - ").append(contact.getSku()).append(LINE_BREAK);
+			details.append("Quantity - ").append(contact.getQuantity()).append(LINE_BREAK);
+			details.append("City - ").append(contact.getCity()).append(LINE_BREAK);
+			details.append("Description - ").append(contact.getDescription()).append(LINE_BREAK);
+			templateTokens.put(EmailConstants.EMAIL_CONTACT_NAME, contact.getName());
+			templateTokens.put(EmailConstants.EMAIL_CONTACT_EMAIL, contact.getEmail());
+			templateTokens.put(EmailConstants.EMAIL_CONTACT_PHONE, contact.getPhone());
+			templateTokens.put(EmailConstants.EMAIL_CONTACT_CONTENT, details.toString());
+
+			String[] contactSubject = {"Price Enquiry"};
+
+			templateTokens.put(EmailConstants.EMAIL_CUSTOMER_CONTACT, messages.getMessage("email.contact",contactSubject, storeLocale));
+			templateTokens.put(EmailConstants.EMAIL_CONTACT_NAME_LABEL, messages.getMessage("label.entity.name",storeLocale));
+			templateTokens.put(EmailConstants.EMAIL_CONTACT_EMAIL_LABEL, messages.getMessage("label.generic.email",storeLocale));
+			templateTokens.put(EmailConstants.EMAIL_CONTACT_PHONE_LABEL, messages.getMessage("label.generic.phone",storeLocale));
+
+
+
+			Email email = new Email();
+			email.setFrom(contact.getName());
+			//since shopizer sends email to store email, sender is store email
+			email.setFromEmail(merchantStore.getStoreEmailAddress());
+			email.setSubject(messages.getMessage("email.priceEnquiry",storeLocale));
+			//contact has to be delivered to store owner, receiver is store email
+			email.setTo(merchantStore.getStoreEmailAddress());
+			email.setTemplateName(EmailConstants.EMAIL_PRICE_ENQUIRY_TMPL);
+			email.setTemplateTokens(templateTokens);
+
+			LOGGER.debug( "Sending contact email");
+			emailService.sendHtmlEmail(merchantStore, email);
+
+		} catch (Exception e) {
+			LOGGER.error("Error occured while sending contact email ",e);
+		}
+	}
 }

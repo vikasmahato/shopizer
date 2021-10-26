@@ -1,6 +1,7 @@
 <div class="modal fade" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
- <form>
+ <form method="POST" modelAttribute="contact" action="/shop/store/priceEnquiry
+ ">
  <div class="modal-dialog" role="document">
   <div class="modal-content">
    <div class="modal-header text-center">
@@ -12,7 +13,7 @@
    <div class="modal-body mx-3">
     <div class="md-form mb-5">
      <label data-error="wrong" data-success="right" for="name">Name</label>
-     <input type="text" id="name" class="form-control validate" required>
+     <input type="text" id="name" name="name" class="form-control validate" required>
     </div>
 
     <div class="md-form mb-5">
@@ -22,27 +23,27 @@
 
     <div class="md-form mb-5">
      <label data-error="wrong" data-success="right" for="sku">Sku</label>
-     <input type="text" id="sku" class="form-control validate" required readonly>
+     <input type="text" id="sku" name="sku" class="form-control validate" required readonly>
     </div>
 
     <div class="md-form mb-5">
      <label data-error="wrong" data-success="right" for="mob">Mobile No.</label>
-     <input type="text" pattern="[7-9]{1}[0-9]{9}" id="mob" class="form-control validate" required>
+     <input type="text" pattern="[6-9]{1}[0-9]{9}" id="mob" name="phone" class="form-control validate" required>
     </div>
 
     <div class="md-form mb-5">
-     <label data-error="wrong" data-success="right" for="emailId">Email (Optional)</label>
-     <input type="email" id="emailId" class="form-control validate">
+     <label data-error="wrong" data-success="right" for="emailId">Email</label>
+     <input type="email" id="emailId" name="email" class="form-control validate" required>
     </div>
 
     <div class="md-form mb-5">
      <label data-error="wrong" data-success="right" for="city">City (Optional)</label>
-     <input type="text" id="city" class="form-control validate">
+     <input type="text" id="city" name="city" class="form-control validate">
     </div>
 
     <div class="md-form">
      <label data-error="wrong" data-success="right" for="des">Description (Optional)</label>
-     <textarea type="text" id="des" class="md-textarea form-control" rows="4"></textarea>
+     <textarea type="text" id="des" name="description" class="md-textarea form-control" rows="4"></textarea>
     </div>
 
    </div>
