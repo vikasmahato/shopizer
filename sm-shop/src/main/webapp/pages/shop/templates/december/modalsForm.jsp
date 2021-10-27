@@ -76,7 +76,6 @@
  });
 
  function isAskForPriceFormValid() {
-  debugger;
   var $inputs = $('#askForPriceForm').find(':input');
   var valid = true;
   var firstErrorMessage = null;
@@ -108,7 +107,6 @@
  }
 
  function sendAskForPrice() {
-  debugger;
   showSMLoading('#pageContainer');
   $(".alert-error").hide();
   $(".alert-success").hide();
@@ -121,12 +119,10 @@
    data: data,
    dataType: 'json',
    success: function (response) {
-    debugger;
     hideSMLoading('#pageContainer');
     toastr.success('Form submitted successfully!','Success', {timeOut: 1000});
    },
    error: function (xhr, textStatus, errorThrown) {
-    debugger;
     hideSMLoading('#pageContainer');
     toastr.error('Form could not be submitted!','Error', {timeOut: 1000});
    }
