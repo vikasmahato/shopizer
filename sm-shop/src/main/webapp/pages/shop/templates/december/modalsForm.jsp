@@ -1,7 +1,6 @@
 <div class="modal fade" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
- <form method="POST" modelAttribute="contact" action="/shop/store/priceEnquiry
- ">
+ <form method="POST" modelAttribute="contact" id="askForPriceForm">
  <div class="modal-dialog" role="document">
   <div class="modal-content">
    <div class="modal-header text-center">
@@ -33,7 +32,7 @@
 
     <div class="md-form mb-5">
      <label data-error="wrong" data-success="right" for="emailId">Email</label>
-     <input type="email" id="emailId" name="email" class="form-control validate" required>
+     <input type="email" id="emailId" name="email" class="form-control validate email" required>
     </div>
 
     <div class="md-form mb-5">
@@ -48,7 +47,7 @@
 
    </div>
    <div class="modal-footer d-flex justify-content-center">
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="button"  id="sendAskForPrice" class="btn btn-primary">Submit</button>
    </div>
   </div>
  </div>
@@ -60,4 +59,77 @@
   var sku = $(this).data('sku');
   $(".modal-body #sku").val( sku );
  });
+
+ $(document).ready(function() {
+
+  $("input[type='text']").on("change keyup paste", function(){
+   isAskForPriceFormValid();
+  });
+  $("#comment").on("change keyup paste", function(){
+   isAskForPriceFormValid();
+  });
+
+  $("#sendAskForPrice").click(function() {
+   sendAskForPrice();
+  });
+
+ });
+
+ function isAskForPriceFormValid() {
+  debugger;
+  var $inputs = $('#askForPriceForm').find(':input');
+  var valid = true;
+  var firstErrorMessage = null;
+  $inputs.each(function() {
+   if($(this).hasClass('required')) {
+    var fieldValid = isFieldValid($(this));
+    if(!fieldValid) {
+     valid = false;
+    }
+   }
+   //if has class email
+   if($(this).hasClass('email')) {
+    var emailValid = validateEmail($(this).val());
+    //console.log('Email is valid ? ' + emailValid);
+    if(!emailValid) {
+     valid = false;
+    }
+   }
+  });
+
+  //console.log('Form is valid ? ' + valid);
+  if(valid==false) {//disable submit button
+   $('#sendAskForPrice').addClass('btn-disabled');
+   $('#sendAskForPrice').prop('disabled', true);
+  } else {
+   $('#sendAskForPrice').removeClass('btn-disabled');
+   $('#sendAskForPrice').prop('disabled', false);
+  }
+ }
+
+ function sendAskForPrice() {
+  debugger;
+  showSMLoading('#pageContainer');
+  $(".alert-error").hide();
+  $(".alert-success").hide();
+
+  var data = $('#askForPriceForm').serialize();
+
+  $.ajax({
+   type: 'POST',
+   url: '/shop/store/priceEnquiry',
+   data: data,
+   dataType: 'json',
+   success: function (response) {
+    debugger;
+    hideSMLoading('#pageContainer');
+    toastr.success('Form submitted successfully!','Success', {timeOut: 1000});
+   },
+   error: function (xhr, textStatus, errorThrown) {
+    debugger;
+    hideSMLoading('#pageContainer');
+    toastr.error('Form could not be submitted!','Error', {timeOut: 1000});
+   }
+  });
+ }
 </script>
