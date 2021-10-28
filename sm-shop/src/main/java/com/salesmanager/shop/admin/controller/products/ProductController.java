@@ -254,7 +254,6 @@ public class ProductController {
 				
 				ProductDescription desc = new ProductDescription();
 				desc.setLanguage(l);
-                desc.setName("");
 				descriptions.add(desc);
 				
 			}
