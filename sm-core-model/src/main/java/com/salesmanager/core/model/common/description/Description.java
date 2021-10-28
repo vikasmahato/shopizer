@@ -81,7 +81,7 @@ public class Description implements Auditable, Serializable {
 	}
 
 	public String getName() {
-		return HtmlUtils.htmlUnescape(name);
+		return (name == null) ? name : HtmlUtils.htmlUnescape(name);
 	}
 
 	public void setName(String name) {
@@ -89,7 +89,7 @@ public class Description implements Auditable, Serializable {
 	}
 
 	public String getTitle() {
-		return HtmlUtils.htmlUnescape(title);
+		return (title == null) ? title : HtmlUtils.htmlUnescape(title);
 	}
 
 	public void setTitle(String title) {
