@@ -145,7 +145,7 @@
 						</div>
 					</div>
 					<!-- product-simple-area-end -->
-					<div class="product-info-detailed pb-80 ptb-40-md ptb-20-xs">
+					<div class="product-info-detailed pb-80 ptb-40-md ptb-20-xs" id="productHeading">
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="product-info-tab">
@@ -164,7 +164,7 @@
 											<div class="product-info-tab-content">
 												<c:out value="${product.description.description}"
 													escapeXml="false" />
-												<dl class="dl-horizontal">
+												<dl class="dl-horizontal" id="productDesc">
 
                                                     <c:forEach items="${specifications}" var="entry">
                                                         <c:if test="${!(entry.value).equals('-')}">
@@ -321,8 +321,15 @@
                     });
 
 		});
-		
-        function getPrice()
+
+		(function(){
+			if($("#productDesc").html().trim() === "") {
+				$("#productHeading").hide();
+			}
+		})();
+
+
+		function getPrice()
             {
                         $("#avail_id").val("");
                         $("#price_id").val("");
