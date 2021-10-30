@@ -66,7 +66,7 @@ response.setDateHeader ("Expires", -1);
 								    </h4>
 									<c:if test="${requestScope.CONFIGS['allowPurchaseItems'] == true}">
 									<div class="store-btn">
-										{{^discounted}}{{^price}}<div class="store-btn-addtocart"><a class="open-askForPrice askForPrice" data-sku="{{sku}}" data-toggle="modal" data-target="#modalContactForm"><s:message code="button.label.askForPrice" text="Ask for price"/></a></div>{{/price}}{{/discounted}}
+										{{^discounted}}{{^price}}<div class="store-btn-addtocart"><a class="open-askForPrice askForPrice" data-sku="{{sku}}" data-name="{{description.name}}" data-toggle="modal" data-target="#modalContactForm"><s:message code="button.label.askForPrice" text="Ask for price"/></a></div>{{/price}}{{/discounted}}
       									{{^hasVariants}}{{#price}}<div class="store-btn-addtocart"><a class="addToCart" href="javascript:void(0)" productId="{{id}}"><s:message code="button.label.addToCart" text="Add to cart"/></a></div>{{/price}}{{/hasVariants}}
       									{{#hasVariants}}{{#price}}<div class="store-btn-addtocart"><a class="viewMore" productId="{{id}}" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html/ref=<c:out value="${requestScope.ref}"/>"><s:message code="button.label.viewMore" text="View More"/></a></div>{{/price}}{{/hasVariants}}
    									</div>
