@@ -363,6 +363,8 @@
                             console.log(data);
                             if(data.price=="" || data.price == null || data.price == undefined ) {
                                 $("#sellingPrice").html("This variant does not exist");
+					        	$(".options-form").hide();
+
                             }
                             else {
                                 $("#sellingPrice").html(data.price);
