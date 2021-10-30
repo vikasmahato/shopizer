@@ -26,13 +26,18 @@
     </div>
 
     <div class="md-form mb-5">
+     <label data-error="wrong" data-success="right" for="productName">Product Name</label>
+     <input type="text" id="productName" name="productName" class="form-control validate" required readonly>
+    </div>
+
+    <div class="md-form mb-5">
      <label data-error="wrong" data-success="right" for="mob">Mobile No.</label>
      <input type="text" pattern="[6-9]{1}[0-9]{9}" id="mob" name="phone" class="form-control validate" required>
     </div>
 
     <div class="md-form mb-5">
-     <label data-error="wrong" data-success="right" for="emailId">Email</label>
-     <input type="email" id="emailId" name="email" class="form-control validate email" required>
+     <label data-error="wrong" data-success="right" for="emailId">Email (Optional)</label>
+     <input type="email" id="emailId" name="email" class="form-control validate email">
     </div>
 
     <div class="md-form mb-5">
@@ -57,7 +62,12 @@
 <script>
  $(document).on("click", ".open-askForPrice", function () {
   var sku = $(this).data('sku');
-  $(".modal-body #sku").val( sku );
+  $(".modal-body #sku").val(sku );
+
+
+  var productName = $(this).data('name');
+  $(".modal-body #productName").val(productName );
+
  });
 
  $(document).ready(function() {
