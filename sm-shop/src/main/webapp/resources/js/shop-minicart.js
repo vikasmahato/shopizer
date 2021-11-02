@@ -54,12 +54,12 @@
 			quantity = 1;
 		}
         var variant_price = $("#variant_price").html();
-        if(variant_price == undefined)
-            variant_price = '""';
+        if(variant_price === undefined || variant_price === "" )
+            variant_price = null;
 
 		var variant_id = $("#variant_id").val();
-		if(variant_id === undefined)
-			variant_id = '""';
+		if(variant_id === undefined || variant_id === "")
+			variant_id = null;
 
 		var formId = '#input-' + sku;
 		//var $inputs = $(formId); 
