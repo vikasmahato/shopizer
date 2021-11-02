@@ -363,7 +363,9 @@
                             console.log(data);
                             if(data.price=="" || data.price == null || data.price == undefined ) {
                                 $("#sellingPrice").html("This variant does not exist");
-                            }
+								var button = '<div class="store-btn-addtocart"><a class="open-askForPrice askForPrice" data-sku="{{sku}}" data-name="{{description.name}}" data-toggle="modal" data-target="#modalContactForm"><s:message code="button.label.askForPrice" text="Ask for price"/></a></div>'
+                                $(".options-form").html(button);
+							}
                             else {
                                 $("#sellingPrice").html(data.price);
                                 $("#variant_price").html(data.price_id);

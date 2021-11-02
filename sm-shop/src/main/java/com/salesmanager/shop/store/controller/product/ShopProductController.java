@@ -560,7 +560,7 @@ public class ShopProductController {
 				available = productsAvailableService.getByVariant(variants);
 			}
 
-			if(available.getId() != null)
+			if(available.getId() != null && available.getPrice() != null)
 			{
 				specNameValueList.put("avail_id", available.getAvailId().toString());
 
