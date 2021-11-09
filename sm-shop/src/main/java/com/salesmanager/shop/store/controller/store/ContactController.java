@@ -176,7 +176,7 @@ public class ContactController extends AbstractController {
 						.setName(contact.getName())
 						.setRequiredQuantity(contact.getQuantity())
 						.setSku(contact.getSku())
-						.setProductName(contact.getName())
+						.setProductName(contact.getProductName())
 						.setMobileNo(contact.getPhone())
 						.setEmail(contact.getEmail())
 						.setCity(contact.getCity())
