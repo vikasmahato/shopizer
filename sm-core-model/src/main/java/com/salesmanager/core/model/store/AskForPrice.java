@@ -16,7 +16,7 @@ import javax.validation.constraints.Pattern;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 @Entity
-@Table(name = "ASK_FOR_PRICE")
+@Table(name = "PRICE_ENQUIRY")
 public class AskForPrice extends SalesManagerEntity<Long, com.salesmanager.core.model.store.AskForPrice> {
 
 
@@ -80,7 +80,7 @@ public class AskForPrice extends SalesManagerEntity<Long, com.salesmanager.core.
         this.productName = askForPriceBuilder.productName;
         this.mobileNo = askForPriceBuilder.mobileNo;
         this.email = askForPriceBuilder.email;
-        this.city = askForPriceBuilder.email;
+        this.city = askForPriceBuilder.city;
         this.description = askForPriceBuilder.description;
     }
 

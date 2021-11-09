@@ -15,6 +15,9 @@ public class PersistableAskForPrice {
     private Integer quantity;
     @NotEmpty
     private String sku;
+    @NotEmpty
+    private String productName;
+
 
     private String city;
     private  String description;
@@ -74,4 +77,13 @@ public class PersistableAskForPrice {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
 }
