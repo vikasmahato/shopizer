@@ -3,7 +3,7 @@ package com.salesmanager.shop.model.shop;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-public class EnquiryForm {
+public class PersistableAskForPrice {
 
     @NotEmpty
     private String name;
