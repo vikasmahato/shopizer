@@ -19,7 +19,7 @@ import com.salesmanager.shop.constants.ApplicationConstants;
 import com.salesmanager.shop.constants.EmailConstants;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.shop.ContactForm;
-import com.salesmanager.shop.model.shop.EnquiryForm;
+import com.salesmanager.shop.model.shop.PersistableAskForPrice;
 import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
@@ -498,8 +498,8 @@ public class EmailTemplatesUtils {
 
 
 	@Async
-	public void priceEnquiryMail(EnquiryForm contact, MerchantStore merchantStore,
-								 Locale storeLocale, String contextPath){
+	public void priceEnquiryMail(PersistableAskForPrice contact, MerchantStore merchantStore,
+                                 Locale storeLocale, String contextPath){
 		LOGGER.info( "Sending email to store owner" );
 		try {
 
