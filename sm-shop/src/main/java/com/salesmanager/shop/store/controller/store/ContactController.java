@@ -6,7 +6,9 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.salesmanager.shop.model.shop.EnquiryForm;
+import com.salesmanager.core.business.services.store.ContactService;
+import com.salesmanager.core.model.store.AskForPrice;
+import com.salesmanager.shop.model.shop.PersistableAskForPrice;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,6 +60,9 @@ public class ContactController extends AbstractController {
 	
 	@Inject
 	private CaptchaRequestUtils captchaRequestUtils;
+
+	@Inject
+	private ContactService contactService;
 
 	
 	private final static String CONTACT_LINK = "CONTACT";
@@ -157,21 +162,45 @@ public class ContactController extends AbstractController {
 	}
 	
 	@RequestMapping(value={"/shop/store/priceEnquiry"}, method=RequestMethod.POST)
-	public @ResponseBody String sendEnquiryForm(@ModelAttribute(value="contact") EnquiryForm contact, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response, Locale locale){
+	public @ResponseBody String sendEnquiryForm(@ModelAttribute(value="contact") PersistableAskForPrice contact, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response, Locale locale){
 		AjaxResponse ajaxResponse = new AjaxResponse();
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 
 		try {
-			if ( bindingResult.hasErrors() )
+			if ( !bindingResult.hasErrors() )
 			{
 				LOGGER.debug( "found {} validation error while validating in customer registration ",
 						bindingResult.getErrorCount() );
-				ajaxResponse.setErrorString(bindingResult.getAllErrors().get(0).getDefaultMessage());
-				ajaxResponse.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+
+				AskForPrice inputAskForPrice = new AskForPrice.AskForPriceBuilder()
+						.setName(contact.getName())
+						.setRequiredQuantity(contact.getQuantity())
+						.setSku(contact.getSku())
+						.setProductName(contact.getProductName())
+						.setMobileNo(contact.getPhone())
+						.setEmail(contact.getEmail())
+						.setCity(contact.getCity())
+						.setDescription(contact.getDescription())
+						.build();
+
+				AskForPrice savedAskForPrice = contactService.saveContactForm(inputAskForPrice);
+
+				if(savedAskForPrice != null) {
+					LOGGER.info("Email Sent");
+					ajaxResponse.setStatusMessage(savedAskForPrice.getId().toString());
+					ajaxResponse.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
+				} else {
+					LOGGER.error("An error occured while trying to send an email");
+					ajaxResponse.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+				}
+
+				emailTemplatesUtils.priceEnquiryMail(contact, store, LocaleUtils.getLocale(store.getDefaultLanguage()), request.getContextPath());
+
 				return ajaxResponse.toJSONString();
+			} else {
+				ajaxResponse.setErrorString(bindingResult.getAllErrors().get(0).getDefaultMessage());
 			}
 
-			emailTemplatesUtils.priceEnquiryMail(contact, store, LocaleUtils.getLocale(store.getDefaultLanguage()), request.getContextPath());
 		} catch (Exception e) {
 			LOGGER.error("An error occured while trying to send an email",e);
 			ajaxResponse.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
