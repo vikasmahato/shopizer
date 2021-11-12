@@ -57,7 +57,7 @@ response.setDateHeader ("Expires", -1);
 									{{/image}}
 								</div>
 								<div class="product-content text-center">
-									<a class="listing-product-name" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html/ref=<c:out value="${requestScope.ref}"/>"><h3 itemprop="name" style="line-height:1.3; padding:0px; margin:0px; height:60px; overflow:hidden;">{{description.name}}</h3></a>
+									<a class="listing-product-name" href="<c:url value="/shop/product/" />{{description.friendlyUrl}}.html/ref=<c:out value="${requestScope.ref}"/>"><h3 itemprop="name" style="line-height:1; padding:0px; margin:0px; height:60px; overflow:hidden;">{{description.name}}</h3></a>
 									<!-- commented <div class="stars" id="productRating_{{id}}"></div> -->
 
                                     <h4 style="padding:0px; margin:0px;">
