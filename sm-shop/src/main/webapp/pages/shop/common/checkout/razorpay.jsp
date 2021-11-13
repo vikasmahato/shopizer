@@ -53,6 +53,12 @@ response.setDateHeader ("Expires", -1);
                  },
                  "theme": {
                      "color": "#3399cc"
+                 },
+                 "modal": {
+                     "ondismiss": function(){
+                         console.log('Checkout form closed');
+                         hideSMLoading('#pageContainer');
+                     }
                  }
              };
              return options;
@@ -68,7 +74,7 @@ response.setDateHeader ("Expires", -1);
                  url: url,
                  data: data,
                  success: function(response) {
-                     debugger;
+                     //debugger;
                      //TODO check response status
                      var rzp1 = new Razorpay(createRazorPayOptions(response.response.data[0].order_id, response));
 
@@ -85,6 +91,7 @@ response.setDateHeader ("Expires", -1);
                      rzp1.open();
                      },
                  error: function (xhr, textStatus, errorThrown) {
+                    console.log(errorThrown);
                      // TODO: Handle error
                      //debugger;
                  }
