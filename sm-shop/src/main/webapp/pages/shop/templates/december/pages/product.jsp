@@ -361,10 +361,15 @@
                             var data = response.response.data;
                             data = JSON.parse(data[0].prices);
                             console.log(data);
-                            if(data.price=="" || data.price == null || data.price == undefined || data.price == "Rs.0.00") {
+                            if(data.price=="" || data.price == null || data.price == undefined ) {
                                 $("#sellingPrice").html("This variant does not exist");
 								var button = '<div class="store-btn-addtocart"><a class="open-askForPrice askForPrice" data-sku="{{sku}}" data-name="{{description.name}}" data-toggle="modal" data-target="#modalContactForm"><s:message code="button.label.askForPrice" text="Ask for price"/></a></div>'
                                 $(".options-form").html(button);
+							}
+							else if(data.price == "Rs.0.00"){
+								$("#sellingPrice").hide();
+								var button = '<div class="store-btn-addtocart"><a class="open-askForPrice askForPrice" data-sku="{{sku}}" data-name="{{description.name}}" data-toggle="modal" data-target="#modalContactForm"><s:message code="button.label.askForPrice" text="Ask for price"/></a></div>'
+								$(".options-form").html(button);
 							}
                             else {
                                 $("#sellingPrice").html(data.price);
