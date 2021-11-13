@@ -22,6 +22,12 @@
 				</h3>
 				<br/>
 				<strong><c:out value="${product.sku}"/></strong>
+				<c:if test="${doesVariantExists}">
+                    <div>
+                        <div class="variant-select" id="variantDropdowns">
+                        </div>
+                    </div>
+                </c:if>
 				<br/>
 				
 			<!--  Add content images -->
@@ -31,12 +37,13 @@
 			<div id="store.success" class="alert alert-success"	style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>">
 					<s:message code="message.success" text="Request successfull" />
 			</div>
-			
+
 			<div class="control-group" style="margin-top:15px;">
 			  <div class="controls">
 					<input class="input-file" id="file" name="file" type="file" multiple="multiple">
+					<input type="hidden" name="variantId" id="variantId" value="${product.id}"/>
 					<input type="hidden" name="productId" id="productId" value="${product.id}"/>
-					<!-- <input class="input-file" id="image1" name="image[1]" type="file"><br /> 
+					<!-- <input class="input-file" id="image1" name="image[1]" type="file"><br />
 					<input 	class="input-file" id="image2" name="image[2]" type="file"><br />
 					<input class="input-file" id="image3" name="image[3]" type="file"><br /> -->
 				</div>
@@ -75,4 +82,93 @@
 		</div>
 	   </div>
 	</div>
-</div>	
+</div>
+
+
+<script>
+
+    $(function () {
+        $.ajax({
+            type: 'GET',
+            url: '<c:url value="/shop/product/searchByCode.html"/>?code=${product.sku}',
+            dataType: 'json',
+            success: function(response){
+                 var data = response.response.data;
+
+                 var specificationDetails = JSON.parse(data[0].specficationDetails);
+                 //console.log(specificationDetails);
+                 var variantOptions = "";
+                 var i=0;
+                 for (const [key, value] of Object.entries(specificationDetails)) {
+                   var optionString = "";
+
+                    value.forEach(function (item, index) {
+                      optionString += "<option value='"+item.substring( item.indexOf("__")+2)+"'>"+ item.substring( 0, item.indexOf("__")) +"</option>"
+                    });
+
+                    var html = "<div class='control-group'>";
+                    html += "<label>"+key+"</label>";
+                    html += "<div class='controls'>";
+                    html += "<select id='variant_"+i+"' name='variants[]' onchange='getPrice()'>"; //TODO: Give ID
+                    html += optionString;
+                    html += "</select>";
+                    html += "</div>";
+                    html += "</div>";
+
+                    variantOptions += html;
+                    i++;
+                 }
+
+                $("#variantDropdowns").html(variantOptions);
+                getPrice();
+            },
+              error: function(xhr, textStatus, errorThrown) {
+                alert('error ' + errorThrown);
+            }
+        });
+    });
+
+    function getPrice()
+    {
+        $("#avail_id").val("");
+      var variants = "";
+
+      var selects = document.getElementsByTagName('select');
+      var sel;
+      for(var z=0; z<selects.length; z++){
+           sel = selects[z];
+           if(sel.name.indexOf('variants') === 0){
+               variants+=sel.value+",";
+           }
+      }
+      variants = variants.slice(0, variants.length - 1);
+
+       $.ajax({
+          type: 'GET',
+          url: '<c:url value="/shop/product/getVariantsPrices.html"/>',
+          dataType: 'json',
+          data: {
+            withSymbol: 'true',
+            variants: variants,
+            code: '${product.sku}'
+          },
+          success: function(response){
+            console.log(response);
+            var data = response.response.data;
+            data = JSON.parse(data[0].prices);
+            console.log(data);
+            if(data.price=="" || data.price == null || data.price == undefined ) {
+
+            }
+            else {
+                $("#variantId").val(data.avail_id);
+            }
+
+          },
+          error: function(xhr, textStatus, errorThrown) {
+            alert('error ' + errorThrown);
+          }
+       });
+    }
+
+</script>
