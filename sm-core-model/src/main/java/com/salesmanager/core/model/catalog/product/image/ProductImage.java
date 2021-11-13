@@ -19,6 +19,7 @@ import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
 
 import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.availability.ProductsAvailable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 @Entity
@@ -61,7 +62,11 @@ public class ProductImage extends SalesManagerEntity<Long, ProductImage> {
 	@ManyToOne(targetEntity = Product.class)
 	@JoinColumn(name = "PRODUCT_ID", nullable = false)
 	private Product product;
-	
+
+	@ManyToOne(targetEntity = ProductsAvailable.class)
+	@JoinColumn(name = "VARIANT_ID")
+	private ProductsAvailable variant;
+
 	@Transient
 	private InputStream image = null;
 	
@@ -144,5 +149,11 @@ public class ProductImage extends SalesManagerEntity<Long, ProductImage> {
 		this.productImageUrl = productImageUrl;
 	}
 
+	public ProductsAvailable getVariant() {
+		return variant;
+	}
 
+	public void setVariant(ProductsAvailable variant) {
+		this.variant = variant;
+	}
 }

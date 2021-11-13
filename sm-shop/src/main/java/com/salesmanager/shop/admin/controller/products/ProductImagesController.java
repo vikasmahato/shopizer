@@ -4,6 +4,7 @@ import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.image.ProductImageService;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.catalog.category.CategorySpecification;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -67,7 +68,8 @@ public class ProductImagesController {
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
 		Product product = productService.getById(productId);
-		
+		Boolean doesVariantExists =  product.getCategories().stream().anyMatch(category -> category.getSpecifications().stream().anyMatch(CategorySpecification::getVariant));
+
 		if(product==null) {
 			return "redirect:/admin/products/products.html";
 		}
@@ -77,6 +79,7 @@ public class ProductImagesController {
 		}
 		
 		model.addAttribute("product",product);
+		model.addAttribute("doesVariantExists",doesVariantExists);
 		return ControllerConstants.Tiles.Product.productImages;
 		
 	}
