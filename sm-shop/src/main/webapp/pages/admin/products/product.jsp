@@ -289,7 +289,7 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
                         <div class="control-group">
                             <label><s:message code="label.product.ordermin" text="Quantity order minimum"/></label>
                             <div class="controls">
-                                <form:input id="ordermin" value="1" cssClass="highlight" path="availability.productQuantityOrderMin"/>
+                                <form:input id="ordermin" value="" cssClass="highlight" path="availability.productQuantityOrderMin"/>
                                 <span class="help-inline"><form:errors path="availability.productQuantityOrderMin" cssClass="error" /></span>
 
                             </div>
