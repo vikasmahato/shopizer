@@ -79,7 +79,7 @@ $(function(){
 								<c:if test="${product.quantityOrderMaximum==-1 || product.quantityOrderMaximum>1 && not product.productVirtual}" >
 									
 									<div class="form-group product-qty" style="width: 40%; margin-top: 5px;">
-										<input id="qty-productId-<c:out value="${product.id}" />" class="input-mini form-control form-control-sm" placeholder="1" type="number" min="<c:choose><c:when test="${product.quantityOrderMinimum != null}">${product.quantityOrderMinimum}</c:when><c:otherwise>1</c:otherwise></c:choose>" max="<c:choose><c:when test="${product.quantityOrderMaximum != null && product.quantityOrderMaximum!=-1}">${product.quantityOrderMaximum}</c:when><c:otherwise>5</c:otherwise></c:choose>" style="width:100% !important;">
+										<input id="qty-productId-<c:out value="${product.id}" />" class="input-mini form-control form-control-sm" onchange="myFunction()" placeholder="${product.quantityOrderMinimum}" type="number" min="<c:choose><c:when test="${product.quantityOrderMinimum != null}">${product.quantityOrderMinimum}</c:when><c:otherwise>1</c:otherwise></c:choose>" max="<c:choose><c:when test="${product.quantityOrderMaximum != null && product.quantityOrderMaximum!=-1}">${product.quantityOrderMaximum}</c:when><c:otherwise>5</c:otherwise></c:choose>" style="width:100% !important;">
 									</div>
 							      
 								</c:if>
@@ -92,3 +92,11 @@ $(function(){
 							
 
 							</form>
+
+<script>
+	function myFunction() {
+		if($('#qty-productId-<c:out value="${product.id}" />').val() < ${product.quantityOrderMinimum}) {
+			$('#qty-productId-<c:out value="${product.id}" />').val(${product.quantityOrderMinimum});
+		}
+	}
+</script>
