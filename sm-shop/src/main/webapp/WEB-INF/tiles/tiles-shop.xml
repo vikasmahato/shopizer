@@ -93,7 +93,39 @@
   		<put-attribute name="body" value="/pages/shop/common/merchant/contactus.jsp" />
   		<put-attribute name="footer" value="/pages/shop/templates/{1}/sections/footer.jsp" />
   	</definition>
-  	
+
+	<!-- About Us -->
+	<definition name="aboutus.*" template="/pages/shop/templates/{1}/catalogLayout.jsp">
+		<put-attribute name="header" value="/pages/shop/templates/{1}/sections/header.jsp" />
+		<put-attribute name="navbar" value="/pages/shop/templates/{1}/sections/navbar.jsp" />
+		<put-attribute name="body" value="/pages/shop/common/merchant/aboutus.jsp" />
+		<put-attribute name="footer" value="/pages/shop/templates/{1}/sections/footer.jsp" />
+	</definition>
+
+	<!-- Privacy -->
+	<definition name="privacy.*" template="/pages/shop/templates/{1}/catalogLayout.jsp">
+		<put-attribute name="header" value="/pages/shop/templates/{1}/sections/header.jsp" />
+		<put-attribute name="navbar" value="/pages/shop/templates/{1}/sections/navbar.jsp" />
+		<put-attribute name="body" value="/pages/shop/common/merchant/privacy.jsp" />
+		<put-attribute name="footer" value="/pages/shop/templates/{1}/sections/footer.jsp" />
+	</definition>
+
+	<!-- Returns & Cancellations -->
+	<definition name="returnscancellations.*" template="/pages/shop/templates/{1}/catalogLayout.jsp">
+		<put-attribute name="header" value="/pages/shop/templates/{1}/sections/header.jsp" />
+		<put-attribute name="navbar" value="/pages/shop/templates/{1}/sections/navbar.jsp" />
+		<put-attribute name="body" value="/pages/shop/common/merchant/returnscancellations.jsp" />
+		<put-attribute name="footer" value="/pages/shop/templates/{1}/sections/footer.jsp" />
+	</definition>
+
+	<!-- Terms & Conditions -->
+	<definition name="termsconditions.*" template="/pages/shop/templates/{1}/catalogLayout.jsp">
+		<put-attribute name="header" value="/pages/shop/templates/{1}/sections/header.jsp" />
+		<put-attribute name="navbar" value="/pages/shop/templates/{1}/sections/navbar.jsp" />
+		<put-attribute name="body" value="/pages/shop/common/merchant/termsconditions.jsp" />
+		<put-attribute name="footer" value="/pages/shop/templates/{1}/sections/footer.jsp" />
+	</definition>
+
   	<!-- Rate product -->
   	<definition name="rating.*" template="/pages/shop/templates/{1}/catalogLayout.jsp">
   		 <put-attribute name="header" value="/pages/shop/templates/{1}/sections/header.jsp" />
