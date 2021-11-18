@@ -81,6 +81,18 @@ response.setDateHeader ("Expires", -1);
 								    <c:forEach items="${requestScope.CONTENT_PAGE}" var="content">
 											   <li><a href="<c:url value="/shop/pages/${content.seUrl}.html"/>" class="current">${content.name}</a></li>
 									</c:forEach>
+									<c:if test="${requestScope.CONFIGS['displayAboutUs']==true}">
+										<li class="<sm:activeLink linkCode="ABOUT" activeReturnCode="active"/>"><a href="<c:url value="/shop/store/aboutus.html"/>"><s:message code="label.about" text="About Us"/></a></li>
+									</c:if>
+									<c:if test="${requestScope.CONFIGS['displayPrivacy']==true}">
+										<li class="<sm:activeLink linkCode="PRIVACY" activeReturnCode="active"/>"><a href="<c:url value="/shop/store/privacy.html"/>"><s:message code="label.privacy" text="Privacy"/></a></li>
+									</c:if>
+									<c:if test="${requestScope.CONFIGS['displayTermsConditions']==true}">
+										<li class="<sm:activeLink linkCode="TERMS" activeReturnCode="active"/>"><a href="<c:url value="/shop/store/termsconditions.html"/>"><s:message code="label.terms" text="Terms & Conditions"/></a></li>
+									</c:if>
+									<c:if test="${requestScope.CONFIGS['displayReturnsCancellations']==true}">
+										<li class="<sm:activeLink linkCode="RETUNRSCANCELLATIONS" activeReturnCode="active"/>"><a href="<c:url value="/shop/store/returnscancellations.html"/>"><s:message code="label.returns" text="Returns & Cancellations"/></a></li>
+									</c:if>
 									<c:if test="${requestScope.CONFIGS['displayContactUs']==true}">
 										<li class="<sm:activeLink linkCode="CONTACT" activeReturnCode="active"/>"><a href="<c:url value="/shop/store/contactus.html"/>"><s:message code="label.customer.contactus" text="Contact us"/></a></li>
 									</c:if>
@@ -106,6 +118,7 @@ response.setDateHeader ("Expires", -1);
 														<li><a href="<c:url value="/shop/customer/customLogon.html"/>"><s:message code="button.label.signin" text="Signin" /></a></li>
 												</sec:authorize>
 									</c:if>
+
 								</ul>
 							</div>
 						</div>
