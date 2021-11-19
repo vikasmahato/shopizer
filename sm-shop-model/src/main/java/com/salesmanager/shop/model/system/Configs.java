@@ -11,6 +11,44 @@ public class Configs {
 	private boolean displaySearchBox;
 	private boolean displayContactUs;
 	private boolean displayShipping;
+	private boolean displayTermsConditions;
+	private boolean displayPrivacy;
+	private boolean displayAboutUs;
+	private boolean displayReturnsCancellations;
+
+	public boolean isDisplayTermsConditions() {
+		return displayTermsConditions;
+	}
+
+	public void setDisplayTermsConditions(boolean displayTermsConditions) {
+		this.displayTermsConditions = displayTermsConditions;
+	}
+
+	public boolean isDisplayPrivacy() {
+		return displayPrivacy;
+	}
+
+	public void setDisplayPrivacy(boolean displayPrivacy) {
+		this.displayPrivacy = displayPrivacy;
+	}
+
+	public boolean isDisplayAboutUs() {
+		return displayAboutUs;
+	}
+
+	public void setDisplayAboutUs(boolean displayAboutUs) {
+		this.displayAboutUs = displayAboutUs;
+	}
+
+	public boolean isDisplayReturnsCancellations() {
+		return displayReturnsCancellations;
+	}
+
+	public void setDisplayReturnsCancellations(boolean displayReturnsCancellations) {
+		this.displayReturnsCancellations = displayReturnsCancellations;
+	}
+
+
 
 	private boolean displayCustomerSection =false;
 	private boolean displayAddToCartOnFeaturedItems = false;

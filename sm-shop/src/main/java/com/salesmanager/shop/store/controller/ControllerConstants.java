@@ -48,13 +48,20 @@ public interface ControllerConstants
             final static String content="content";
             final static String contactus="contactus";
         }
-        
+
+
+
+
         interface Pages{
             final static String notFound="404";
             final static String timeout="timeout";
         }
         
         interface Merchant{
+            final static String aboutus = "aboutus";
+            final static String privacy = "privacy";
+            final static String returnscancellations = "returnscancellations";
+            final static String termsconditions = "termsconditions";
             final static String contactUs="contactus";
         }
         
