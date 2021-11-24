@@ -226,7 +226,9 @@ public class ReadableProductPopulator extends
 					if(prdImage.isDefaultImage()) {
 						target.setImage(prdImage);
 					}
-					
+
+					prdImage.setVariantId(img.getVariant().getVariant().getId());
+
 					imageList.add(prdImage);
 				}
 				target

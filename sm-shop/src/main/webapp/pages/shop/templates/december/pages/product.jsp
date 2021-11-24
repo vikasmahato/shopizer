@@ -51,18 +51,22 @@
 																class="image-link"
 																imgId="im-<c:out value="${thumbnail.id}"/>"
 																title="<c:out value="${thumbnail.imageName}"/>"
-																rel="<c:url value="${thumbnail.imageUrl}"/>"><img
-																src="<c:url value="${thumbnail.imageUrl}"/>"
-																alt="<c:url value="${thumbnail.imageName}"/>"></a>
+																rel="<c:url value="${thumbnail.imageUrl}"/>">
+																<img id="variant_${thumbnail.variantId}"
+																	src="<c:url value="${thumbnail.imageUrl}"/>"
+																	alt="<c:url value="${thumbnail.imageName}"/>">
+															</a>
 														</c:when>
 														<c:otherwise>
 															<a href="javascript:;"
 																" class="detailsThumbImg thumbImg thumbnail image-link" 
 																imgId="im-<c:out value="${thumbnail.id}"/>"
 																title="<c:out value="${product.description.name}"/>"
-																rel="<c:url value="${thumbnail.externalUrl}"/>"><img
-																src="${thumbnail.externalUrl}"
-																alt="<c:url value="${product.description.name}"/>" style="border:0 !important;"></a>
+																rel="<c:url value="${thumbnail.externalUrl}"/>">
+																<img id="variant_${thumbnail.variantId}"
+																	src="${thumbnail.externalUrl}"
+																	alt="<c:url value="${product.description.name}"/>" style="border:0 !important;">
+															</a>
 														</c:otherwise>
 													</c:choose>
 												</div>
@@ -302,7 +306,7 @@
                                 var html = "<div class='control-group'>";
                                 html += "<label>"+key+"</label>";
                                 html += "<div class='controls'>";
-                                html += "<select id='variant_"+i+"' name='variants[]' onchange='getPrice()'>"; //TODO: Give ID
+                                html += "<select id='variant_"+i+"' name='variants[]' onchange='getPrice();changeImage(this.value);'>"; //TODO: Give ID
                                 html += optionString;
                                 html += "</select>";
                                 html += "</div>";
@@ -328,6 +332,9 @@
 			}
 		})();
 
+		function changeImage(variantId) {
+			$("#variant_"+variantId).click();
+		}
 
 		function getPrice()
             {

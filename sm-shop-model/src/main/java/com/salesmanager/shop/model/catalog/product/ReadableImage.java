@@ -16,6 +16,7 @@ public class ReadableImage extends Entity implements Serializable {
 	private String videoUrl;
 	private int imageType;
 	private boolean defaultImage;
+	private Long variantId;
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
 	}
@@ -53,4 +54,11 @@ public class ReadableImage extends Entity implements Serializable {
 		this.defaultImage = defaultImage;
 	}
 
+	public Long getVariantId() {
+		return variantId;
+	}
+
+	public void setVariantId(Long variantId) {
+		this.variantId = variantId;
+	}
 }
