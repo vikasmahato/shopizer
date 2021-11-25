@@ -41,7 +41,7 @@
 			<div class="control-group" style="margin-top:15px;">
 			  <div class="controls">
 					<input class="input-file" id="file" name="file" type="file" multiple="multiple">
-					<input type="hidden" name="variantId" id="variantId" value="${product.id}"/>
+					<input type="hidden" name="variantId" id="variantId"/>
 					<input type="hidden" name="productId" id="productId" value="${product.id}"/>
 					<!-- <input class="input-file" id="image1" name="image[1]" type="file"><br />
 					<input 	class="input-file" id="image2" name="image[2]" type="file"><br />
@@ -109,7 +109,7 @@
                     var html = "<div class='control-group'>";
                     html += "<label>"+key+"</label>";
                     html += "<div class='controls'>";
-                    html += "<select id='variant_"+i+"' name='variants[]' onchange='getPrice()'>"; //TODO: Give ID
+                    html += "<select id='variant_"+i+"' name='variants[]' onchange='setVariantDetails()'>"; //TODO: Give ID
                     html += optionString;
                     html += "</select>";
                     html += "</div>";
@@ -127,6 +127,11 @@
             }
         });
     });
+
+	function setVariantDetails() {
+		getPrice();
+		$('#variantId').val($("#variant_0").val());
+	}
 
     function getPrice()
     {
@@ -157,12 +162,12 @@
             var data = response.response.data;
             data = JSON.parse(data[0].prices);
             console.log(data);
-            if(data.price=="" || data.price == null || data.price == undefined ) {
+            /*if(data.price=="" || data.price == null || data.price == undefined ) {
 
             }
             else {
                 $("#variantId").val(data.avail_id);
-            }
+            }*/
 
           },
           error: function(xhr, textStatus, errorThrown) {

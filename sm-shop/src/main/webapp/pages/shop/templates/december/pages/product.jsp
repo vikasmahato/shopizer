@@ -52,7 +52,7 @@
 																imgId="im-<c:out value="${thumbnail.id}"/>"
 																title="<c:out value="${thumbnail.imageName}"/>"
 																rel="<c:url value="${thumbnail.imageUrl}"/>">
-																<img id="variant_${thumbnail.variantId}"
+																<img
 																	src="<c:url value="${thumbnail.imageUrl}"/>"
 																	alt="<c:url value="${thumbnail.imageName}"/>">
 															</a>
@@ -63,7 +63,7 @@
 																imgId="im-<c:out value="${thumbnail.id}"/>"
 																title="<c:out value="${product.description.name}"/>"
 																rel="<c:url value="${thumbnail.externalUrl}"/>">
-																<img id="variant_${thumbnail.variantId}"
+																<img
 																	src="${thumbnail.externalUrl}"
 																	alt="<c:url value="${product.description.name}"/>" style="border:0 !important;">
 															</a>
@@ -82,6 +82,7 @@
 											<c:if test="${thumbnail.imageType==0}">
 												<li><a href="#view<c:out value="${thumbnail.id}"/>"
 													data-toggle="tab"><img
+														id="variant_${thumbnail.variantId}"
 														src="<c:url value="${thumbnail.imageUrl}"/>"
 														alt="<c:url value="${thumbnail.imageName}"/>" /></a></li>
 											</c:if>
@@ -139,7 +140,6 @@
 										</span>
 									</h4>
 									<c:if test="${product.productPrice.description!=null}"><strong><c:out value="${product.productPrice.description.priceAppender}"/></strong></c:if>
-
 
 									<input id="variant_id" type="hidden" value="" name="variant_id">
 									<jsp:include
