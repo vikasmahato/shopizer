@@ -20,6 +20,10 @@ public class MerchantConfig implements Serializable, JSONAware {
 	private static final long serialVersionUID = 1L;
 	private boolean displayCustomerSection =false;
 	private boolean displayContactUs =false;
+	private boolean displayAboutUs = true;
+	private boolean displayPrivacy = true;
+	private boolean displayTermsConditions = true;
+	private boolean displayReturnsCancellations = true;
 	private boolean displayStoreAddress = false;
 	private boolean displayAddToCartOnFeaturedItems = false;
 	private boolean displayCustomerAgreement = false;
@@ -39,6 +43,10 @@ public class MerchantConfig implements Serializable, JSONAware {
 		JSONObject data = new JSONObject();
 		data.put("displayCustomerSection", this.isDisplayCustomerSection());
 		data.put("displayContactUs", this.isDisplayContactUs());
+		data.put("displayAboutUs", this.isDisplayAboutUs());
+		data.put("displayPrivacy", this.isDisplayPrivacy());
+		data.put("displayTermsConditions", this.isDisplayTermsConditions());
+		data.put("displayReturnsCancellations", this.isDisplayReturnsCancellations());
 		data.put("displayStoreAddress", this.isDisplayStoreAddress());
 		data.put("displayAddToCartOnFeaturedItems", this.isDisplayAddToCartOnFeaturedItems());
 		data.put("displayPagesMenu", this.isDisplayPagesMenu());
@@ -171,4 +179,35 @@ public class MerchantConfig implements Serializable, JSONAware {
 		this.displayPagesMenu = displayPagesMenu;
 	}
 
+	public boolean isDisplayAboutUs() {
+		return displayAboutUs;
+	}
+
+	public void setDisplayAboutUs(boolean displayAboutUs) {
+		this.displayAboutUs = displayAboutUs;
+	}
+
+	public boolean isDisplayPrivacy() {
+		return displayPrivacy;
+	}
+
+	public void setDisplayPrivacy(boolean displayPrivacy) {
+		this.displayPrivacy = displayPrivacy;
+	}
+
+	public boolean isDisplayTermsConditions() {
+		return displayTermsConditions;
+	}
+
+	public void setDisplayTermsConditions(boolean displayTermsConditions) {
+		this.displayTermsConditions = displayTermsConditions;
+	}
+
+	public boolean isDisplayReturnsCancellations() {
+		return displayReturnsCancellations;
+	}
+
+	public void setDisplayReturnsCancellations(boolean displayReturnsCancellations) {
+		this.displayReturnsCancellations = displayReturnsCancellations;
+	}
 }
