@@ -1,6 +1,7 @@
 package com.salesmanager.shop.admin.controller.products;
 
 import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.catalog.product.availability.ProductsAvailableService;
 import com.salesmanager.core.business.services.catalog.product.image.ProductImageService;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
@@ -57,6 +58,9 @@ public class ProductImagesController {
 	@Inject
 	@Qualifier("img")
 	private ImageFilePath imageUtils;
+
+	@Inject
+	private ProductsAvailableService productsAvailableService;
 	
 
 	@PreAuthorize("hasRole('PRODUCTS')")
@@ -311,7 +315,7 @@ public class ProductImagesController {
                     productImage.setProductImage(multipartFile.getOriginalFilename() );
                     productImage.setProduct(product);
                     productImage.setDefaultImage(false);//default image is uploaded in the product details
-                    
+                    productImage.setVariant(productsAvailableService.getByProductVariant(product.getId(), productImages.getVariantId()));
                     contentImagesList.add( productImage);
                 }
             }
