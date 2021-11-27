@@ -3,7 +3,6 @@ package com.salesmanager.core.business.services.accounting.quickbooks.customer;
 import com.intuit.ipp.data.*;
 import com.intuit.ipp.services.DataService;
 import com.salesmanager.core.business.services.accounting.payload.address.AddressRequest;
-import com.salesmanager.core.business.services.accounting.payload.customer.CustomerRequest;
 
 import com.intuit.ipp.exception.FMSException;
 import com.intuit.ipp.util.DateUtils;
@@ -16,10 +15,10 @@ public class CustomerHelper {
 
     }
 
-    public static Customer transformCustomerRequest(CustomerRequest customerRequest) {
-        Customer customer = new Customer();
+    public static Customer transformCustomerRequest(com.salesmanager.core.model.customer.Customer customer) {
+        Customer qbCustomer = new Customer();
 
-        customer.setDisplayName(customerRequest.getDisplayName());
+        qbCustomer.setDisplayName(customer.getBilling().getCompany());
         // customer.setTitle(RandomStringUtils.randomAlphanumeric(3));
         // customer.setGivenName(RandomStringUtils.randomAlphanumeric(6));
         // customer.setMiddleName(RandomStringUtils.randomAlphanumeric(6));
@@ -27,27 +26,29 @@ public class CustomerHelper {
 
         // customer.setOrganization(false);
         // customer.setSuffix("Sr.");
-        customer.setCompanyName(customerRequest.getCompanyName());
-        customer.setActive(true);
+        qbCustomer.setCompanyName(customer.getBilling().getCompany());
+        qbCustomer.setActive(true);
 
-        customer.setPrimaryPhone(getPrimaryPhone(customerRequest.getPrimaryPhone()));
-        customer.setPrimaryEmailAddr(getEmailAddress(customerRequest.getEmail()));
+//        qbCustomer.setPrimaryPhone(getPrimaryPhone(customer.getPrimaryPhone()));
+        qbCustomer.setPrimaryEmailAddr(getEmailAddress(customer.getEmailAddress()));
 
-        customer.setContactName(customerRequest.getContactName());
-        customer.setAltContactName(customerRequest.getAltContactName());
-        customer.setNotes(customerRequest.getNotes());
+//        qbCustomer.setContactName(customer.getContactName());
+//        qbCustomer.setAltContactName(customer.getAltContactName());
+//        qbCustomer.setNotes(customer.getNotes());
         //customer.setBalance(customerRequest.getBalance());
         //customer.setOpenBalanceDate(DateUtils.getCurrentDateTime());
         //customer.setBalanceWithJobs(new BigDecimal("5055.5"));
         //customer.setCreditLimit(new BigDecimal("200000"));
         //customer.setAcctNum("Test020102");
         //customer.setResaleNum("40");
-        customer.setJob(customerRequest.getJob());
+        qbCustomer.setJob(false);
 
-        customer.setBillAddr(getPhysicalAddress(customerRequest.getBillingAddress()));
-        customer.setShipAddr(getPhysicalAddress(customerRequest.getShippingAddress()));
+//        qbCustomer.setBillAddr(getPhysicalAddress(customer.getBilling()));
+//        qbCustomer.setShipAddr(getPhysicalAddress(customer.getDelivery()));
 
-        return customer;
+        qbCustomer.setGSTIN(customer.getGstin());
+
+        return qbCustomer;
     }
 
     public static Customer getCustomer(DataService service) throws FMSException, ParseException {
@@ -112,5 +113,12 @@ public class CustomerHelper {
         EmailAddress emailAddr = new EmailAddress();
         emailAddr.setAddress(email);
         return emailAddr;
+    }
+
+    public static com.salesmanager.core.model.customer.Customer getCustomerResponse(Customer qbCustomer)
+    {
+        com.salesmanager.core.model.customer.Customer customer = new com.salesmanager.core.model.customer.Customer();
+        customer.setQuickbooks_id(Integer.valueOf(qbCustomer.getId()));
+        return  customer;
     }
 }

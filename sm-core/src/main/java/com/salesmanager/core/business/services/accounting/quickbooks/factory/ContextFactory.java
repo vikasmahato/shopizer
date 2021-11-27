@@ -12,6 +12,7 @@ import com.intuit.ipp.security.IAuthorizer;
 import com.intuit.ipp.security.OAuth2Authorizer;
 import com.intuit.ipp.security.OAuthAuthorizer;
 import com.intuit.ipp.util.Logger;
+import com.salesmanager.core.business.repositories.quickbooks.QuickbooksRepository;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,9 +25,15 @@ public class ContextFactory {
     private static final String consumerSecret = "consumer.secret";
     private static final String accessToken = "oauth.accessToken";
     private static final String accessTokenSecret = "oauth.accessTokenSecret";
-    private static final String bearerToken = "oauth2.accessToken";
+    private static String bearerToken = "";
 
     private static Properties prop;
+
+    private static QuickbooksRepository quickbooksRepository;
+
+    public ContextFactory(QuickbooksRepository quickbooksRepository) {
+        this.quickbooksRepository = quickbooksRepository;
+    }
 
     /**
      * Initializes Context for a given app/company profile
@@ -46,11 +53,13 @@ public class ContextFactory {
         if(prop.getProperty("oauth.type").equals("1")) {
             oauth = new OAuthAuthorizer(prop.getProperty(consumerKey), prop.getProperty(consumerSecret), prop.getProperty(accessToken), prop.getProperty(accessTokenSecret));
         } else {
-            oauth = new OAuth2Authorizer(prop.getProperty(bearerToken));
+            bearerToken = quickbooksRepository.getLastAccessToken();
+            LOG.error("Access_token_length:-" + bearerToken.length());
+            oauth = new OAuth2Authorizer(bearerToken);
         }
         //create context
         Context context = new Context(oauth, ServiceType.QBO, prop.getProperty(companyID));
-
+        LOG.error("Context:- ",context);
         return context;
     }
 
@@ -58,7 +67,7 @@ public class ContextFactory {
 
         try {
             prop = new Properties();
-            String propFileName = "config.properties";
+            String propFileName = "quickbooks.properties";
 
             InputStream inputStream = ContextFactory.class.getClassLoader().getResourceAsStream(propFileName);
 

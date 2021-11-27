@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.salesmanager.core.business.services.accounting.quickbooks.factory.OAuth2PlatformClientFactory;
+import com.salesmanager.core.business.services.accounting.service.AccountingService;
 import com.salesmanager.shop.admin.controller.ControllerConstants;
 import com.salesmanager.shop.admin.model.web.Menu;
 import org.apache.commons.lang.StringUtils;
@@ -48,6 +49,8 @@ public class QuickbooksController {
     @Inject
     OAuth2PlatformClientFactory factory;
 
+    @Inject
+    AccountingService accountingService;
 
     private static final Logger logger = Logger.getLogger(QuickbooksController.class);
 
@@ -86,11 +89,11 @@ public class QuickbooksController {
     @RequestMapping("/getCompanyInfo")
     public String callQBOCompanyInfo(HttpSession session) {
 
-        String realmId = (String)session.getAttribute("realmId");
+        String realmId = accountingService.getRealmId();
         if (StringUtils.isEmpty(realmId)) {
             return new JSONObject().put("response","No realm ID.  QBO calls only work if the accounting scope was passed!").toString();
         }
-        String accessToken = (String)session.getAttribute("access_token");
+        String accessToken = accountingService.getAccessToken();
         String failureMsg="Failed";
         String url = factory.getPropertyValue("IntuitAccountingAPIHost") + "/v3/company";
         try {
