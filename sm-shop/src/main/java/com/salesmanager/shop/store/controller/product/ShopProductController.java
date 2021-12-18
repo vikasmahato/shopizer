@@ -21,8 +21,10 @@ import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.category.CategorySpecification;
 import com.salesmanager.core.model.catalog.product.availability.ProductsAvailable;
+import com.salesmanager.core.model.catalog.product.image.ProductImage;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.specification.ProductSpecificationVariant;
+import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.utils.FilePathUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -603,5 +605,94 @@ public class ShopProductController {
 		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 	}
 
+	@RequestMapping(value="/getVariantsImages.html", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<String> getVariantImages(HttpServletRequest request, HttpServletResponse response
+			, @RequestParam("variants") String variant, @RequestParam("code") String code) throws Exception {
 
+		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
+
+		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+
+		if(code==null) {
+			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+			String returnString = resp.toJSONString();
+			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		}
+
+		try {
+
+			List<ReadableImage> imageList = new ArrayList<ReadableImage>();
+			Product product = productService.getByCode(code, store);
+			ProductsAvailable available = new ProductsAvailable();
+
+			if(variant.length() == 0)
+				available = productsAvailableService.getByProduct(product.getId());
+			else
+			{
+				String[] vars = variant.split(",");
+				List<Long> variants = new ArrayList<Long>();
+				for(String s : vars)
+					variants.add(Long.parseLong(s));
+
+				available = productsAvailableService.getByVariant(variants);
+			}
+
+			if(available.getId() != null && available.getImages().size() > 0)
+			{
+				Set<ProductImage> images = available.getImages();
+				if(images!=null && images.size()>0) {
+
+					String contextPath = imageUtils.getContextPath();
+
+					for(ProductImage img : images) {
+						ReadableImage prdImage = new ReadableImage();
+						prdImage.setImageName(img.getProductImage());
+						prdImage.setDefaultImage(img.isDefaultImage());
+
+						StringBuilder imgPath = new StringBuilder();
+						imgPath.append(contextPath).append(imageUtils.buildProductImageUtils(store, product.getSku(), img.getProductImage()));
+
+						prdImage.setImageUrl(imgPath.toString());
+						prdImage.setId(img.getId());
+						prdImage.setImageType(img.getImageType());
+						if(img.getProductImageUrl()!=null){
+							prdImage.setExternalUrl(img.getProductImageUrl());
+						}
+						if(img.getImageType()==1 && img.getProductImageUrl()!=null) {//video
+							prdImage.setVideoUrl(img.getProductImageUrl());
+						}
+
+						if(prdImage.isDefaultImage()) {
+//							product.setImage(prdImage);
+						}
+
+						prdImage.setVariantId(img.getVariant() != null ? img.getVariant().getVariant().getId() : null);
+
+						imageList.add(prdImage);
+					}
+				}
+
+			}
+
+			ObjectMapper objectMapper = new ObjectMapper();
+
+			String json = objectMapper.writeValueAsString(imageList);
+
+			Map<String, String> entry = new HashMap<>();
+
+			entry.put("images", json);
+			resp.addDataEntry(entry);
+			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+
+		} catch(Exception e) {
+			LOG.error("Cannot get price for product " + code, e);
+			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+			resp.setErrorMessage(e);
+		}
+
+		String returnString = resp.toJSONString();
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+	}
 }

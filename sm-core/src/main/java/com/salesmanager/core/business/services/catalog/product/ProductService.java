@@ -89,6 +89,7 @@ public interface ProductService extends SalesManagerEntityService<Long, Product>
 
 	Map<String, String> getSpecificationNameValue(Long productId);
 
+	Map<String, List<String>> getProductSpecifications(Product product);
 
 }
 

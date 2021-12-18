@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import com.salesmanager.core.business.services.catalog.product.specification.ProductSpecificationService;
+import com.salesmanager.core.model.catalog.category.CategorySpecification;
+import com.salesmanager.core.model.catalog.product.specification.ProductSpecificationVariant;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -388,6 +390,31 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		return productRepository.getByCode(productCode, merchant);
 	}
 
+	@Override
+	public Map<String, List<String>> getProductSpecifications(Product product) {
+		List<CategorySpecification> categorySpecifications = new ArrayList<>();
 
+		for(Category category : product.getCategories()) {
+			categorySpecifications.addAll(category.getSpecifications());
+		}
+
+		List<ProductSpecificationVariant> productSpecifications = new ArrayList<>(product.getProductSpecificationVariant());
+
+		Map<String, List<String>> specNameValueList = new HashMap<>();
+
+		for(CategorySpecification categorySpecification: categorySpecifications) {
+			if(categorySpecification.getVariant())
+			{
+				List<String> specifiationValue = new ArrayList<>();
+				for(ProductSpecificationVariant productSpecificationVariant : productSpecifications) {
+					if(productSpecificationVariant.getSpecification().getId().equals(categorySpecification.getId())) {
+						specifiationValue.add(productSpecificationVariant.getValue()+"__"+productSpecificationVariant.getId());
+					}
+				}
+				specNameValueList.put(categorySpecification.getSpecification(), specifiationValue);
+			}
+		}
+		return specNameValueList;
+	}
 
 }

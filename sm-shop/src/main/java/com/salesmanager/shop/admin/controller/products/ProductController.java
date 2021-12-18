@@ -1330,29 +1330,8 @@ public class ProductController {
 
 			Product product  =  productService.getByCode(code, store);
 
-
-			List<CategorySpecification> categorySpecifications = new ArrayList<>();
-
-			for(Category category : product.getCategories()) {
-				categorySpecifications.addAll(category.getSpecifications());
-			}
-
-			List<ProductSpecificationVariant> productSpecifications = new ArrayList<>(product.getProductSpecificationVariant());
-
 			Map<String, List<String>> specNameValueList = new HashMap<>();
-
-			for(CategorySpecification categorySpecification: categorySpecifications) {
-				if(categorySpecification.getVariant())
-				{
-					List<String> specifiationValue = new ArrayList<>();
-					for(ProductSpecificationVariant productSpecificationVariant : productSpecifications) {
-						if(productSpecificationVariant.getSpecification().getId().equals(categorySpecification.getId())) {
-							specifiationValue.add(productSpecificationVariant.getValue()+"__"+productSpecificationVariant.getId());
-						}
-					}
-					specNameValueList.put(categorySpecification.getSpecification(), specifiationValue);
-				}
-			}
+			specNameValueList = productService.getProductSpecifications(product);
 
 			ObjectMapper objectMapper = new ObjectMapper();
 
