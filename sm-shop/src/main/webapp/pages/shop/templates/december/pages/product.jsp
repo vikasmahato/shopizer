@@ -34,12 +34,12 @@
 					<div class="product-simple-area ptb-80 ptb-40-md ptb-20-xs">
 						<div class="row">
 							<div class="col-lg-5 col-md-7 col-sm-7 col-xs-12">
-								<div class="tab-content">
+								<div class="tab-content" id="image-tab-content">
 									<div class="tab-pane active" id="view1">
-										<a class="image-link" href="${product.image.imageUrl}"><img
+										<a id="default-image" class="image-link" href="${product.image.imageUrl}"><img id="default-image-image"
 											src="${product.image.imageUrl}" alt=""></a>
 									</div>
-									<c:if
+									<!-- <c:if
 										test="${product.images!=null && fn:length(product.images) gt 1}">
 										<c:forEach items="${product.images}" var="thumbnail">
 											<c:if test="${thumbnail.imageType==0}">
@@ -72,10 +72,10 @@
 												</div>
 											</c:if>
 										</c:forEach>
-									</c:if>
+									</c:if> -->
 								</div>
 								<!-- Nav tabs -->
-								<ul class="sinple-tab-menu" role="tablist">
+								<ul class="sinple-tab-menu" role="tablist" id="thumbnails">
 									<c:if
 										test="${product.images!=null && fn:length(product.images) gt 1}">
 										<c:forEach items="${product.images}" var="thumbnail">
@@ -296,11 +296,14 @@
                              //console.log(specificationDetails);
                              var variantOptions = "";
                              var i=0;
+                             var img_variant="";
                              for (const [key, value] of Object.entries(specificationDetails)) {
                                var optionString = "";
 
                                 value.forEach(function (item, index) {
                                   optionString += "<option value='"+item.substring( item.indexOf("__")+2)+"'>"+ item.substring( 0, item.indexOf("__")) +"</option>"
+                                  if(index == 0)
+                                    img_variant = item.substring( item.indexOf("__")+2);
                                 });
 
                                 var html = "<div class='control-group'>";
@@ -318,6 +321,7 @@
 
                             $("#variantDropdowns").html(variantOptions);
                             getPrice();
+                            changeImage(img_variant);
                         },
                           error: function(xhr, textStatus, errorThrown) {
                             alert('error ' + errorThrown);
@@ -332,8 +336,51 @@
 			}
 		})();
 
-		function changeImage(variantId) {
-			$("#variant_"+variantId).click();
+		function changeImage() {
+
+            var variants = "";
+            $("#default-image-image").attr("src", "");
+            $('#thumbnails li').remove();
+            var li=div="";
+
+            var selects = document.getElementsByTagName('select');
+            var sel;
+            for(var z=0; z<selects.length; z++){
+                sel = selects[z];
+                if(sel.name.indexOf('variants') === 0){
+                    variants+=sel.value+",";
+                }
+            }
+            variants = variants.slice(0, variants.length - 1);
+
+            $.ajax({
+                type: 'GET',
+                url: '<c:url value="/shop/product/getVariantsImages.html"/>',
+                dataType: 'json',
+                data: {
+                    variants: variants,
+                    code: '${product.sku}'
+                },
+                success: function(response){
+                    var data = response.response.data;
+                    images = JSON.parse(data[0].images);
+                    images.forEach(function (image, index) {
+                        div +='<div class="tab-pane" id="view'+image.id+'"><a href="'+image.imageUrl+'" class="image-link" imgId="im-'+image.id+'" title="'+image.imageName+'" rel="'+image.imageUrl+'"><img src="'+image.imageUrl+'" alt="'+image.imageName+'"></a></div>';
+
+                        li += '<li><a href="#view'+image.id+'" data-toggle="tab"><img id="variant_'+image.variantId+'" src="'+image.imageUrl+'" alt="'+image.imageName+'"/></a></li>';
+                        if(image.defaultImage == true)
+                        {
+                            $("#default-image-image").attr("src", image.imageUrl);
+                            console.log(image.imageUrl);
+                        }
+                    });
+                    $("#thumbnails").append(li);
+                    $("#image-tab-content").append(div);
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    alert('error ' + errorThrown);
+                }
+            });
 		}
 
 		function getPrice()
@@ -364,10 +411,8 @@
                             code: '${product.sku}'
                           },
                           success: function(response){
-                            console.log(response);
                             var data = response.response.data;
                             data = JSON.parse(data[0].prices);
-                            console.log(data);
                             if(data.price=="" || data.price == null || data.price == undefined ) {
 								$("#sellingPrice").show();
 								$("#sellingPrice").html("This variant does not exist");

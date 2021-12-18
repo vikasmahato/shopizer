@@ -7,12 +7,14 @@ import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.catalog.category.CategorySpecification;
 import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.availability.ProductsAvailable;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.shop.admin.controller.ControllerConstants;
 import com.salesmanager.shop.admin.model.content.ProductImages;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.shop.utils.ImageFilePath;
 import com.salesmanager.shop.utils.LabelUtils;
 import org.apache.commons.collections4.CollectionUtils;
@@ -65,14 +67,42 @@ public class ProductImagesController {
 
 	@PreAuthorize("hasRole('PRODUCTS')")
 	@RequestMapping(value="/admin/products/images/list.html", method=RequestMethod.GET)
-	public String displayProductImages(@RequestParam("id") long productId, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String displayProductImages(@RequestParam("id") long productId, @RequestParam(value = "variants", required=false) String variants, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		
 		setMenu(model,request);
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
 		Product product = productService.getById(productId);
-		Boolean doesVariantExists =  product.getCategories().stream().anyMatch(category -> category.getSpecifications().stream().anyMatch(CategorySpecification::getVariant));
+		Boolean doesVariantExists =  false;
+		Long availId = 0L;
+
+		if (variants == null)
+		{
+			Map<String, List<String>> specNameValueList = productService.getProductSpecifications(product);
+
+			if(!specNameValueList.isEmpty() || specNameValueList.size() > 0){
+				doesVariantExists = true;
+				List<String> specifications = specNameValueList.values().stream().findFirst().get();
+				String variant = specifications.stream().findFirst().get();
+				variants = variant.substring(variant.lastIndexOf('_')+1);
+				List<Long> var = new ArrayList<Long>();
+					var.add(Long.parseLong(variants));
+				availId = productsAvailableService.getByVariant(var).getAvailId();
+			}
+			else
+				availId = productsAvailableService.getByProduct(product.getId()).getAvailId();
+		}
+		else if (variants.length() > 0)
+		{
+			doesVariantExists = true;
+			String[] vars = variants.split(",");
+			List<Long> variant = new ArrayList<Long>();
+			for(String s : vars)
+				variant.add(Long.parseLong(s));
+
+			availId = productsAvailableService.getByVariant(variant).getAvailId();
+		}
 
 		if(product==null) {
 			return "redirect:/admin/products/products.html";
@@ -84,6 +114,8 @@ public class ProductImagesController {
 		
 		model.addAttribute("product",product);
 		model.addAttribute("doesVariantExists",doesVariantExists);
+		model.addAttribute("variantId",variants);
+		model.addAttribute("availId",availId);
 		return ControllerConstants.Tiles.Product.productImages;
 		
 	}
@@ -127,7 +159,7 @@ public class ProductImagesController {
 	public @ResponseBody ResponseEntity<String> pageProductImages(HttpServletRequest request, HttpServletResponse response) {
 
 		String sProductId = request.getParameter("productId");
-		
+		String variant = request.getParameter("variants");
 		
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
@@ -160,10 +192,26 @@ public class ProductImagesController {
 				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 
-			Set<ProductImage> images = product.getImages();
+			Set<ProductImage> images = new HashSet<>();
+			ProductsAvailable available = new ProductsAvailable();
 			
-			if(images!=null) {
-				
+			if(variant == null || variant.length() == 0)
+			{
+				available = productsAvailableService.getByProduct(product.getId());
+				images = product.getImages();
+			}
+			else
+			{
+				String[] vars = variant.split(",");
+				List<Long> variants = new ArrayList<Long>();
+				for(String s : vars)
+					variants.add(Long.parseLong(s));
+				available = productsAvailableService.getByVariant(variants);
+			}
+			if(available.getId() != null && available.getImages().size() > 0)
+				images = available.getImages();
+
+			if(images!=null && images.size()>0) {
 				for(ProductImage image : images) {
 					
 						String imagePath = imageUtils.buildProductImageUtils(store, product, image.getProductImage());
@@ -315,7 +363,7 @@ public class ProductImagesController {
                     productImage.setProductImage(multipartFile.getOriginalFilename() );
                     productImage.setProduct(product);
                     productImage.setDefaultImage(false);//default image is uploaded in the product details
-                    productImage.setVariant(productsAvailableService.getByProductVariant(product.getId(), productImages.getVariantId()));
+                    productImage.setVariant(productsAvailableService.getByAvailId(productImages.getAvailId()).stream().findFirst().get());
                     contentImagesList.add( productImage);
                 }
             }
@@ -471,7 +519,7 @@ public class ProductImagesController {
 			
 			final Set<ProductImage> images = productService.getById(productImage.getProduct().getId()).getImages();
 			for (final ProductImage image : images) {
-				if (image.getId() != productImage.getId()) {
+				if (image.getId() != productImage.getId() && image.getVariant() == productImage.getVariant()) {
 					image.setDefaultImage(false);
 					productImageService.saveOrUpdate(image);		
 				}

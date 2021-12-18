@@ -7,7 +7,7 @@ public class ProductImages extends ContentFiles {
 	 */
 	private static final long serialVersionUID = 7732719188032287938L;
 	private long productId;
-	private long variantId;
+	private long availId;
 
 	public long getProductId() {
 		return productId;
@@ -17,11 +17,11 @@ public class ProductImages extends ContentFiles {
 		this.productId = productId;
 	}
 
-	public long getVariantId() {
-		return variantId;
+	public long getAvailId() {
+		return availId;
 	}
 
-	public void setVariantId(long variantId) {
-		this.variantId = variantId;
+	public void setAvailId(long availId) {
+		this.availId = availId;
 	}
 }

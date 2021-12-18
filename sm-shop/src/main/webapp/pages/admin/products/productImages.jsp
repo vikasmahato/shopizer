@@ -41,7 +41,8 @@
 			<div class="control-group" style="margin-top:15px;">
 			  <div class="controls">
 					<input class="input-file" id="file" name="file" type="file" multiple="multiple">
-					<input type="hidden" name="variantId" id="variantId"/>
+					<input type="hidden" name="variantId" id="variantId" value="${variantId}"/>
+					<input type="hidden" name="availId" id="availId" value="${availId}"/>
 					<input type="hidden" name="productId" id="productId" value="${product.id}"/>
 					<!-- <input class="input-file" id="image1" name="image[1]" type="file"><br />
 					<input 	class="input-file" id="image2" name="image[2]" type="file"><br />
@@ -68,7 +69,14 @@
 				
 				<br />
 				<!-- Listing grid include -->
-				<c:set value="/admin/products/images/page.html?productId=${product.id}" var="pagingUrl" scope="request" />
+				<c:choose>
+                    <c:when test="${doesVariantExists}">
+                        <c:set value="/admin/products/images/page.html?productId=${product.id}&variants=${variantId}" var="pagingUrl" scope="request" />
+                    </c:when>
+                    <c:otherwise>
+                        <c:set value="/admin/products/images/page.html?productId=${product.id}" var="pagingUrl" scope="request" />
+                    </c:otherwise>
+				</c:choose>
 				<c:set value="/admin/products/images/remove.html" var="removeUrl" scope="request" />
 				<c:set value="/admin/products/images/list.html?id=${product.id}" var="refreshUrl" scope="request" />
 				<c:set var="componentTitleKey" value="menu.catalogue-products-images" scope="request" />
@@ -98,18 +106,27 @@
                  var specificationDetails = JSON.parse(data[0].specficationDetails);
                  //console.log(specificationDetails);
                  var variantOptions = "";
+                 var img_variant="";
                  var i=0;
                  for (const [key, value] of Object.entries(specificationDetails)) {
                    var optionString = "";
 
                     value.forEach(function (item, index) {
-                      optionString += "<option value='"+item.substring( item.indexOf("__")+2)+"'>"+ item.substring( 0, item.indexOf("__")) +"</option>"
+                      if(item.substring( item.indexOf("__")+2) == $("#variantId").val())
+                      {
+                        optionString += "<option value='"+item.substring( item.indexOf("__")+2)+"' selected>"+ item.substring( 0, item.indexOf("__")) +"</option>"
+                        img_variant = item.substring( item.indexOf("__")+2);
+                      }
+                      else
+                        optionString += "<option value='"+item.substring( item.indexOf("__")+2)+"'>"+ item.substring( 0, item.indexOf("__")) +"</option>"
+                      //if(index == 0)
+                        //img_variant = item.substring( item.indexOf("__")+2);
                     });
 
                     var html = "<div class='control-group'>";
                     html += "<label>"+key+"</label>";
                     html += "<div class='controls'>";
-                    html += "<select id='variant_"+i+"' name='variants[]' onchange='setVariantDetails()'>"; //TODO: Give ID
+                    html += "<select id='variant_"+i+"' name='variants[]' onchange='changeImage();'>";
                     html += optionString;
                     html += "</select>";
                     html += "</div>";
@@ -120,7 +137,6 @@
                  }
 
                 $("#variantDropdowns").html(variantOptions);
-                getPrice();
             },
               error: function(xhr, textStatus, errorThrown) {
                 alert('error ' + errorThrown);
@@ -128,52 +144,19 @@
         });
     });
 
-	function setVariantDetails() {
-		getPrice();
-		$('#variantId').val($("#variant_0").val());
-	}
-
-    function getPrice()
+    function changeImage()
     {
-        $("#avail_id").val("");
-      var variants = "";
-
-      var selects = document.getElementsByTagName('select');
-      var sel;
-      for(var z=0; z<selects.length; z++){
-           sel = selects[z];
-           if(sel.name.indexOf('variants') === 0){
-               variants+=sel.value+",";
-           }
-      }
-      variants = variants.slice(0, variants.length - 1);
-
-       $.ajax({
-          type: 'GET',
-          url: '<c:url value="/shop/product/getVariantsPrices.html"/>',
-          dataType: 'json',
-          data: {
-            withSymbol: 'true',
-            variants: variants,
-            code: '${product.sku}'
-          },
-          success: function(response){
-            console.log(response);
-            var data = response.response.data;
-            data = JSON.parse(data[0].prices);
-            console.log(data);
-            /*if(data.price=="" || data.price == null || data.price == undefined ) {
-
+        var variants = "";
+        var selects = document.getElementsByTagName('select');
+        var sel;
+        for(var z=0; z<selects.length; z++){
+            sel = selects[z];
+            if(sel.name.indexOf('variants') === 0){
+                variants+=sel.value+",";
             }
-            else {
-                $("#variantId").val(data.avail_id);
-            }*/
-
-          },
-          error: function(xhr, textStatus, errorThrown) {
-            alert('error ' + errorThrown);
-          }
-       });
+        }
+        variants = variants.slice(0, variants.length - 1);
+        window.location.replace('<c:url value="/admin/products/images/list.html"/>?id=${product.id}&variants='+variants);
     }
 
 </script>

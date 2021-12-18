@@ -2,6 +2,7 @@ package com.salesmanager.core.model.catalog.product.availability;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.image.ProductImage;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.specification.ProductSpecificationVariant;
 import com.salesmanager.core.model.common.audit.AuditSection;
@@ -9,6 +10,8 @@ import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "PRODUCTS_AVAILABLE",
@@ -42,6 +45,9 @@ public class ProductsAvailable extends SalesManagerEntity<Long, ProductsAvailabl
     @ManyToOne(targetEntity = ProductPrice.class)
     @JoinColumn(name = "PRICE_ID")
     private ProductPrice price;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "variant")
+    private Set<ProductImage> images;
 
     @Override
     public AuditSection getAuditSection() {
@@ -93,5 +99,13 @@ public class ProductsAvailable extends SalesManagerEntity<Long, ProductsAvailabl
 
     public void setPrice(ProductPrice price) {
         this.price = price;
+    }
+
+    public Set<ProductImage> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<ProductImage> images) {
+        this.images = images;
     }
 }
