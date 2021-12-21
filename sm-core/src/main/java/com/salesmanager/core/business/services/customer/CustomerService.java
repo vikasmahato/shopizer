@@ -3,6 +3,7 @@ package com.salesmanager.core.business.services.customer;
 
 import java.util.List;
 
+import com.intuit.ipp.exception.FMSException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
 import com.salesmanager.core.model.common.Address;
@@ -21,7 +22,7 @@ public interface CustomerService  extends SalesManagerEntityService<Long, Custom
 
 	Customer getByNick(String nick);
 
-	void saveOrUpdate(Customer customer) throws ServiceException ;
+	void saveOrUpdate(Customer customer) throws ServiceException, FMSException;
 
 	CustomerList getListByStore(MerchantStore store, CustomerCriteria criteria);
 

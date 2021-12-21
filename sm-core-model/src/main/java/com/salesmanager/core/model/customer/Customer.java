@@ -110,6 +110,9 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	
 	@Column(name="PROVIDER")
 	private String provider;
+
+	@Column(name="QUICKBOOKS_ID")
+	private Integer quickbooks_id;
 	
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Language.class)
@@ -367,5 +370,12 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	public void setCredentialsResetRequest(CredentialsReset credentialsResetRequest) {
 		this.credentialsResetRequest = credentialsResetRequest;
 	}
-	
+
+	public Integer getQuickbooks_id() {
+		return quickbooks_id;
+	}
+
+	public void setQuickbooks_id(Integer quickbooks_id) {
+		this.quickbooks_id = quickbooks_id;
+	}
 }

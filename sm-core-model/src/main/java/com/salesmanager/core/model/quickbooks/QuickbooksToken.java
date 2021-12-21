@@ -20,11 +20,14 @@ public class QuickbooksToken extends SalesManagerEntity<Long, QuickbooksToken> i
     @Embedded
     private AuditSection auditSection = new AuditSection();
 
-    @Column(name="ACCESSTOKEN", length = 1000)
+    @Column(name="ACCESSTOKEN", length = 4096)
     private String accessToken;
 
-    @Column(name="REFRESHTOKEN")
+    @Column(name="REFRESHTOKEN", length = 512)
     private String refreshToken;
+
+    @Column(name="QB_REALM", nullable = false)
+    private String realmId;
 
     public QuickbooksToken(String accessToken, String refreshToken) {
         this.accessToken = accessToken;
@@ -70,5 +73,13 @@ public class QuickbooksToken extends SalesManagerEntity<Long, QuickbooksToken> i
     public void setAuditSection(AuditSection audit) {
         auditSection = audit;
 
+    }
+
+    public String getRealmId() {
+        return realmId;
+    }
+
+    public void setRealmId(String realmId) {
+        this.realmId = realmId;
     }
 }

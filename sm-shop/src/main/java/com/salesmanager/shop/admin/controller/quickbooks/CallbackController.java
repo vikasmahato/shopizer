@@ -65,7 +65,7 @@ public class CallbackController {
 	                Update your Data store here with user's AccessToken and RefreshToken along with the realmId
                 */
 
-                accountingService.saveQuickbooksToken(bearerTokenResponse);
+                accountingService.saveQuickbooksToken(bearerTokenResponse, realmId);
 
                 /*
 	                However, in case of OpenIdConnect, when you request OpenIdScopes during authorization,

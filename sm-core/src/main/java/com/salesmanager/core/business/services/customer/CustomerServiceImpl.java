@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import com.intuit.ipp.exception.FMSException;
+import com.salesmanager.core.business.services.accounting.quickbooks.customer.QBCustomerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,8 @@ public class CustomerServiceImpl extends SalesManagerEntityServiceImpl<Long, Cus
 	@Inject
 	private GeoLocation geoLocation;
 
+	@Inject
+	private QBCustomerService qbCustomerService;
 	
 	@Inject
 	public CustomerServiceImpl(CustomerRepository customerRepository) {
@@ -84,7 +88,7 @@ public class CustomerServiceImpl extends SalesManagerEntityServiceImpl<Long, Cus
 	}
 
 	@Override	
-	public void saveOrUpdate(Customer customer) throws ServiceException {
+	public void saveOrUpdate(Customer customer) throws ServiceException, FMSException {
 
 		LOGGER.debug("Creating Customer");
 		
@@ -92,8 +96,9 @@ public class CustomerServiceImpl extends SalesManagerEntityServiceImpl<Long, Cus
 			super.update(customer);
 		} else {			
 		
+			Customer qbCustomer = qbCustomerService.createCustomer(customer);
+			customer.setQuickbooks_id(qbCustomer.getQuickbooks_id());
 			super.create(customer);
-
 		}
 	}
 
