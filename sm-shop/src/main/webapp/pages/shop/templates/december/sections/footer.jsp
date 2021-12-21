@@ -29,12 +29,27 @@ response.setDateHeader ("Expires", -1);
 </script>
 <!--End of Tawk.to Script-->
 
+<div class="_form_1" style="background-color: #f7bd00;"></div>
+<script src="https://screwsntools.activehosted.com/f/embed.php?id=1" type="text/javascript" charset="utf-8"></script>
+
+
+
 <script type="text/javascript">
     (function(e,t,o,n,p,r,i){e.visitorGlobalObjectAlias=n;e[e.visitorGlobalObjectAlias]=e[e.visitorGlobalObjectAlias]||function(){(e[e.visitorGlobalObjectAlias].q=e[e.visitorGlobalObjectAlias].q||[]).push(arguments)};e[e.visitorGlobalObjectAlias].l=(new Date).getTime();r=t.createElement("script");r.src=o;r.async=true;i=t.getElementsByTagName("script")[0];i.parentNode.insertBefore(r,i)})(window,document,"https://diffuser-cdn.app-us1.com/diffuser/diffuser.js","vgo");
     vgo('setAccount', '651068735');
     vgo('setTrackByDefault', true);
 
     vgo('process');
+</script>
+
+<script>
+	(() => {
+		$('._form_1').wrapAll('<td id="active_campaign_td" style="padding-bottom:40px; padding-top:25px"></td>');
+		$('#active_campaign_td').wrapAll('<tr id="table_row"></tr>');
+		$('#table_row').wrapAll('<table width=100% id="custom_chat_table" style="background-color: rgb(247, 189, 0);"></table>');
+		$("#custom_chat_table").wrapAll("<div class='container-sm'></div>")
+		$('<td id="whatsapp" style="padding-left:10%"><h1 style="color:#000000"><b>Want to discuss?</b></h1><h1 style="color:#000000"><b>Call us on Whatsapp:</b><br><br><b>+91-9311951400</b></h1> </td>').insertBefore("#active_campaign_td");
+	})()
 </script>
 
 		<!-- footer-area-start -->
