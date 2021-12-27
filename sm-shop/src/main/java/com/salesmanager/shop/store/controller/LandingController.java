@@ -72,7 +72,7 @@ public class LandingController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(LandingController.class);
 	private final static String HOME_LINK_CODE="HOME";
 	
-	@RequestMapping(value={Constants.SHOP_URI + "/home.html",Constants.SHOP_URI +"/", Constants.SHOP_URI}, method=RequestMethod.GET)
+	@RequestMapping(value={Constants.SHOP_URI + "/home.html",Constants.SHOP_URI +"/", Constants.SHOP_URI, Constants.SHOP_URI + "/safety-shoe-PPC"}, method=RequestMethod.GET)
 	public String displayLanding(Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 		
 		Language language = (Language)request.getAttribute(Constants.LANGUAGE);
@@ -146,7 +146,7 @@ public class LandingController {
 		LOGGER.error(template.toString());
 		return template.toString();
 	}
-	
+
 	@RequestMapping(value={Constants.SHOP_URI + "/stub.html"}, method=RequestMethod.GET)
 	public String displayHomeStub(Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 		return "index";
