@@ -1,13 +1,15 @@
 package com.salesmanager.shop.store.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.salesmanager.core.business.exception.ConversionException;
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.model.catalog.product.ProductCriteria;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,10 +55,6 @@ public class LandingController {
 	private ContentService contentService;
 	
 	@Inject
-	private ProductRelationshipService productRelationshipService;
-
-	
-	@Inject
 	private LabelUtils messages;
 	
 	@Inject
@@ -64,7 +62,7 @@ public class LandingController {
 	
 	@Inject
 	private MerchantStoreService merchantService;
-	
+
 	@Inject
 	@Qualifier("img")
 	private ImageFilePath imageUtils;
@@ -74,7 +72,7 @@ public class LandingController {
 	
 	@RequestMapping(value={Constants.SHOP_URI + "/home.html",Constants.SHOP_URI +"/", Constants.SHOP_URI, Constants.SHOP_URI + "/safety-shoe-PPC"}, method=RequestMethod.GET)
 	public String displayLanding(Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
-		
+
 		Language language = (Language)request.getAttribute(Constants.LANGUAGE);
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
@@ -93,14 +91,13 @@ public class LandingController {
 		Breadcrumb breadCrumb = new Breadcrumb();
 		breadCrumb.setLanguage(language);
 		
-		List<BreadcrumbItem> items = new ArrayList<BreadcrumbItem>();
+		List<BreadcrumbItem> items = new ArrayList<>();
 		items.add(item);
 		
 		breadCrumb.setBreadCrumbs(items);
 		request.getSession().setAttribute(Constants.BREADCRUMB, breadCrumb);
 		request.setAttribute(Constants.BREADCRUMB, breadCrumb);
-		/** **/
-		
+
 		if(content!=null) {
 			
 			ContentDescription description = content.getDescription();
@@ -120,26 +117,12 @@ public class LandingController {
 		populator.setPricingService(pricingService);
 		populator.setimageUtils(imageUtils);
 
-		
-		//featured items
-		List<ProductRelationship> relationships = productRelationshipService.getByType(store, ProductRelationshipType.FEATURED_ITEM, language);
-		List<ReadableProduct> featuredItems = new ArrayList<ReadableProduct>();
-		Date today = new Date();
-		for(ProductRelationship relationship : relationships) {
-			Product product = relationship.getRelatedProduct();
-			if(product.isAvailable() && DateUtil.dateBeforeEqualsDate(product.getDateAvailable(), today)) {
-				ReadableProduct proxyProduct = populator.populate(product, new ReadableProduct(), store, language);
-			    featuredItems.add(proxyProduct);
-			}
-		}
-		
 		String tmpl = store.getStoreTemplate();
 		if(StringUtils.isBlank(tmpl)) {
 		    tmpl = "generic";
 		}
 
-		
-		model.addAttribute("featuredItems", featuredItems);
+		model.addAttribute("requestForGroup", UrlToGroupMapping.getGroupForUri(request.getRequestURL().toString()));
 		
 		/** template **/
 		StringBuilder template = new StringBuilder().append("landing.").append(tmpl);

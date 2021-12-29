@@ -116,7 +116,7 @@ response.setDateHeader ("Expires", -1);
 		  	$.ajax({
 				type: 'GET',
 				dataType: "json",
-				url: '<c:url value="/"/>services/public/<c:out value="${requestScope.MERCHANT_STORE.code}"/>/products/group/FEATURED_ITEM',
+				url: '<c:url value="/"/>services/public/<c:out value="${requestScope.MERCHANT_STORE.code}"/>/products/group/<c:out value="${requestForGroup}" />',
 				success: function(productList) {
 
 					//set in slider
