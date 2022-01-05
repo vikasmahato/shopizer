@@ -14,7 +14,7 @@ response.setDateHeader ("Expires", -1);
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
 
-	    <c:if test="${requestScope.CONTENT['heroSlider']!=null}">
+		<c:if test="${requestForGroup eq 'FEATURED_ITEM'}">
 	    	 <!-- slider section -->
 	    	 <section class="slider" style="border-top: 1px solid rgba(0, 0, 0, 0.08);">
           		<div class="flexslider" id="heroSlider">
@@ -23,12 +23,25 @@ response.setDateHeader ("Expires", -1);
     		</section>
 		</c:if>
 
-
+		<c:if test="${requestForGroup eq 'SAFETY_SHOES'}">
+			<!-- slider section -->
+			<section class="slider" style="border-top: 1px solid rgba(0, 0, 0, 0.08);">
+				<div class="flexslider" id="shoeSlider">
+					<sm:pageContent contentCode="shoeSlider"/>
+				</div>
+			</section>
+		</c:if>
         <!-- home banner -->
         <!-- slider-area-start -->
 		<c:choose>
-		<c:when test="${requestScope.CONTENT['bannerImage']!=null}">
+		<c:when test="${requestForGroup eq 'FEATURED_ITEM'}">
+			ghfghfgh
 			<sm:pageContent contentCode="bannerImage"/>
+		</c:when>
+
+		<c:when test="${requestForGroup eq 'SAFETY_SHOES'}">
+			dfsf
+			<sm:pageContent contentCode="bannerShoe"/>
 		</c:when>
 		<c:otherwise>
 		</c:otherwise>
