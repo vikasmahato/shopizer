@@ -29,7 +29,10 @@ response.setDateHeader ("Expires", -1);
 </script>
 <!--End of Tawk.to Script-->
 
+<div style="display: none; background-color: #f7bd00;" id="whatsapp"><h1 id="heading" style="color:#000000; font-size:3vw;"><b>Want to discuss? <br>Call us on Whatsapp:<br><br>+91-9311951400</b></h1></div>
+
 <div class="_form_1" style="background-color: #f7bd00;"></div>
+
 <script src="https://screwsntools.activehosted.com/f/embed.php?id=1" type="text/javascript" charset="utf-8"></script>
 
 
@@ -43,14 +46,37 @@ response.setDateHeader ("Expires", -1);
 </script>
 
 <script>
+	const deviceType = () => {
+		const ua = navigator.userAgent;
+		if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
+			return "mobile";
+		}
+		return "desktop";
+	};
+
 	(() => {
-		$('._form_1').wrapAll('<td id="active_campaign_td" style="padding-bottom:40px; padding-top:25px"></td>');
-		$('#active_campaign_td').wrapAll('<tr id="table_row"></tr>');
-		$('#table_row').wrapAll('<table width=100% id="custom_chat_table" style="background-color: rgb(247, 189, 0);"></table>');
-		$("#custom_chat_table").wrapAll("<div class='container-sm'></div>")
-		$('<td id="whatsapp" style="padding-left:10%"><h1 style="color:#000000"><b>Want to discuss?</b></h1><h1 style="color:#000000"><b>Call us on Whatsapp:</b><br><br><b>+91-9311951400</b></h1> </td>').insertBefore("#active_campaign_td");
+
+		var device = deviceType()
+		if(device == "desktop") {
+			$('._form_1').wrapAll('<td id="active_campaign_td" style="padding-bottom:40px; padding-top:25px"></td>');
+			$('#active_campaign_td').wrapAll('<tr id="table_row"></tr>');
+			$('#table_row').wrapAll('<table width=100% id="custom_chat_table" style="background-color: rgb(247, 189, 0);"></table>');
+			$("#custom_chat_table").wrapAll("<div class='container-xl'></div>");
+			$('<td id="whatsapp" style="padding-left:10%"><h1 style="color:#000000; font-size:3vw;"><b>Want to discuss?</b></h1><h1 style="color:#000000; font-size:3vw;"><b>Call us on Whatsapp:</b><br><br><b>+91-9311951400</b></h1> </td>').insertBefore("#active_campaign_td");
+		} else {
+	//		$('._form_1').wrapAll('<td id="active_campaign_td" style="padding-bottom:40px; padding-top:25px"></td>');
+	//		$('#active_campaign_td').wrapAll('<tr id="table_row"></tr>');
+	//		$('#table_row').wrapAll('<table width=100% id="custom_chat_table" style="background-color: rgb(247, 189, 0);"></table>');
+	//		$("#custom_chat_table").wrapAll("<div class='container-xl'></div>");
+	//		$('<h1 style="color:#000000; font-size:3vw;><b>Want to discuss? <br>Call us on Whatsapp:<br><br>+91-9311951400</b></h1>').insertBefore("._form_1");
+			$('#whatsapp').show();
+			$('#heading').css('font-size','6vw');
+
+		}
+
 	})()
 </script>
+
 
 		<!-- footer-area-start -->
 		<div class="footer-area ptb-80">

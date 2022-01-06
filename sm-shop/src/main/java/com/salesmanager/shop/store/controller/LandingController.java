@@ -123,7 +123,6 @@ public class LandingController {
 		}
 
 		model.addAttribute("requestForGroup", UrlToGroupMapping.getGroupForUri(request.getRequestURL().toString()));
-		
 		/** template **/
 		StringBuilder template = new StringBuilder().append("landing.").append(tmpl);
 		LOGGER.error(template.toString());
