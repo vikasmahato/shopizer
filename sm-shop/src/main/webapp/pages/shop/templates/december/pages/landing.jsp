@@ -35,12 +35,10 @@ response.setDateHeader ("Expires", -1);
         <!-- slider-area-start -->
 		<c:choose>
 		<c:when test="${requestForGroup eq 'FEATURED_ITEM'}">
-			ghfghfgh
 			<sm:pageContent contentCode="bannerImage"/>
 		</c:when>
 
 		<c:when test="${requestForGroup eq 'SAFETY_SHOES'}">
-			dfsf
 			<sm:pageContent contentCode="bannerShoe"/>
 		</c:when>
 		<c:otherwise>
